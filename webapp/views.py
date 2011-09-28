@@ -40,11 +40,10 @@ def search():
     
     # index a file for the search
     path = os.path.join(core_settings.ROOT_DIR, 'tests/text/objc_example.m')
-    idxr = indexer.get_indexer(name='main')
+    idxr = indexer.get_indexer()
     idxr.index_text(path)    
-    idx = idxr.get_index()
     # find something in the file
-    results = idx.search(search_text)
+    results = idxr.get_index().search(search_text)
     # transform the results
     trns = transformer.Transformer()
     items = trns.transform_results(results)

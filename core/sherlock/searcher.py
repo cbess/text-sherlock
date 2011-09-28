@@ -117,7 +117,7 @@ class ResultFragmenter(highlight.Fragmenter):
 
 
 class ResultFormatter(highlight.Formatter):
-    max_lines = 2
+    max_lines = 1
     new_line = settings.NEW_LINE
     def format(self, fragments, replace=False):
         token = fragments[0]
