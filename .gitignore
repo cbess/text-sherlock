@@ -1,0 +1,6 @@
+.DS_Store
+*.pyc
+sherlock_env
+data
+*.tmproj
+.idea

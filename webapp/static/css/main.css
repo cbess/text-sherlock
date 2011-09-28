@@ -1,0 +1,34 @@
+.clear {
+    clear: both;
+}
+html body {
+    margin: 8px;
+    font-size: 15px;
+    color: black;
+}
+#content {
+    width: 850px;
+    margin: 0 auto;
+}
+#content .field {
+    width: 300px;
+    font-size: 19px;
+    padding: 3px;
+    margin: 5px;
+    height: auto;
+}
+#content form .primary {
+    width: 100px;
+}
+a {
+    text-decoration: none;
+}
+a:link {
+    color: blue;
+}
+a:visited {
+    color: gray;
+}
+#results a:hover {
+    text-decoration: none;
+}

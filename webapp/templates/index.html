@@ -1,0 +1,45 @@
+{% extends "base.tpl" %}
+
+{% block header %}
+  <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.1.1.min.css">
+{% endblock %}
+
+{% block content %}
+<form action="/search" method="GET">
+  <div>
+    <label for="text">Text</label>
+    <input type="text" 
+           class="field" 
+           name="text" 
+           autocomplete="off"
+           autocorrect="off"
+           value="{{ text }}" 
+           id="text">
+  </div>
+
+  <div>
+    <label for="path">Path</label>
+    <input type="text" 
+           class="field" 
+           name="path" 
+           value="{{ path }}" 
+           id="path">
+  </div>
+  <div align='center'>
+    <input type="submit" 
+           value="Search" 
+           class="btn primary"
+           id="submit">
+  </div>
+  
+  <div id="results">
+  {% if results %}
+    {% for result in results %}
+    <div class='result syntax'>
+      {{ result.html|safe }}
+    </div>
+    {% endfor %}
+  {% endif %}
+</div>
+</form>
+{% endblock %}
