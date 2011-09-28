@@ -7,7 +7,6 @@ Copyright: 2011
 from whoosh.qparser import QueryParser
 # from whoosh.query import And, Term
 from whoosh import highlight
-from whoosh.highlight import ContextFragmenter, Formatter, WholeFragmenter
 from core.sherlock import logger as log
 from core.utils import debug, read_file
 import settings
@@ -104,7 +103,10 @@ class Result(object):
         """
         return self._context
 
-    
+
+# refs:
+# https://bitbucket.org/mchaput/whoosh/src/4470a8812c9e/src/whoosh/highlight.py
+# http://packages.python.org/Whoosh/api/highlight.html?highlight=hit#manual-highlighting
 class ResultFragmenter(highlight.Fragmenter):
     def fragment_tokens(self, text, all_tokens):
         tokens = []
@@ -115,7 +117,7 @@ class ResultFragmenter(highlight.Fragmenter):
 
 
 class ResultFormatter(highlight.Formatter):
-    max_lines = 1
+    max_lines = 2
     new_line = settings.NEW_LINE
     def format(self, fragments, replace=False):
         token = fragments[0]
