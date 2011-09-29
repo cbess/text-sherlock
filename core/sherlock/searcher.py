@@ -62,12 +62,10 @@ class Result(object):
         @param kwargs {
             path = Path of the file this result represents
             filename = Filename of the file
-            lines = The number of lines to process to render the context
         }
         """
         # the textual context of the hit
         self._context = ''
-        self._lines = kwargs.get('lines', 3)
         self._path = kwargs['path']
         self._filename = kwargs['filename']
         self._process_hit(hit)
@@ -81,12 +79,6 @@ class Result(object):
         contents = read_file(self.path)
         self._context = hit.highlights('content', text=contents)
         pass
-        
-    @property
-    def lines(self):
-        """lines
-        """
-        return self._lines
         
     @property
     def path(self):
@@ -120,15 +112,17 @@ class ResultFragmenter(highlight.Fragmenter):
 
 
 class ResultFormatter(highlight.Formatter):
-    max_lines = 1
+    max_lines = 1 # fragment context
     new_line = settings.NEW_LINE
     
     def format_token(self, text, token, replace=False):
         token_text = text[token.startchar:token.endchar]
         return '<strong>%s</strong>' % token_text
 
-    def format(self, fragments, replace=False):
-        token = fragments[0]
+    def fragement_text(self, fragment):
+        """Returns the text for the specified fragment
+        """
+        token = fragment # alias
         text = token.text
         nl = self.new_line
         # add the formatted token
@@ -160,5 +154,13 @@ class ResultFormatter(highlight.Formatter):
             prevIdx = 0
         token_text = text[prevIdx:nextIdx]
         return token_text
+
+    def format(self, fragments, replace=False):
+        lines = []
+        for fragment in fragments:
+            context = self.fragement_text(fragment)
+            lines.append(context)
+        final_text = u''.join(lines)
+        return final_text
 
         

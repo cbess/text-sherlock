@@ -32,7 +32,7 @@ class TestSearcher(testcase.BaseTestCase):
         
         idx = idxr.get_index()
         # find something in the file
-        results = idx.search('nsstring')
+        results = idx.search('key')
         self.assertTrue(len(results) == 1, 'wrong hit count')
         # get the line that was found
         
