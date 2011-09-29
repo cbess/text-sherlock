@@ -72,7 +72,8 @@ class Result(object):
         pass
         
     def _process_hit(self, hit):
-        """Process the result data
+        """Process the result data, reads the original file to produce
+        the context
         @remark For now it only processes to get the context for the result
         """
         contents = read_file(self.path)
@@ -119,9 +120,19 @@ class ResultFragmenter(highlight.Fragmenter):
 class ResultFormatter(highlight.Formatter):
     max_lines = 1
     new_line = settings.NEW_LINE
+    
+    def format_token(self, text, token, replace=False):
+        token_text = text[token.startchar:token.endchar]
+        return '<strong>%s</strong>' % token_text
+
     def format(self, fragments, replace=False):
         token = fragments[0]
         text = token.text
+        # add the formatted token
+        bText = text[:token.startchar]
+        eText = text[token.endchar:]
+        text = u''.join((bText, self.format_token(text, token), eText))
+        
         nl = self.new_line
         # get the position up to the previous new line
         prevIdx = text.rfind(nl, 0, token.startchar)

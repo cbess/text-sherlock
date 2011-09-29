@@ -29,11 +29,11 @@ a:link {
 a:visited {
     color: gray;
 }
-#results a:hover {
-    text-decoration: none;
-}
 #results {
     margin-top: 5px;
+}
+.result:hover pre {
+    background-color: white;
 }
 label {
     width: auto;

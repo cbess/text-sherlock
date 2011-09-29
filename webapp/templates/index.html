@@ -35,11 +35,11 @@
   <div id="results">
   {% if results %}
     {% for result in results %}
-    <div class='result syntax'>
-      {{ result.html|safe }}
+    <div class='result syntax' data-src="{{ result.result.path }}">
+        <pre>{{ result.html|safe }}</pre>
     </div>
     {% endfor %}
   {% endif %}
-</div>
+  </div>
 </form>
 {% endblock %}

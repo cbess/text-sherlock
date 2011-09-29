@@ -46,7 +46,7 @@ def search():
     results = idxr.get_index().search(search_text)
     # transform the results
     trns = transformer.Transformer()
-    items = trns.transform_results(results)
+    items = trns.transform_results(results, type=None)
     # build response
     response = {
         'title' : 'Search',

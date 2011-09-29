@@ -35,13 +35,16 @@ class Transformer(object):
     def transform_results(self, results, type='html'):
         """Returns a sequence of syntax hightlighted items
         @param string type: The type of transform to perform.
-            possible values: html (that's it for now)
+            possible values: html (that's it for now) or None
         """
         items = []
         for result in results:
             item = Item()
-            item.html = self.html(result)
             item.context = result.context
+            if type is not None:
+                item.html = self.html(result)
+            else:
+                item.html = result.context
             item.result = result
             items.append(item)
             pass
