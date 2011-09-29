@@ -32,9 +32,11 @@ class Searcher(object):
         """
         assert self._index is not None
         log.debug('search page %d, limit %d' % (pagenum, limit))
-        searcher = self._index.searcher()
-        page = searcher.search_page(squery, pagenum, limit, terms=True)
-        return self._get_results(page)
+        results = None
+        with self._index.searcher() as searcher:
+            page = searcher.search_page(squery, pagenum, limit, terms=True)
+            results = self._get_results(page)
+        return results
         
     def _get_results(self, results_page):
         """Populates the results with normalized Sherlock result data
@@ -43,7 +45,7 @@ class Searcher(object):
         """
         results = []
         hits = results_page.results
-        hits.fragmenter = ResultFragmenter()#(maxchars=100, surround=27)
+        hits.fragmenter = ResultFragmenter()
         hits.formatter = ResultFormatter()
         for hit in hits:
             result = Result(hit, **hit.fields())
@@ -128,12 +130,11 @@ class ResultFormatter(highlight.Formatter):
     def format(self, fragments, replace=False):
         token = fragments[0]
         text = token.text
+        nl = self.new_line
         # add the formatted token
         bText = text[:token.startchar]
         eText = text[token.endchar:]
         text = u''.join((bText, self.format_token(text, token), eText))
-        
-        nl = self.new_line
         # get the position up to the previous new line
         prevIdx = text.rfind(nl, 0, token.startchar)
         # get the position of the next new line
@@ -155,6 +156,8 @@ class ResultFormatter(highlight.Formatter):
                 idx = text.find(nl, nextIdx)
                 line += 1
         # get token and context
+        if prevIdx < 0:
+            prevIdx = 0
         token_text = text[prevIdx:nextIdx]
         return token_text
 
