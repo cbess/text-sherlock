@@ -22,15 +22,29 @@ text_schema = Schema(
 )
 
 
-def get_indexer(name='main'):
+def get_indexer(name='main', rebuild_index=False, **kwargs):
     """Returns an indexer with the specified name. Provides an indexer
     using the default settings.
+    :param rebuild_index: True to rebuild the index on open/create. Default is False.
     """
-    idxr = Indexer(name, recursive=settings.INDEX_RECURSIVE)
-    path = settings.INDEX_PATH % { 'sherlock_dir' : os.path.abspath('.') }
-    idxr.create(path)
+    idxr = Indexer(name, recursive=settings.INDEX_RECURSIVE, rebuild_index=rebuild_index)
+    path = settings.INDEXES_PATH % { 'sherlock_dir' : os.path.abspath('.') }
+    idxr.open(path, **kwargs)
     return idxr
-    
+
+
+def index_path(path, name='main'):
+    """Indexes the files at the given path and places then in
+    the specified index.
+    :param path: The absolute path to the directory or file to index.
+    :param name: The name of the index to add the documents from the
+    target path to.
+    """
+    # index a file for the search
+    idxr = get_indexer(name, rebuild_index=True)
+    idxr.index_text(path)
+    pass
+
 
 class Indexer(object):
     def __init__(self, name='main', *args, **kwargs):
@@ -44,7 +58,7 @@ class Indexer(object):
         # path of the indexed content (directory)
         self._path = None
         self._name = name
-        self._rebuild_index = kwargs.get('rebuild_index', True)
+        self._rebuild_index = kwargs.get('rebuild_index', False)
         self._is_recursive = kwargs.get('recursive', False)
         pass
         
@@ -75,8 +89,8 @@ class Indexer(object):
             log.warning('removed index at %s' % self._path)
         pass
         
-    def create(self, index_path):
-        """Creates an index at specified path.
+    def open(self, index_path):
+        """Creates or opens an index at the specified path.
         """
         if not os.path.isdir(index_path):
             msg = "Directory `%s` is not a valid index directory." % index_path
@@ -116,7 +130,7 @@ class Indexer(object):
         elif os.path.isfile(path):
             self._index_file(path)
         else:
-            msg = 'Path %s is not valid' % path
+            msg = 'Path %s is not valid for indexing' % path
             log.warning(msg)
             raise Exception(msg)
         pass

@@ -21,8 +21,9 @@ except ImportError:
 
 from pdb import set_trace
 from webapp import server
-from core import sherlock
+from core.sherlock import indexer
 import tests
+import settings
 
 
 def get_app_args():
@@ -38,20 +39,36 @@ def get_app_args():
     
     
 def run():
-    add_argument('-t', "--test", dest="run_tests",
-                      help="run tests to ensure everything works correctly.")
-    add_argument('-r', '--run-webapp', dest='run_webapp',
-                    help='run the Source Sherlock webapp')
-    add_argument("-q", "--quiet",
-                      action="store_false", dest="verbose", default=True,
-                      help="don't print status messages to stdout")
+    add_argument("--test", dest="run_tests",
+                    action='store_true',
+                      help="Run tests to ensure everything works correctly.")
+    add_argument('--run-webapp', dest='run_webapp',
+                 action='store_true',
+                    help='Run the Sherlock webapp.')
+    # not available, yet
+#    add_argument("-q", "--quiet",
+#                      action="store_false", dest="verbose", default=True,
+#                      help="Don't print status messages to stdout.")
+    add_argument("--index-path", dest="index_path",
+                    action='store',
+                      help="Indexes the files at the given path or use `default` to index the item(s) at settings.INDEX_PATH "\
+                            "(replaces the index).")
     options = get_app_args()
 
     # determine app action
-    if options.run_tests == 'all':
+    if options.run_tests:
         tests.run_all()
-    elif options.run_webapp != '':
+    elif options.run_webapp:
         server.app.run()
+    elif options.index_path:
+        path = options.index_path
+        if path == 'default':
+            path = settings.INDEX_PATH
+        path = path % { 'sherlock_dir' : settings.ROOT_DIR }
+        print 'Indexing path: %s' % path
+        indexer.index_path(path)
+    else:
+        print 'Use -h to see options.'
     pass
     
 

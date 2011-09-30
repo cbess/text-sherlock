@@ -25,7 +25,7 @@ class TestIndexer(testcase.BaseTestCase):
         # the below call provides and sets up a default indexer environment
         # based on the settings.py script values
         # the index name (usually 'main') has been overriden for testing
-        idx = indexer.get_indexer(name='test')
+        idx = indexer.get_indexer(name='test', rebuild_index=True)
         # test values
         self.assertFalse(idx is None, 'unable to create an indexer')
         pass
@@ -34,7 +34,7 @@ class TestIndexer(testcase.BaseTestCase):
         """Tests file indexing logic
         """
         path = os.path.join(self.test_dir, 'text/objc_example.m')
-        idx = indexer.get_indexer(name='test')
+        idx = indexer.get_indexer(name='test', rebuild_index=True)
         idx.index_text(path)
         # test values
         self.assertTrue(idx.doc_count() == 1, 'bad doc count')
@@ -44,7 +44,7 @@ class TestIndexer(testcase.BaseTestCase):
         """Tests directory content indexing logic
         """
         path = os.path.join(self.test_dir, 'text')
-        idx = indexer.get_indexer(name='test')
+        idx = indexer.get_indexer(name='test', rebuild_index=True)
         idx.index_text(path)
         # test values
         self.assertTrue(idx.doc_count() == 7, 'bad doc count')

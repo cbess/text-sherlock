@@ -25,7 +25,7 @@ class TestSearcher(testcase.BaseTestCase):
         """
         # index a file for the search
         path = os.path.join(self.test_dir, 'text/objc_example.m')
-        idxr = indexer.get_indexer(name='test')
+        idxr = indexer.get_indexer(name='test', rebuild_index=True)
         idxr.index_text(path)
         # test values
         self.assertTrue(idxr.doc_count() == 1, 'bad doc count')
@@ -40,7 +40,7 @@ class TestSearcher(testcase.BaseTestCase):
         """Tests searching against more than one document
         """
         # index directory
-        idxr = indexer.get_indexer(name='test')
+        idxr = indexer.get_indexer(name='test', rebuild_index=True)
         idxr.index_text(os.path.join(self.test_dir, 'text'))
         self.assertTrue(idxr.doc_count() == 7, "no documents indexed")
         # search

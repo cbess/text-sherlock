@@ -37,11 +37,7 @@ def search():
     else:
         form = request.args
     search_text = form.get('text')
-    
-    # index a file for the search
-    path = os.path.join(core_settings.ROOT_DIR, 'tests/text/objc_example.m')
     idxr = indexer.get_indexer()
-    idxr.index_text(path)    
     # find something in the file
     results = idxr.get_index().search(search_text)
     # transform the results

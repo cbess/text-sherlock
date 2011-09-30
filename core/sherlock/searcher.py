@@ -112,7 +112,7 @@ class ResultFragmenter(highlight.Fragmenter):
 
 
 class ResultFormatter(highlight.Formatter):
-    max_lines = 1 # fragment context
+    max_lines = settings.NUM_CONTEXT_LINES # fragment context
     new_line = settings.NEW_LINE
     
     def format_token(self, text, token, replace=False):
@@ -122,6 +122,7 @@ class ResultFormatter(highlight.Formatter):
     def fragement_text(self, fragment):
         """Returns the text for the specified fragment
         """
+        assert self.max_lines > 0
         token = fragment # alias
         text = token.text
         nl = self.new_line

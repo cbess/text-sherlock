@@ -26,7 +26,7 @@ class TestTransformer(testcase.BaseTestCase):
         """
         # index a file for the search
         path = os.path.join(self.test_dir, 'text/objc_example.m')
-        idxr = indexer.get_indexer(name='test')
+        idxr = indexer.get_indexer(name='test', rebuild_index=True)
         idxr.index_text(path)
         idx = idxr.get_index()
         # find something in the file
