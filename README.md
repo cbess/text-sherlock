@@ -29,6 +29,12 @@ Includes:
 	- Front end web app using [flask](http://flask.pocoo.org).
 	- Settings and configuration using [Python](http://python.org).
 
+### Web Access Examples
+
+[Search Results](https://github.com/cbess/text-sherlock/blob/master/setup/web-example1.jpg)
+
+[View Document (from search results)](https://github.com/cbess/text-sherlock/blob/master/setup/web-example2.jpg)
+
 ## Core packages
 
 **Requires Python 2.5 or later.**
