@@ -34,9 +34,19 @@ class TestSearcher(testcase.BaseTestCase):
         # find something in the file
         results = idx.search('key')
         self.assertTrue(len(results) == 1, 'wrong hit count')
-        # get the line that was found
-        
-        # get more of the context for the found line
+        pass
+
+    def test_search(self):
+        """Tests searching against more than one document
+        """
+        # index directory
+        idxr = indexer.get_indexer(name='test')
+        idxr.index_text(self.test_dir)
+        self.assertTrue(idxr.doc_count() == 7, "no documents indexed")
+        # search
+        search_text = 'value'
+        results = idxr.get_index().search(search_text)
+        self.assertTrue(results.count(), 'no results from the search')
         pass
 
 

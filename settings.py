@@ -1,5 +1,6 @@
 import os
-# should not be changed, this is the absolute path to the directory
+
+# Should not be changed, this is the absolute path to the directory
 # containing main.py, core/, etc.
 # type: string
 # default: os.path.abspath('.')
@@ -23,6 +24,13 @@ INDEX_RECURSIVE = True
 # default: ''
 LOG_PATH = ''
 
-# new line character value, maybe '\n' or '\r\n'
+# New line character value, maybe '\n' or '\r\n'
 # default: \n
 NEW_LINE = '\n'
+
+# During the indexing all items with the given suffix
+# will be exclude from the index
+# Only checks filenames, for now
+EXCLUDE_FILE_SUFFIX = (
+    'pyc',
+)

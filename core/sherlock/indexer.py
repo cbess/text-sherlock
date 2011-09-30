@@ -136,11 +136,17 @@ class Indexer(object):
             # traverse the given path
             for dirpath, dirnames, filenames in os.walk(dpath):
                 for name in filenames:
-                    # don't look at hidden file
-                    if not name.startswith("."):
+                    can_index = True
+                    # ignore excluded files
+                    for suffix in settings.EXCLUDE_FILE_SUFFIX:
+                        if name.endswith(suffix):
+                            can_index = False
+                    # don't look at hidden files
+                    if can_index:
+                        can_index = not name.startswith(".")
+                    if can_index:
                         path = os.path.join(dirpath, name)
                         self._index_file(path)
-                pass
         pass
         
     def _index_file(self, filepath):
