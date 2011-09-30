@@ -41,12 +41,12 @@ class TestSearcher(testcase.BaseTestCase):
         """
         # index directory
         idxr = indexer.get_indexer(name='test')
-        idxr.index_text(self.test_dir)
+        idxr.index_text(os.path.join(self.test_dir, 'text'))
         self.assertTrue(idxr.doc_count() == 7, "no documents indexed")
         # search
         search_text = 'value'
         results = idxr.get_index().search(search_text)
-        self.assertTrue(results.count(), 'no results from the search')
+        self.assertTrue(len(results), 'no results from the search')
         pass
 
 
