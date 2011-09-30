@@ -43,7 +43,7 @@ class TestIndexer(testcase.BaseTestCase):
     def test_index_directory(self):
         """Tests directory content indexing logic
         """
-        path = self.test_dir
+        path = os.path.join(self.test_dir, 'text')
         idx = indexer.get_indexer(name='test')
         idx.index_text(path)
         # test values
