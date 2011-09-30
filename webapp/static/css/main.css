@@ -60,6 +60,7 @@ td.code {
 /*displays the source code*/
 div.source pre {
     border: none;
+    white-space: pre;
 }
 /*displays the line numbers*/
 td.linenos pre {
