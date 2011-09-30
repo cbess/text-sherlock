@@ -1,0 +1,13 @@
+{% extends "base.tpl" %}
+
+{% block header %}
+<link rel="stylesheet" href="/static/css/pygments-style.css" type="text/css" media="screen" charset="utf-8">
+{% endblock %}
+
+{% block content %}
+    &larr; <a href="/search?q={{ search_text }}">Back to search</a>
+    <h3>{{ doc.result.filename }}</h3>
+    <div class="syntax">
+    {{ contents|safe }}
+    </div>
+{% endblock %}

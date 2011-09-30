@@ -1,45 +1,52 @@
 {% extends "base.tpl" %}
 
-{% block header %}
-<link rel="stylesheet" href="/static/css/pygments-style.css" type="text/css" media="screen" charset="utf-8">
-{% endblock %}
-
 {% block content %}
 <form action="/search" method="GET">
-  <div>
-    <label for="text">Text</label>
-    <input type="text" 
-           class="field" 
-           name="text" 
-           autocomplete="off"
-           autocorrect="off"
-           value="{{ text }}" 
-           id="text">
-  </div>
-
-  <div>
-    <label for="path">Path</label>
-    <input type="text" 
-           class="field" 
-           name="path" 
-           value="{{ path }}" 
-           id="path">
-  </div>
-  <div>
-    <input type="submit" 
-           value="Search" 
-           class="btn primary"
-           id="submit">
-  </div>
-  
-  <div id="results">
-  {% if results %}
-    {% for result in results %}
-    <div class='result syntax' data-src="{{ result.result.path }}">
-        <pre>{{ result.html|safe }}</pre>
+    <div>
+        <label for="text">Text</label>
+        <input type="text"
+               class="field"
+               name="q"
+               autocomplete="off"
+               autocorrect="off"
+               value="{{ search_text }}"
+               id="text">
     </div>
-    {% endfor %}
-  {% endif %}
-  </div>
+
+    <div>
+        <label for="path">Path</label>
+        <input type="text"
+               class="field"
+               name="path"
+               value="{{ path }}"
+               id="path">
+    </div>
+    <div>
+        <input type="submit"
+               value="Search"
+               class="btn primary"
+               id="submit">
+    </div>
+
+    {% if search_text %}
+    <h3>{{ results|count }} Results</h3>
+    {% endif %}
+    
+    <div id="results">
+        {% if results %}
+        {% for item in results %}
+        <div class='result' data-src="{{ item.result.path }}">
+            <div class="filename">
+                <a href='/document?path={{ item.result.path }}&q={{ search_text }}'>{{ item.result.filename }}</a>
+            </div>
+            <div class="syntax">
+                <pre>{{ item.html|safe|trim }}</pre>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        Your search - {{ search_text }} - did not match any documents.
+        {% endif %}
+    </div>
 </form>
 {% endblock %}

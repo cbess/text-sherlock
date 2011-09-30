@@ -25,6 +25,14 @@ class Searcher(object):
         parser = QueryParser('content', self._index.schema)
         query = parser.parse(unicode(text))
         return self.search(query, pagenum, limit)
+
+    def find_path(self, path):
+        """Finds the document at the specified path
+        """
+        log.debug('search for path: %s' % path)
+        parser = QueryParser('path', self._index.schema)
+        query = parser.parse(unicode(path))
+        return self.search(query, limit=1)
         
     def search(self, squery, pagenum=1, limit=10):
         """Searches the internal index using the specified query

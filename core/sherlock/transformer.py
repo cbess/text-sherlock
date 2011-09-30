@@ -27,9 +27,15 @@ class Transformer(object):
         if not result:
             result = self._result
         assert result is not None
-        lexer = get_lexer_for_filename(result.filename)
+        return self.to_html(result.context, result.filename)
+
+    def to_html(self, text, filename):
+        """Returns the HTML for the given text, highlighting it based on the
+        specified filename (file type)
+        """
+        lexer = get_lexer_for_filename(filename)
         formatter = HtmlFormatter(linenos=False, cssclass="source")
-        html = highlight(result.context, lexer, formatter)
+        html = highlight(text, lexer, formatter)
         return html
         
     def transform_results(self, results, type='html'):

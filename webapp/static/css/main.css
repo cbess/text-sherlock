@@ -29,12 +29,17 @@ a:link {
 a:visited {
     color: gray;
 }
+label {
+    width: auto;
+}
+/*Search results styles*/
 #results {
     margin-top: 5px;
 }
 .result:hover pre {
     background-color: white;
+    cursor: pointer;
 }
-label {
-    width: auto;
+.result .filename {
+    margin:  3px;
 }

@@ -41,12 +41,17 @@ class TestSearcher(testcase.BaseTestCase):
         """
         # index directory
         idxr = indexer.get_indexer(name='test', rebuild_index=True)
-        idxr.index_text(os.path.join(self.test_dir, 'text'))
+        path = os.path.join(self.test_dir, 'text')
+        idxr.index_text(path)
         self.assertTrue(idxr.doc_count() == 7, "no documents indexed")
         # search
+        idx = idxr.get_index()
         search_text = 'value'
-        results = idxr.get_index().search(search_text)
+        results = idx.search(search_text)
         self.assertTrue(len(results), 'no results from the search')
+        # search by path
+        results = idx.search_path(os.path.join(path, 'objc_example.m'))
+        self.assertTrue(len(results) == 1, 'wrong number of results: %d' % len(results))
         pass
 
 

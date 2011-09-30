@@ -195,4 +195,9 @@ class Index(object):
         @return list of results
         """
         return self._searcher.find_text(text)
-        
+
+    def search_path(self, path):
+        """Searches the index for the specified path.
+        @return list of results
+        """
+        return self._searcher.find_path(path)
