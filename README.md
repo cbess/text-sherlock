@@ -1,45 +1,47 @@
-# Source Sherlock (or Sherlock or S2)
+# Text Sherlock (or Sherlock or TS)
+
+Provides an easy to install and use search engine for text, but mostly for source code. [OpenGrok](http://hub.opensolaris.org/bin/view/Project+opengrok/) requires to much time to install (though it may be worth it for some). Sherlock will give you a much easier setup, a text indexer, and a web app interface for searching.
+
+## Basic Setup
+
+Instructions:
+
+1. Download and place the sherlock source code in the desired (install) directory. This will be where sherlock lives.
+1. Run one of the setup scripts in `/setup` to download core packages.
+1. Update `settings.py`. It provides adequate documentation for each setting.
+1. Run `main.py --index-path` to index target directory/content. Watch indexing output.
+1. Run `main.py --run-webapp` to startup the web service.
+1. Go to `http://localhost:5000` to access the web interface. Uses the [twitter bootstrap](http://twitter.github.com/bootstrap) for its UI.
+
+---
+
+Includes:
+
+- Settings/Configuration
+	- See `settings.py`
+- Setup scripts (read contents of script for more information)
+	- Run `manual-setup.sh` to perform an in directory install. Easiest setup.
+	- Run `virtualenv-setup.sh` to perform an isolated installation. Preferred setup.
+- Main controller script 
+	- Run `main.py -h` for more information.
+- End-to-end interface
+	- Indexer using [whoosh](http://packages.python.org/Whoosh).
+	- Front end web app using [flask](http://flask.pocoo.org).
+	- Settings and configuration using [Python](http://python.org).
 
 ## Core packages
 
 **Requires Python 2.5 or later.**
 
+* Whoosh - [whoosh](http://packages.python.org/Whoosh/quickstart.html#a-quick-introduction)
 * Flask - [flask](http://flask.pocoo.org)
 * Jinja2 - [jinja2](http://jinja.pocoo.org/docs)
-* Whoosh - [whoosh](http://packages.python.org/Whoosh/quickstart.html#a-quick-introduction)
-* Flask-peewee - [flask-peewee](https://github.com/coleifer/flask-peewee)
-* Twitter Bootstrap - [twitter bootstrap](http://twitter.github.com/bootstrap)
 * Pygments - [pygments](http://pygments.org/docs/quickstart)
+* Flask-peewee - [flask-peewee](https://github.com/coleifer/flask-peewee) *(not used, yet)*
+* Twitter Bootstrap - [twitter bootstrap](http://twitter.github.com/bootstrap)
 
-## References
+## Other References
 
 * http://twitter.github.com/bootstrap/examples/container-app.html
 * http://pygments.org/
 * http://charlesleifer.com/docs/peewee/
-
-## Prototypes
-
-### Index
-
-Code:
-
-	import sherlock
-
-    # index the directory for code
-    path = '/a/path/here/'
-    indexer = sherlock.indexer.get_indexer(name='main')
-    result = indexer.index_text(path, recursive=True)
-
-  
-### Search
-
-Code:
-
-    import sherlock
-
-    # search and output results in html
-    indexer = sherlock.indexer.get_indexer()
-    index = indexer.index()
-    result = index.search('int great')
-    html = sherlock.transformer.result_to_html(result, template='some-results-template.tpl')
-    webapp.response(html)
