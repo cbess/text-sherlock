@@ -76,7 +76,7 @@ def document():
         doc = doc[0]
     doc_contents = read_file(path_text)
     trn = transformer.Transformer()
-    doc_html = trn.to_html(doc_contents, os.path.basename(path_text))
+    doc_html = trn.to_html(doc_contents, doc.result.filename)
     response = {
         "title" : doc.result.filename,
         'doc' : doc,

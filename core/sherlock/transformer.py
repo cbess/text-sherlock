@@ -34,7 +34,7 @@ class Transformer(object):
         specified filename (file type)
         """
         lexer = get_lexer_for_filename(filename)
-        formatter = HtmlFormatter(linenos=False, cssclass="source")
+        formatter = HtmlFormatter(linenos=True, cssclass="source")
         html = highlight(text, lexer, formatter)
         return html
         

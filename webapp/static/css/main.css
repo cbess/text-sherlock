@@ -43,3 +43,27 @@ label {
 .result .filename {
     margin:  3px;
 }
+td.linenos {
+    padding-right: 0;
+    width: 20px;
+}
+.syntax .sourcetable {
+    border: none;
+}
+.sourcetable td {
+    padding: 0;
+}
+td.code {
+    /*fixes right border issue, next to the line numbers */
+    border: none;
+}
+/*displays the source code*/
+div.source pre {
+    border: none;
+}
+/*displays the line numbers*/
+td.linenos pre {
+    background-color: #d3d3d3;
+    color: #fff;
+    border-right: none;
+}
