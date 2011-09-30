@@ -45,3 +45,10 @@ Includes:
 * http://twitter.github.com/bootstrap/examples/container-app.html
 * http://pygments.org/
 * http://charlesleifer.com/docs/peewee/
+
+## Project Goals
+
+1. Provide an easy to setup and adequate text search engine solution.
+1. Be a respectable alternative to [OpenGrok](http://hub.opensolaris.org/bin/view/Project+opengrok/).
+1. Influence the authors of [OpenGrok](http://hub.opensolaris.org/bin/view/Project+opengrok/) to provide a simpler setup process. 
+	- I successfully setup two installations on CentOS and Ubuntu 11.x and each time it took more than two hours.
