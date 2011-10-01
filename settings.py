@@ -2,6 +2,11 @@ import os
 
 # `%(sherlock_dirs)s` resolves to the directory where sherlock is installed.
 
+# A value indicating whether the app runs in debug mode.
+# type: boolean
+# default: True (set to False for production or in untrusted environments use)
+DEBUG = True
+
 # Should not be changed, this is the absolute path to the directory
 # containing main.py, core/, etc.
 # type: string
@@ -46,3 +51,14 @@ NUM_CONTEXT_LINES = 1
 # The path to index when the indexing is ran with the 'default' option.
 # type: string
 INDEX_PATH = '%(sherlock_dir)s/tests/text'
+
+# The local port to expose the web service.
+# type: integer
+# default: 7777
+SERVICE_PORT = 7777
+
+# The local address to access the web service (the host name to listen on).
+# Use '0.0.0.0' to make it available externally.
+# type: string
+# default: '127.0.0.1' or 'localhost'
+SERVICE_ADDRESS = '127.0.0.1'

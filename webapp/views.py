@@ -64,7 +64,6 @@ def document():
         # refs: http://flask.pocoo.org/docs/quickstart/#redirects-and-errors
         app.logger.error('Unable to find document: %s' % path_text)
         abort(404)
-        return None
     else:
         doc = doc[0]
     doc_contents = read_file(path_text)

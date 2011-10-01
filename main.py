@@ -59,7 +59,7 @@ def run():
     if options.run_tests:
         tests.run_all()
     elif options.run_webapp:
-        server.app.run()
+        server.app.run(host=settings.SERVICE_ADDRESS, port=settings.SERVICE_PORT, debug=settings.DEBUG)
     elif options.index_path:
         path = options.index_path
         if path == 'default':
