@@ -57,4 +57,4 @@ Includes:
 1. Provide an easy to setup and adequate text search engine solution.
 1. Be a respectable alternative to [OpenGrok](http://hub.opensolaris.org/bin/view/Project+opengrok/).
 1. Influence the authors of [OpenGrok](http://hub.opensolaris.org/bin/view/Project+opengrok/) to provide a simpler setup process. 
-	- I successfully setup two installations on CentOS and Ubuntu 11.x and each time it took more than two hours.
+	- I successfully setup two installations on CentOS and Ubuntu 11.x and each time it took more than two hours. TS setup takes less than 10 minutes (excluding package download time).
