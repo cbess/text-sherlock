@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from server import app
-from flask import render_template, request, url_for, session
+from flask import render_template, request, abort
 from core.sherlock import indexer, searcher, transformer
 from core import settings as core_settings
 from core.utils import debug, read_file
@@ -42,6 +42,7 @@ def search():
     else:
         form = request.args
     search_text = form.get('q')
+    app.logger.debug('searching for: %s' % search_text)
     items = items_from_search_text(search_text)
     # build response
     response = {
@@ -60,7 +61,9 @@ def document():
     search_text = request.args.get('q')
     doc = items_from_search_text(path_text, isPath=True)
     if not doc:
-        # respond with 404 error
+        # refs: http://flask.pocoo.org/docs/quickstart/#redirects-and-errors
+        app.logger.error('Unable to find document: %s' % path_text)
+        abort(404)
         return None
     else:
         doc = doc[0]
