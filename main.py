@@ -51,7 +51,8 @@ def run():
 #                      help="Don't print status messages to stdout.")
     add_argument("--index-path", dest="index_path",
                     action='store',
-                      help="Indexes the files at the given path or use `default` to index the item(s) at settings.INDEX_PATH "\
+                      help="Indexes the files at the given path or use `default` "\
+                            "to index the item(s) at settings.INDEX_PATH "\
                             "(replaces the index).")
     options = get_app_args()
 
@@ -59,7 +60,11 @@ def run():
     if options.run_tests:
         tests.run_all()
     elif options.run_webapp:
-        server.app.run(host=settings.SERVICE_ADDRESS, port=settings.SERVICE_PORT, debug=settings.DEBUG)
+        server.app.run(
+            host=settings.SERVICE_ADDRESS,
+            port=settings.SERVICE_PORT,
+            debug=settings.DEBUG
+        )
     elif options.index_path:
         path = options.index_path
         if path == 'default':
