@@ -7,18 +7,23 @@ from core import settings as core_settings
 from core.utils import debug, read_file
 
 
-def items_from_search_text(text, isPath=False, type=None):
+def items_from_search_text(text, pagenum=1, isPath=False, type=None):
     """Returns the result items from the search using the given text.
     """
-    idxr = indexer.get_indexer()
+    idx = indexer.get_indexer().get_index()
+    # find something in the index
     if isPath:
-        results = idxr.get_index().search_path(text)
+        results = idx.search_path(text)
     else:
-        # find something in the file
-        results = idxr.get_index().search(text)
+        try:
+            results = idx.search(text, pagenum, core_settings.RESULTS_PER_PAGE)
+        except ValueError, e:
+            # This assumes the value error resulted from an page count issue
+            app.logger.error('Out of page bounds: %s' % e)
+            return []
     # transform the results
     trns = transformer.Transformer()
-    items = trns.transform_results(results, type=type)
+    items = trns.transform_results(results, type)
     return items
     
 
@@ -42,13 +47,32 @@ def search():
     else:
         form = request.args
     search_text = form.get('q')
-    app.logger.debug('searching for: %s' % search_text)
-    items = items_from_search_text(search_text)
+    pagenum = int(form.get('p', 1))
+    next_pagenum = pagenum + 1
+    limit = core_settings.RESULTS_PER_PAGE
+    app.logger.debug('page %d, searching for: %s' % (pagenum, search_text))
+    items = items_from_search_text(search_text, pagenum)
+    count = len(items)
+    if items:
+        prev_count = limit * (pagenum - 1)
+        # any more results
+        if count - prev_count < limit:
+            next_pagenum = -1
+        if count > limit:
+            # get the next page items
+            items = items[prev_count:]
+    else:
+        next_pagenum = -1
     # build response
     response = {
         'title' : 'Search',
         'search_text' : search_text,
-        'results' : items
+        'results' : items,
+        'page' : {
+            'current' : pagenum,
+            'previous' : pagenum - 1,
+            'next' : next_pagenum
+        }
     }
     return render_template('index.html', **response)
 
@@ -59,6 +83,7 @@ def document():
     """
     path_text = request.args.get('path')
     search_text = request.args.get('q')
+    pagenum = request.args.get('p')
     doc = items_from_search_text(path_text, isPath=True)
     if not doc:
         # refs: http://flask.pocoo.org/docs/quickstart/#redirects-and-errors
@@ -73,6 +98,7 @@ def document():
         "title" : doc.result.filename,
         'doc' : doc,
         'contents' : doc_html,
-        'search_text' : search_text
+        'search_text' : search_text,
+        'page_number' : pagenum
     }
     return render_template('document.html', **response)

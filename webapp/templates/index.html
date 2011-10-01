@@ -37,16 +37,28 @@
         {% for item in results %}
         <div class='result' data-src="{{ item.result.path }}">
             <div class="filename">
-                <a href='/document?path={{ item.result.path }}&q={{ search_text }}'>{{ item.result.filename }}</a>
+                <a href='/document?path={{ item.result.path }}&q={{ search_text }}&p={{ page.current }}'>{{ item.result.filename }}</a>
             </div>
             <div class="syntax">
                 <pre>{{ item.html|safe|trim }}</pre>
             </div>
         </div>
         {% endfor %}
-        {% else %}
-        Your search - {{ search_text }} - did not match any documents.
+        {% elif page %}
+        Your search - {{ search_text }} - did not match any documents{% if page.current > 1 %} for page {{ page.current }}{% endif %}.
         {% endif %}
     </div>
 </form>
+        
+{% if page %}
+<div id="page-control">
+    {% if page.previous > 0 %}
+    <a href="/search?q={{ search_text }}&p={{ page.previous }}">&larr; Previous</a>
+    {% endif %}
+
+    {% if page.next > 0 %}
+    <a href="/search?q={{ search_text }}&p={{ page.next }}">Next &rarr;</a>
+    {% endif %}
+</div>
+{% endif %}
 {% endblock %}

@@ -63,3 +63,8 @@ SERVICE_PORT = 7777
 # type: string
 # default: '127.0.0.1' or 'localhost'
 SERVICE_ADDRESS = '127.0.0.1'
+
+# Default number of results per page
+# type: integer
+# default: 10
+RESULTS_PER_PAGE = 10

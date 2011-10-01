@@ -190,11 +190,11 @@ class Index(object):
         """
         return self._indexer.name()
         
-    def search(self, text):
+    def search(self, text, pagenum=1, limit=10):
         """Searches the index for the specified text.
         @return list of results
         """
-        return self._searcher.find_text(text)
+        return self._searcher.find_text(text, pagenum=pagenum, limit=limit)
 
     def search_path(self, path):
         """Searches the index for the specified path.

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    &larr; <a href="/search?q={{ search_text }}">Back to search</a>
+    &larr; <a href="/search?q={{ search_text }}&p={{ page_number }}">Back to search</a>
     <h3>{{ doc.result.filename }}</h3>
     <div class="syntax">
     {{ contents|safe }}
