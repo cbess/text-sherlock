@@ -20,16 +20,6 @@ def items_from_search_text(text, isPath=False, type=None):
     trns = transformer.Transformer()
     items = trns.transform_results(results, type=type)
     return items
-
-
-@app.route('/static/*')
-def static_files():
-    """Handles static files requests
-    """
-    endswith = request.path.endswith
-    if endswith('main.css'):
-        return url_for('static', filename='css/main.css')
-    return ''
     
 
 @app.route('/')
