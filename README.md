@@ -29,11 +29,11 @@ Includes:
 	- Front end web app using [flask](http://flask.pocoo.org).
 	- Settings and configuration using [Python](http://python.org).
 
-### Web Access Examples
+### Web Interface
 
-[Search Results](https://github.com/cbess/text-sherlock/blob/master/setup/web-example1.jpg)
+![screenshot](https://github.com/cbess/text-sherlock/raw/master/setup/web-example1.jpg)
 
-[View Document (from search results)](https://github.com/cbess/text-sherlock/blob/master/setup/web-example2.jpg)
+![screenshot](https://github.com/cbess/text-sherlock/raw/master/setup/web-example2.jpg)
 
 ## Core packages
 
