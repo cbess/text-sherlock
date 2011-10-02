@@ -68,3 +68,14 @@ td.linenos pre {
     color: #fff;
     border-right: none;
 }
+/*matched term in each search result*/
+.result .match {
+    /*Google code search style*/
+    /*font-weight: bold;*/
+    /*padding: 2px;*/
+
+    /*Github search style*/
+    border-radius: 3px;
+    font-style: italic;
+    background-color: #ffff99;
+}

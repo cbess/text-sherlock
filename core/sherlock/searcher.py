@@ -125,7 +125,7 @@ class ResultFormatter(highlight.Formatter):
     
     def format_token(self, text, token, replace=False):
         token_text = text[token.startchar:token.endchar]
-        return '<strong>%s</strong>' % token_text
+        return "<span class='match'>%s</span>" % token_text
 
     def fragement_text(self, fragment):
         """Returns the text for the specified fragment
