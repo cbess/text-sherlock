@@ -4,3 +4,4 @@ sherlock_env
 data
 *.tmproj
 .idea
+local_settings.py

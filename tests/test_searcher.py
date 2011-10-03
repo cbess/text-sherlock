@@ -43,7 +43,7 @@ class TestSearcher(testcase.BaseTestCase):
         idxr = indexer.get_indexer(name='test', rebuild_index=True)
         path = os.path.join(self.test_dir, 'text')
         idxr.index_text(path)
-        self.assertTrue(idxr.doc_count() == 7, "no documents indexed")
+        self.assertTrue(idxr.doc_count() == 7, "Bad document index count expected 7 but, indexed %d" % idxr.doc_count())
         # search
         idx = idxr.get_index()
         search_text = 'value'

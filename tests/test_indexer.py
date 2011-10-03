@@ -47,7 +47,7 @@ class TestIndexer(testcase.BaseTestCase):
         idx = indexer.get_indexer(name='test', rebuild_index=True)
         idx.index_text(path)
         # test values
-        self.assertTrue(idx.doc_count() == 7, 'bad doc count')
+        self.assertTrue(idx.doc_count() == 7, 'bad doc count, expected 7 but, indexed %d' % idx.doc_count())
         pass
 
 

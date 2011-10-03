@@ -39,9 +39,7 @@ NEW_LINE = '\n'
 # Only checks filenames, for now.
 # type: tuple
 # default: None
-EXCLUDE_FILE_SUFFIX = (
-    'pyc',
-)
+EXCLUDE_FILE_SUFFIX = None
 
 # The opposite of EXCLUDE_FILE_SUFFIX. This **only** includes files that match a given suffix.
 # type: tuple
@@ -74,3 +72,14 @@ SERVICE_ADDRESS = '127.0.0.1'
 # type: integer
 # default: 10
 RESULTS_PER_PAGE = 10
+
+
+# Customzie the settings per installation
+try:
+    # Try to import local settings, which override the above settings.
+    # In local_settings.py (in this directory), set the values for any settings
+    # you want to override.
+    from local_settings import *
+except ImportError:
+    print 'No local_settings.py found. Using all default settings.'
+    pass
