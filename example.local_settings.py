@@ -7,13 +7,13 @@
 # type: tuple
 # default: None
 EXCLUDE_FILE_SUFFIX = (
-    'pyc',
+    '.pyc',
 )
 
 # The opposite of EXCLUDE_FILE_SUFFIX. This **only** includes files that match a given suffix.
 # type: tuple
 # default: None
 INCLUDE_FILE_SUFFIX = (
-    'm',
-    'c',
+    '.m',
+    '.c',
 )
