@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# refs: http://flask.pocoo.org/docs/quickstart/#redirects-and-errors
+
 import os
 from server import app
 from flask import render_template, request, abort
@@ -82,12 +84,15 @@ def document():
     """Handles document display requests
     """
     root_dir = core_settings.INDEX_PATH % { 'sherlock_dir' : core_settings.ROOT_DIR }
-    full_path = os.path.join(root_dir, request.args.get('path'))
+    path = request.args.get('path')
+    full_path = path
+    # if the full path wasn't appended, then append it (assumes path exist in default index path)
+    if root_dir not in path:
+        full_path = os.path.join(root_dir, path)
     search_text = request.args.get('q')
     pagenum = request.args.get('p')
     doc = items_from_search_text(full_path, isPath=True)
     if not doc:
-        # refs: http://flask.pocoo.org/docs/quickstart/#redirects-and-errors
         app.logger.error('Unable to find document: %s' % full_path)
         abort(404)
     else:
