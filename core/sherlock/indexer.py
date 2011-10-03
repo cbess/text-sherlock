@@ -148,10 +148,37 @@ class Indexer(object):
         """Indexes the contents of the directory at the specified path.
         """
         log.debug('indexing directory: %s' % dpath)
+        # sanity checks
+        if not isinstance(settings.EXCLUDE_FILE_SUFFIX, (tuple, type(None))):
+            raise Exception("settings.EXCLUDE_FILE_SUFFIX must be a tuple or None, found: %s" %
+                            type(settings.EXCLUDE_FILE_SUFFIX))
+        if not isinstance(settings.INCLUDE_FILE_SUFFIX, (tuple, type(None))):
+            raise Exception("settings.INCLUDE_FILE_SUFFIX must be a tuple or None, found: %s" %
+                            type(settings.INCLUDE_FILE_SUFFIX))
+        # nested, reused code block
+        def check_name(name):
+            """Returns True if the item with the specified name can be indexed"""
+            can_index = True
+            # ignore excluded files
+            if settings.EXCLUDE_FILE_SUFFIX:
+                for suffix in settings.EXCLUDE_FILE_SUFFIX:
+                    can_index = True
+                    if name.endswith(suffix):
+                        return False
+            # ignore files that do not have the given suffixes
+            if settings.INCLUDE_FILE_SUFFIX:
+                for suffix in settings.INCLUDE_FILE_SUFFIX:
+                    can_index = False
+                    if name.endswith(suffix):
+                        return True
+            return can_index
+        # perform item indexing
         if not self._is_recursive:
             # just check the files in the target directory
             items = os.listdir(dpath)
             for item in items:
+                if not check_name(item):
+                    continue
                 path = os.path.join(dpath, item)
                 self.__index_file(path)
                 pass
@@ -159,11 +186,7 @@ class Indexer(object):
             # traverse the given path
             for dirpath, dirnames, filenames in os.walk(dpath):
                 for name in filenames:
-                    can_index = True
-                    # ignore excluded files
-                    for suffix in settings.EXCLUDE_FILE_SUFFIX:
-                        if name.endswith(suffix):
-                            can_index = False
+                    can_index = check_name(name)
                     # don't look at hidden files
                     if can_index:
                         can_index = not name.startswith(".")
