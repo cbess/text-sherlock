@@ -15,7 +15,7 @@ import settings
 class Searcher(object):
     def __init__(self, indexer):
         self._indexer = indexer
-        self._index = indexer.index()
+        self._index = indexer.index
         pass
     
     def find_text(self, text, pagenum=1, limit=10):
@@ -56,7 +56,7 @@ class Searcher(object):
         hits.fragmenter = ResultFragmenter()
         hits.formatter = ResultFormatter()
         for hit in hits:
-            result = Result(hit, **hit.fields())
+            result = Result(hit, self._indexer, **hit.fields())
             results.append(result)
         return results
 
@@ -64,9 +64,10 @@ class Searcher(object):
 class Result(object):
     """Represents a sherlock result
     """
-    def __init__(self, hit, **kwargs):
+    def __init__(self, hit, indexer, **kwargs):
         """Initializes this Result instance
         @param whoosh.Hit hit The hit this instance represents
+        @param sherlock.Indexer indexer The Indexer that holds this search result
         @param kwargs {
             path = Path of the file this result represents
             filename = Filename of the file
@@ -76,6 +77,9 @@ class Result(object):
         self._context = ''
         self._path = kwargs['path']
         self._filename = kwargs['filename']
+        # build index path
+        path = settings.INDEX_PATH % { 'sherlock_dir' : settings.ROOT_DIR }
+        self._index_path = self._path.replace(path, '')
         self._process_hit(hit)
         pass
         
@@ -87,6 +91,13 @@ class Result(object):
         contents = read_file(self.path)
         self._context = hit.highlights('content', text=contents)
         pass
+
+    @property
+    def index_path(self):
+        """Returns the path within the index path.
+        @remark The full file path without the index path prepended.
+        """
+        return self._index_path
         
     @property
     def path(self):

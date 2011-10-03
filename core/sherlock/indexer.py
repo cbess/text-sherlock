@@ -55,7 +55,7 @@ class Indexer(object):
         """
         self._index = None
         self._writer = None
-        # path of the indexed content (directory)
+        # path of the index directory
         self._path = None
         self._name = name
         self._rebuild_index = kwargs.get('rebuild_index', False)
@@ -64,23 +64,31 @@ class Indexer(object):
         
     def doc_count(self):
         """ Returns the count of all documents indexed """
-        return self.index().doc_count_all()
+        return self.index.doc_count_all()
         
     def get_index(self):
         """Returns a Sherlock index of for this indexer
         """
         return Index(self)
-        
+
+    @property
     def index(self):
         """Returns the internal Whoosh index
         """
         return self._index
-        
+
+    @property
     def name(self):
         """Returns the name of this indexer
         """
         return self._name
-        
+
+    @property
+    def path(self):
+        """Returns the path of index
+        """
+        return self._path
+
     def remove_index(self):
         """Removes the indexed contents
         """
@@ -106,6 +114,7 @@ class Indexer(object):
             self._index = create_in(path, text_schema)
         else:
             self._index = open_dir(path)
+        # store indexes path
         self._path = path
         pass
         
@@ -117,25 +126,25 @@ class Indexer(object):
             self._is_recursive = recursive
         # index items    
         self._writer = self._index.writer()
-        self._index_path(path)
+        self.__index_path(path)
         self._writer.commit()
         pass
         
-    def _index_path(self, path):
+    def __index_path(self, path):
         """Indexes the items at the specified path.
         """
         log.debug('indexing item(s) at %s' % path)
         if os.path.isdir(path):
-            self._index_dir(path)
+            self.__index_dir(path)
         elif os.path.isfile(path):
-            self._index_file(path)
+            self.__index_file(path)
         else:
             msg = 'Path %s is not valid for indexing' % path
             log.warning(msg)
             raise Exception(msg)
         pass
         
-    def _index_dir(self, dpath):
+    def __index_dir(self, dpath):
         """Indexes the contents of the directory at the specified path.
         """
         log.debug('indexing directory: %s' % dpath)
@@ -144,7 +153,7 @@ class Indexer(object):
             items = os.listdir(dpath)
             for item in items:
                 path = os.path.join(dpath, item)
-                self._index_file(path)
+                self.__index_file(path)
                 pass
         else:
             # traverse the given path
@@ -160,10 +169,10 @@ class Indexer(object):
                         can_index = not name.startswith(".")
                     if can_index:
                         path = os.path.join(dirpath, name)
-                        self._index_file(path)
+                        self.__index_file(path)
         pass
         
-    def _index_file(self, filepath):
+    def __index_file(self, filepath):
         """Indexes the contents of the file at the specified path.
         """
         log.debug('indexing file: %s' % filepath)
@@ -175,7 +184,7 @@ class Indexer(object):
         )
         self._writer.add_document(**doc)
         pass
-        
+
         
 class Index(object):
     def __init__(self, indexer):
@@ -188,7 +197,7 @@ class Index(object):
     def name(self):
         """Returns the name of this index
         """
-        return self._indexer.name()
+        return self._indexer.name
         
     def search(self, text, pagenum=1, limit=10):
         """Searches the index for the specified text.

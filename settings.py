@@ -17,7 +17,7 @@ ROOT_DIR = os.path.abspath('.')
 # for the search engine.
 # type: string
 # default: %(sherlock_dir)s/data/indexes
-INDEXES_PATH = '%(sherlock_dir)s/data/indexes'
+INDEXES_PATH = '%(sherlock_dir)s/data/indexes/'
 
 # True if the target path will be indexed recursively (includes sub directories).
 # type: boolean
@@ -51,7 +51,7 @@ NUM_CONTEXT_LINES = 1
 # The path to index when the indexing is ran with the 'default' option.
 # The user running the app must have read access to the path.
 # type: string
-INDEX_PATH = '%(sherlock_dir)s/tests/text'
+INDEX_PATH = '%(sherlock_dir)s/tests/text/'
 
 # The local port to expose the web service.
 # type: integer

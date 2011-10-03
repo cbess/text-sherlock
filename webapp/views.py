@@ -81,17 +81,18 @@ def search():
 def document():
     """Handles document display requests
     """
-    path_text = request.args.get('path')
+    root_dir = core_settings.INDEX_PATH % { 'sherlock_dir' : core_settings.ROOT_DIR }
+    full_path = os.path.join(root_dir, request.args.get('path'))
     search_text = request.args.get('q')
     pagenum = request.args.get('p')
-    doc = items_from_search_text(path_text, isPath=True)
+    doc = items_from_search_text(full_path, isPath=True)
     if not doc:
         # refs: http://flask.pocoo.org/docs/quickstart/#redirects-and-errors
-        app.logger.error('Unable to find document: %s' % path_text)
+        app.logger.error('Unable to find document: %s' % full_path)
         abort(404)
     else:
         doc = doc[0]
-    doc_contents = read_file(path_text)
+    doc_contents = read_file(full_path)
     trn = transformer.Transformer()
     doc_html = trn.to_html(doc_contents, doc.result.filename)
     response = {
