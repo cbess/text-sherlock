@@ -84,19 +84,18 @@ def document():
     """Handles document display requests
     """
     root_dir = core_settings.INDEX_PATH % { 'sherlock_dir' : core_settings.ROOT_DIR }
-    path = request.args.get('path')
-    full_path = path
+    full_path = request.args.get('path')
     # if the full path wasn't appended, then append it (assumes path exist in default index path)
-    if root_dir not in path:
-        full_path = os.path.join(root_dir, path)
+    if root_dir not in full_path:
+        full_path = os.path.join(root_dir, full_path)
     search_text = request.args.get('q')
     pagenum = request.args.get('p')
-    doc = items_from_search_text(full_path, isPath=True)
-    if not doc:
+    # perform the text search, get wrapped results
+    docs = items_from_search_text(full_path, isPath=True)
+    if not docs:
         app.logger.error('Unable to find document: %s' % full_path)
         abort(404)
-    else:
-        doc = doc[0]
+    doc = docs[0]
     doc_contents = read_file(full_path)
     trn = transformer.Transformer()
     doc_html = trn.to_html(doc_contents, doc.result.filename)
