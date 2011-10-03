@@ -53,6 +53,8 @@ INCLUDE_FILE_SUFFIX = None
 NUM_CONTEXT_LINES = 1
 
 # The absolute path to index when the indexing is ran with the 'default' option.
+# This is the index that has the original text to be indexed. This is also used when displaying
+# the actual document from the search results.
 # The user running the app must have read access to the path.
 # type: string
 INDEX_PATH = '%(sherlock_dir)s/tests/text/'
