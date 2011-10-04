@@ -14,9 +14,9 @@ DEBUG = True
 ROOT_DIR = os.path.abspath('.')
 
 # An absolute path to the directory that will store all indexes
-# for the search engine.
+# for the search engine. Must have trailing slash.
 # type: string
-# default: %(sherlock_dir)s/data/indexes
+# default: %(sherlock_dir)s/data/indexes/
 INDEXES_PATH = '%(sherlock_dir)s/data/indexes/'
 
 # True if the target path will be indexed recursively (includes sub directories).
@@ -54,9 +54,10 @@ NUM_CONTEXT_LINES = 1
 
 # The absolute path to index when the indexing is ran with the 'default' option.
 # This is the index that has the original text to be indexed. This is also used when displaying
-# the actual document from the search results.
+# the actual document from the search results. Must have trailing slash.
 # The user running the app must have read access to the path.
 # type: string
+# default: '%(sherlock_dir)s/tests/text/'
 INDEX_PATH = '%(sherlock_dir)s/tests/text/'
 
 # The local port to expose the web service.
