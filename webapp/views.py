@@ -9,8 +9,8 @@ from core import settings as core_settings
 from core.utils import debug, read_file
 
 
-def items_from_search_text(text, pagenum=1, isPath=False, type=None):
-    """Returns the result items from the search using the given text.
+def results_from_search_text(text, pagenum=1, isPath=False, type=None):
+    """Returns the results from the search using the given text, populated with the transformed items
     """
     idx = indexer.get_indexer().get_index()
     # find something in the index
@@ -25,8 +25,7 @@ def items_from_search_text(text, pagenum=1, isPath=False, type=None):
             return []
     # transform the results
     trns = transformer.Transformer()
-    items = trns.transform_results(results, type)
-    return items
+    return trns.transform_results(results, type)
     
 
 @app.route('/')
@@ -50,30 +49,19 @@ def search():
         form = request.args
     search_text = form.get('q')
     pagenum = int(form.get('p', 1))
-    next_pagenum = pagenum + 1
-    limit = core_settings.RESULTS_PER_PAGE
     app.logger.debug('page %d, searching for: %s' % (pagenum, search_text))
-    items = items_from_search_text(search_text, pagenum)
-    count = len(items)
-    if items:
-        prev_count = limit * (pagenum - 1)
-        # any more results
-        if count - prev_count < limit:
-            next_pagenum = -1
-        if count > limit:
-            # get the next page items
-            items = items[prev_count:]
-    else:
-        next_pagenum = -1
+    results = results_from_search_text(search_text, pagenum)
     # build response
     response = {
         'title' : 'Search',
         'search_text' : search_text,
-        'results' : items,
+        'results' : results.items,
+        'total_count' : results.total_count,
         'page' : {
             'current' : pagenum,
-            'previous' : pagenum - 1,
-            'next' : next_pagenum
+            'previous' : results.prev_pagenum,
+            'next' : results.next_pagenum,
+            'count' : len(results)
         }
     }
     return render_template('index.html', **response)
@@ -91,14 +79,16 @@ def document():
     search_text = request.args.get('q')
     pagenum = request.args.get('p')
     # perform the text search, get wrapped results
-    docs = items_from_search_text(full_path, isPath=True)
-    if not docs:
+    results = results_from_search_text(full_path, isPath=True)
+    if not results:
         app.logger.error('Unable to find document: %s' % full_path)
         abort(404)
-    doc = docs[0]
+    doc = results.items[0]
     doc_contents = read_file(full_path)
+    # get syntax highlighted html
     trn = transformer.Transformer()
     doc_html = trn.to_html(doc_contents, doc.result.filename)
+    # build response
     response = {
         "title" : doc.result.filename,
         'doc' : doc,

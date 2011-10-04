@@ -29,7 +29,7 @@
     </div>
 
     {% if search_text %}
-    <h3>{{ results|count }} Results</h3>
+    <h4>Page <em>{{ page.current }}</em> of <em>{{ total_count }}</em> Results</h4>
     {% endif %}
     
     <div id="results">

@@ -16,7 +16,7 @@ class Transformer(object):
     """
     def __init__(self, result=None):
         """Initializes this Transformer instance
-        @param sherlock.Result result
+        :param result: sherlock.Result instance
         """
         self._result = result
         pass
@@ -40,10 +40,10 @@ class Transformer(object):
         
     def transform_results(self, results, type='html'):
         """Returns a sequence of syntax hightlighted items
-        @param string type: The type of transform to perform.
+        :param results: searcher.Results instance
+        :param string type: The type of transform to perform.
             possible values: html (that's it for now) or None
         """
-        items = []
         for result in results:
             item = Item()
             item.context = result.context
@@ -52,12 +52,13 @@ class Transformer(object):
             else:
                 item.html = result.context
             item.result = result
-            items.append(item)
+            results.items.append(item)
             pass
-        return items
+        return results
 
 
 class Item(object):
     """Represents a transformed item result
     """
-    pass
+    def __str__(self):
+        return "<transformer.Item %s>" % repr(self)

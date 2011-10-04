@@ -17,7 +17,11 @@ class Searcher(object):
         self._indexer = indexer
         self._index = indexer.index
         pass
-    
+
+    @property
+    def indexer(self):
+        return self._indexer
+
     def find_text(self, text, pagenum=1, limit=10):
         """Finds the specified text by searching the internal index
         """
@@ -43,22 +47,93 @@ class Searcher(object):
         results = None
         with self._index.searcher() as searcher:
             page = searcher.search_page(squery, pagenum, limit, terms=True)
-            results = self._get_results(page)
+            results = self._get_results(page, pagenum, limit)
         return results
         
-    def _get_results(self, results_page):
+    def _get_results(self, results_page, pagenum, limit):
         """Populates the results with normalized Sherlock result data
         @param whoosh.ResultsPage results_page
         @return tuple of sherlock.Result objects
         """
-        results = []
         hits = results_page.results
         hits.fragmenter = ResultFragmenter()
         hits.formatter = ResultFormatter()
-        for hit in hits:
-            result = Result(hit, self._indexer, **hit.fields())
-            results.append(result)
+        # create results wrapper
+        results = Results(
+            self,
+            hits,
+            total_count=hits.estimated_length(),
+            pagenum=pagenum,
+            limit=limit
+        )
         return results
+
+
+class Results(list):
+    """Represents the search results
+    """
+    def __init__(self, searcher, hits, **kwargs):
+        """Initializes this Results instance
+        :param searcher: sherlock.Searcher instance that created the items
+        :param hits: sequence of whoosh.Hit objects from the search
+        :param kwargs: {
+            total_count = Total number of results for the entire search
+            pagenum = The page of the expected results
+            limit = The maximum number of results to store
+        }
+        """
+        super(list, self).__init__()
+        self._total_count = kwargs.get('total_count', -1)
+        self._pagenum = kwargs.get('pagenum', 0)
+        self._limit = kwargs.get('limit', settings.RESULTS_PER_PAGE)
+        self._searcher = searcher
+        self._next_page = self._pagenum + 1
+        self._prev_page = -1
+        if self._pagenum > 1 and self._limit > 0:
+            self._prev_page = self._pagenum - 1
+        self._items = []
+        self._process_hits(hits)
+        pass
+
+    def _process_hits(self, hits):
+        count = len(hits)
+        if hits:
+            prev_count = self._limit * (self._pagenum - 1)
+            # any more results
+            if count - prev_count < self._limit:
+                self._next_page = -1
+            if count > self._limit:
+                # get the next page items
+                hits = hits[prev_count:]
+
+        for hit in hits:
+            result = Result(hit, self._searcher.indexer, **hit.fields())
+            self.append(result)
+        pass
+
+    @property
+    def next_pagenum(self):
+        return self._next_page
+
+    @property
+    def prev_pagenum(self):
+        return self._prev_page
+
+    @property
+    def items(self):
+        """Returns the list of transformer.Item objects, processed by transformer.Transformer"""
+        return self._items
+
+    def __items(self):
+        """Returns he actual results from the search query
+        @return tuple of the results
+        """
+        return tuple(super(list, self))
+
+    @property
+    def total_count(self):
+        """Results the total count of the results"""
+        return self._total_count
 
 
 class Result(object):
