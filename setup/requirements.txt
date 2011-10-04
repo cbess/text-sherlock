@@ -1,5 +1,4 @@
 flask
 whoosh
 jinja2
-flask-peewee
 pygments
