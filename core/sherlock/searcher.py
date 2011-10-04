@@ -105,6 +105,8 @@ class Results(list):
             if count > self._limit:
                 # get the next page items
                 hits = hits[prev_count:]
+        else:
+            self._next_page = -1
 
         for hit in hits:
             result = Result(hit, self._searcher.indexer, **hit.fields())
