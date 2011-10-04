@@ -79,3 +79,11 @@ td.linenos pre {
     font-style: italic;
     background-color: #ffff99;
 }
+.result pre {
+    font-family: Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+    background-color: ghostWhite;
+    border: 1px solid #DEDEDE;
+    padding: .5em;
+    line-height: 1.5em;
+    color: #444;
+}
