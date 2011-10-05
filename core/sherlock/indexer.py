@@ -3,6 +3,10 @@
 indexer.py
 Created by Christopher Bess
 Copyright 2011
+
+refs:
+http://xapian.org/docs/bindings/python/
+http://invisibleroads.com/tutorials/xapian-search-pylons.html#filter-documents-by-number-using-value
 """
 
 import os
