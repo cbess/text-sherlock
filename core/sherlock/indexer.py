@@ -89,10 +89,10 @@ class Indexer(object):
         """
         return self._path
 
-    def remove_index(self):
+    def clear_index_directory(self):
         """Removes the indexed contents
         """
-        if self._path and self._path.startswith(settings.INDEX_PATH):
+        if self._path and self._path.startswith(settings.INDEXES_PATH):
             os.system('rm -rf %s' % self._path)
             log.warning('removed index at %s' % self._path)
         pass

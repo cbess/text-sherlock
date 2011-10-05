@@ -40,19 +40,19 @@ class Searcher(object):
         
     def search(self, squery, pagenum=1, limit=10):
         """Searches the internal index using the specified query
-        @param QueryParser squery
+        :param squery: QueryParser instance
         """
         assert self._index is not None
         log.debug('search page %d, limit %d' % (pagenum, limit))
         results = None
         with self._index.searcher() as searcher:
-            page = searcher.search_page(squery, pagenum, limit, terms=True)
+            page = searcher.search_page(squery, pagenum, limit)
             results = self._get_results(page, pagenum, limit)
         return results
         
     def _get_results(self, results_page, pagenum, limit):
         """Populates the results with normalized Sherlock result data
-        @param whoosh.ResultsPage results_page
+        :param results_page: whoosh.ResultsPage instance
         @return tuple of sherlock.Result objects
         """
         hits = results_page.results
@@ -143,8 +143,8 @@ class Result(object):
     """
     def __init__(self, hit, indexer, **kwargs):
         """Initializes this Result instance
-        @param whoosh.Hit hit The hit this instance represents
-        @param sherlock.Indexer indexer The Indexer that holds this search result
+        :param hit: The whoosh.Hit this instance represents
+        :param indexer: The sherlock.Indexer that holds this search result
         @param kwargs {
             path = Path of the file this result represents
             filename = Filename of the file
