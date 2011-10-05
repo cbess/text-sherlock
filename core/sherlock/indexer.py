@@ -6,7 +6,7 @@ Copyright 2011
 """
 
 import os
-from whoosh.index import create_in, open_dir
+from whoosh.index import create_in, open_dir, exists_in
 from whoosh.fields import *
 import settings
 from core.sherlock import logger as log
@@ -106,13 +106,15 @@ class Indexer(object):
             raise Exception(msg)
         # create the dir, if needed
         path = os.path.join(index_path, self._name)
-        log.debug('creating index at %s' % path)
         if not os.path.isdir(path):
             os.mkdir(path)
             log.warning('created index directory at %s' % path)
-        if self._rebuild_index:
+        # create or open the index
+        if self._rebuild_index or not exists_in(path):
+            log.debug('creating index at %s' % path)
             self._index = create_in(path, text_schema)
         else:
+            log.debug('opening index at %s' % path)
             self._index = open_dir(path)
         # store indexes path
         self._path = path
