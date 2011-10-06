@@ -3,27 +3,13 @@
 indexer.py
 Created by Christopher Bess
 Copyright 2011
-
-refs:
-http://xapian.org/docs/bindings/python/
-http://invisibleroads.com/tutorials/xapian-search-pylons.html#filter-documents-by-number-using-value
 """
 
 import os
-from whoosh.index import create_in, open_dir, exists_in
-from whoosh.fields import *
 import settings
 from core.sherlock import logger as log
-from core.utils import read_file, debug
 from core.sherlock import searcher
-
-
-# Text index schema
-text_schema = Schema(
-    filename=TEXT(stored=True), 
-    path=ID(stored=True),
-    content=TEXT
-)
+import backends
 
 
 def get_indexer(name='main', rebuild_index=False, **kwargs):
@@ -57,8 +43,8 @@ class Indexer(object):
             rebuild_index = True
         }
         """
-        self._index = None
-        self._writer = None
+        IndexerBackend = backends.AVAILABLE_INDEXERS[settings.DEFAULT_INDEXER]
+        self._index = IndexerBackend(name)
         # path of the index directory
         self._path = None
         self._name = name
@@ -68,7 +54,7 @@ class Indexer(object):
         
     def doc_count(self):
         """ Returns the count of all documents indexed """
-        return self.index.doc_count_all()
+        return self.index.doc_count()
         
     def get_index(self):
         """Returns a Sherlock index of for this indexer
@@ -77,7 +63,7 @@ class Indexer(object):
 
     @property
     def index(self):
-        """Returns the internal Whoosh index
+        """Returns the internal FileIndexer index
         """
         return self._index
 
@@ -114,12 +100,12 @@ class Indexer(object):
             os.mkdir(path)
             log.warning('created index directory at %s' % path)
         # create or open the index
-        if self._rebuild_index or not exists_in(path):
+        if self._rebuild_index or not self._index.index_exits(path):
             log.debug('creating index at %s' % path)
-            self._index = create_in(path, text_schema)
+            self._index.create_index(path)
         else:
             log.debug('opening index at %s' % path)
-            self._index = open_dir(path)
+            self._index.open_index(path)
         # store indexes path
         self._path = path
         pass
@@ -130,10 +116,8 @@ class Indexer(object):
         assert self._index is not None
         if recursive is not None:
             self._is_recursive = recursive
-        # index items    
-        self._writer = self._index.writer()
+        # index items
         self.__index_path(path)
-        self._writer.commit()
         pass
         
     def __index_path(self, path):
@@ -205,13 +189,7 @@ class Indexer(object):
         """Indexes the contents of the file at the specified path.
         """
         log.debug('indexing file: %s' % filepath)
-        contents = read_file(filepath)
-        doc = dict(
-            filename=unicode(os.path.basename(filepath)),
-            path=unicode(filepath),
-            content=contents
-        )
-        self._writer.add_document(**doc)
+        self._index.index_file(filepath)
         pass
 
         

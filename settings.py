@@ -76,6 +76,16 @@ SERVICE_ADDRESS = '127.0.0.1'
 # default: 10
 RESULTS_PER_PAGE = 10
 
+# Default file indexer
+# type: string
+# default: whoosh
+DEFAULT_INDEXER = 'whoosh'
+
+# Default file searcher
+# type: string
+# default: whoosh
+DEFAULT_SEARCHER = 'whoosh'
+
 
 # Customzie the settings per installation
 try:
