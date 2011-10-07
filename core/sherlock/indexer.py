@@ -117,7 +117,9 @@ class Indexer(object):
         if recursive is not None:
             self._is_recursive = recursive
         # index items
+        self._index.begin_index_file(path)
         self.__index_path(path)
+        self._index.end_index_file(path)
         pass
         
     def __index_path(self, path):

@@ -47,22 +47,74 @@ class WhooshIndexer(FileIndexer):
         self._index = create_in(path, self.schema)
         pass
 
+    def begin_index_file(self, filepath):
+        self._writer = self._index.writer()
+        pass
+
     def index_file(self, filepath, *args, **kwargs):
         assert self._index is not None
-        writer = self._index.writer()
         contents = read_file(filepath)
         doc = dict(
             filename=unicode(os.path.basename(filepath)),
             path=unicode(filepath),
             content=contents
         )
-        writer.add_document(**doc)
-        writer.commit()
+        self._writer.add_document(**doc)
         return None
+
+    def end_index_file(self, filepath):
+        self._writer.commit()
+        pass
 
     def index_exists(self, path):
         return exists_in(path)
 
 
 class XapianIndexer(FileIndexer):
-    pass
+    def __init__(self, *args, **kwargs):
+        super(XapianIndexer, self).__init__(*args, **kwargs)
+        import xapian
+        self.xapian = xapian
+        pass
+
+    def doc_count(self):
+        return self.index.get_doccount()
+
+    def open_index(self, path, *args, **kwargs):
+        self.index = self.xapian.WritableDatabase(path, self.xapian.DB_OPEN)
+        pass
+
+    def create_index(self, path, *args, **kwargs):
+        self.index = self.xapian.WritableDatabase(path, self.xapian.DB_CREATE_OR_OVERWRITE)
+        pass
+
+    def begin_index_file(self, filepath):
+        # Initialize indexer
+        self.indexer = self.xapian.TermGenerator()
+        # Set word stemmer to English
+        self.indexer.set_stemmer(self.xapian.Stem('english'))
+        pass
+
+    def index_file(self, filepath, *args, **kwargs):
+        # get file content
+        content = read_file(filepath)
+        document = self.xapian.Document()
+#        document.set_data(content)
+        # store fileName
+        filename = os.path.basename(filepath)
+        document.add_value(0, filename)
+        # store file path
+        document.add_value(1, filepath)
+        # index document
+        self.indexer.set_document(document)
+        self.indexer.index_text(content)
+        # store indexed content in database
+        self.index.add_document(document)
+        pass
+
+    def end_index_file(self, filepath):
+        self.index.flush()
+        pass
+
+    def index_exists(self, path):
+        return False

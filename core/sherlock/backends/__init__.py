@@ -11,7 +11,8 @@ import searcher
 
 # Lists the indexer classes that can handle indexing operations
 AVAILABLE_INDEXERS = {
-    'whoosh' : indexer.WhooshIndexer
+    'whoosh' : indexer.WhooshIndexer,
+    'xapian' : indexer.XapianIndexer
 }
 
 # Lists the searcher classes that can handle search operations

@@ -29,10 +29,22 @@ class FileIndexer(object):
         """
         raise NotImplementedError
 
+    def begin_index_file(self, filepath):
+        """Called before file indexing operations. Usually used to
+        open document writers for the indexer.
+        """
+        pass
+
     def index_file(self, filepath, *args, **kwargs):
         """Indexes and stores the file at the specified path
         """
         raise NotImplementedError
+
+    def end_index_file(self, filepath):
+        """Called after file indexing operations. Usually used to
+        commit the changes to the indexer.
+        """
+        pass
 
     def index_exists(self, path):
         """Returns True if an index exist at the specified path, False otherwise
@@ -84,7 +96,7 @@ class SearchResults(list):
     
     def __init__(self, searcher, hits, **kwargs):
         """Initializes this Results instance
-        :param searcher: sherlock.Searcher instance that created the items
+        :param searcher: sherlock.Searcher instance that created the hits
         :param hits: sequence of raw search result objects from the search
         :param kwargs: {
             total_count = Total number of results for the entire search
