@@ -117,4 +117,4 @@ class XapianIndexer(FileIndexer):
         pass
 
     def index_exists(self, path):
-        return False
+        return os.path.isdir(path)
