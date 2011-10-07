@@ -35,6 +35,16 @@ Includes:
 
 ![screenshot](https://github.com/cbess/text-sherlock/raw/master/setup/web-example2.jpg)
 
+## Using other backends
+
+settings.py
+
+- Change the `DEFAULT_INDEXER` and `DEFAULT_SEARCHER` values to match the name given to the backend.
+    - Available backends:
+        - `whoosh` the default, no extra work needed.
+        - `xapian` must be installed separately using the included `setup/install-xapian.sh` setup script.
+
+
 ## Core packages
 
 **Requires Python 2.5 or later.**
@@ -43,7 +53,7 @@ Includes:
 * Flask - [flask](http://flask.pocoo.org)
 * Jinja2 - [jinja2](http://jinja.pocoo.org/docs)
 * Pygments - [pygments](http://pygments.org/docs/quickstart)
-* Flask-peewee - [flask-peewee](https://github.com/coleifer/flask-peewee) *(not used, yet)*
+* peewee - [peewee](https://github.com/coleifer/peewee) *(not used, yet)*
 * Twitter Bootstrap - [twitter bootstrap](http://twitter.github.com/bootstrap)
 
 ## Other References
