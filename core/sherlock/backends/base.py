@@ -81,8 +81,6 @@ class SearchResults(list):
     total_count = 0
     # the current page number that will be displayed, -1 to indicate that it has not been set
     pagenum = -1
-    # transformer items store their items in this list
-    _items = []
     
     def __init__(self, searcher, hits, **kwargs):
         """Initializes this Results instance
@@ -95,6 +93,7 @@ class SearchResults(list):
         }
         """
         super(SearchResults, self).__init__()
+        self._items = []
         self.total_count = kwargs.get('total_count', -1)
         self.pagenum = kwargs.get('pagenum', 0)
         self.limit = kwargs.get('limit', settings.RESULTS_PER_PAGE)
@@ -106,16 +105,16 @@ class SearchResults(list):
         self.process_hits(hits)
         pass
 
-    def process_hits(self, hits):
-        """Processes the raw search result hits
-        """
-        raise NotImplementedError
-
     @property
     def items(self):
         """Returns the transformed results that represent the internal list elements
         """
         return self._items
+
+    def process_hits(self, hits):
+        """Processes the raw search result hits
+        """
+        raise NotImplementedError
 
 
 class SearchResult(object):
