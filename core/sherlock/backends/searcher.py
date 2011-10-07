@@ -149,4 +149,28 @@ class ResultFormatter(highlight.Formatter):
 
 
 class XapianSearcher(FileSearcher):
-    pass
+    def __init__(self, indexer):
+        super(XapianSearcher, self).__init__(indexer)
+        import xapian
+        self.xapian = xapian
+        self._index = indexer.index
+        pass
+
+    def find_path(self, path):
+        return None
+
+    def find_text(self, text, pagenum=1, limit=10):
+        database = self._index.index
+        # Start an enquire session.
+        enquire = self.xapian.Enquire(database)
+        # Parse the query string to produce a Xapian::Query object.
+        parser = self.xapian.QueryParser()
+        parser.set_stemmer(self.xapian.Stem("english"))
+        parser.set_database(database)
+        parser.set_stemming_strategy(self.xapian.QueryParser.STEM_SOME)
+        query = parser.parse_query(text)
+        # find using the parsed query
+        enquire.set_query(query)
+#        debug()
+        matches = enquire.get_mset(pagenum * limit - limit, limit)
+        return None

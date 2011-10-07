@@ -11,8 +11,7 @@ import searcher
 
 # Lists the indexer classes that can handle indexing operations
 AVAILABLE_INDEXERS = {
-    'whoosh' : indexer.WhooshIndexer,
-    'xapian' : indexer.XapianIndexer
+    'whoosh' : indexer.WhooshIndexer
 }
 
 # Lists the searcher classes that can handle search operations
@@ -24,6 +23,6 @@ AVAILABLE_SEARCHERS = {
 try:
     import xapian
     AVAILABLE_INDEXERS['xapian'] = indexer.XapianIndexer
-    AVAILABLE_SEARCHERS['xapian'] = None
+    AVAILABLE_SEARCHERS['xapian'] = searcher.XapianSearcher
 except ImportError:
     pass

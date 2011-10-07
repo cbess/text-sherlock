@@ -24,7 +24,7 @@ if hdlr:
 def run_all():
     """Runs all unit tests
     """
-    test_indexer.run()
-#    test_searcher.run()
+#    test_indexer.run()
+    test_searcher.run()
 #    test_transformer.run()
     pass

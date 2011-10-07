@@ -57,7 +57,7 @@ class FileIndexer(object):
 class FileSearcher(object):
     def __init__(self, indexer):
         """Initializes this instance
-        :param indexer: The base.FileIndexer instance that is assigned to this search.
+        :param indexer: The sherlock.Indexer instance that is assigned to this search.
         """
         self._indexer = indexer
         pass
