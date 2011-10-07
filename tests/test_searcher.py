@@ -28,12 +28,12 @@ class TestSearcher(testcase.BaseTestCase):
         idxr = indexer.get_indexer(name='test', rebuild_index=True)
         idxr.index_text(path)
         # test values
-        self.assertTrue(idxr.doc_count() == 1, 'bad doc count')
+        self.assertTrue(idxr.doc_count() == 1, 'bad doc count, expected 1 but, found %d' % idxr.doc_count())
         
         idx = idxr.get_index()
         # find something in the file
         results = idx.search('key')
-        self.assertTrue(len(results) == 1, 'wrong hit count')
+        self.assertTrue(len(results) == 1, 'wrong hit count, expected 1 but, found %d' % len(results))
         pass
 
     def test_search(self):
@@ -43,15 +43,15 @@ class TestSearcher(testcase.BaseTestCase):
         idxr = indexer.get_indexer(name='test', rebuild_index=True)
         path = os.path.join(self.test_dir, 'text')
         idxr.index_text(path)
-        self.assertTrue(idxr.doc_count() == 7, "Bad document index count expected 7 but, indexed %d" % idxr.doc_count())
+        self.assertTrue(idxr.doc_count() == 7, "Bad document index count, expected 7 but, indexed %d" % idxr.doc_count())
         # search
         idx = idxr.get_index()
         search_text = 'value'
         results = idx.search(search_text)
-        self.assertTrue(len(results), 'no results from the search')
+        self.assertTrue(len(results) > 1, 'not enough results from the search, expected more than 1 but, found %d' % len(results))
         # search by path
         results = idx.search_path(os.path.join(path, 'objc_example.m'))
-        self.assertTrue(len(results) == 1, 'wrong number of results: %d' % len(results))
+        self.assertTrue(len(results) == 1, 'wrong number of results, expected 1, but found %d' % len(results))
         pass
 
 

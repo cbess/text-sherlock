@@ -57,7 +57,7 @@ class Indexer(object):
         return self.index.doc_count()
         
     def get_index(self):
-        """Returns a Sherlock index of for this indexer
+        """Returns a Sherlock index for this indexer
         """
         return Index(self)
 
@@ -82,9 +82,9 @@ class Indexer(object):
     def clear_index_directory(self):
         """Removes the indexed contents
         """
-        if self._path and self._path.startswith(settings.INDEXES_PATH):
-            os.system('rm -rf %s' % self._path)
-            log.warning('removed index at %s' % self._path)
+        if self.path and self._path.startswith(settings.INDEXES_PATH):
+            os.system('rm -rf %s' % self.path)
+            log.warning('removed index at %s' % self.path)
         pass
         
     def open(self, index_path):
@@ -100,7 +100,7 @@ class Indexer(object):
             os.mkdir(path)
             log.warning('created index directory at %s' % path)
         # create or open the index
-        if self._rebuild_index or not self._index.index_exits(path):
+        if self._rebuild_index or not self._index.index_exists(path):
             log.debug('creating index at %s' % path)
             self._index.create_index(path)
         else:

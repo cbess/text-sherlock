@@ -7,6 +7,7 @@ Copyright 2011
 __author__ = 'C. Bess'
 
 import indexer
+import searcher
 
 # Lists the indexer classes that can handle indexing operations
 AVAILABLE_INDEXERS = {
@@ -15,7 +16,7 @@ AVAILABLE_INDEXERS = {
 
 # Lists the searcher classes that can handle search operations
 AVAILABLE_SEARCHERS = {
-    'whoosh' : None
+    'whoosh' : searcher.WhooshSearcher
 }
 
 

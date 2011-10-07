@@ -19,7 +19,7 @@ from base import FileIndexer
 
 class WhooshIndexer(FileIndexer):
     # Text index schema
-    text_schema = Schema(
+    schema = Schema(
         filename=TEXT(stored=True),
         path=ID(stored=True),
         content=TEXT
@@ -27,8 +27,12 @@ class WhooshIndexer(FileIndexer):
     _index = None
     
     def __init__(self, *args, **kwargs):
-        super(FileIndexer, self).__init__()
+        super(WhooshIndexer, self).__init__(*args, **kwargs)
         pass
+
+    @property
+    def index(self):
+        return self._index
 
     def doc_count(self):
         if not self._index:
@@ -40,7 +44,7 @@ class WhooshIndexer(FileIndexer):
         pass
 
     def create_index(self, path, *args, **kwargs):
-        self._index = create_in(path, self.text_schema)
+        self._index = create_in(path, self.schema)
         pass
 
     def index_file(self, filepath, *args, **kwargs):

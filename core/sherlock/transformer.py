@@ -10,6 +10,7 @@ from pygments import highlight
 from pygments.lexers import get_lexer_for_filename
 from pygments.formatters import HtmlFormatter
 
+
 class Transformer(object):
     """
     This transforms the result object to it's search result for various output.
