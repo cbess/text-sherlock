@@ -87,8 +87,11 @@ def fragment_text(token, text):
     # get token and context
     if prevIdx < 0:
         prevIdx = 0
+    # escape html before adding our own html for highlighting
     token_text = cgi.escape(text[prevIdx:nextIdx])
+    # replace html highlighter placeholders
     token_text = token_text.replace('[ts[[', "<span class='match'>")
     token_text = token_text.replace(']]ts]', '</span>')
+    # truncate text
     return token_text[:777]
 
