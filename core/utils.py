@@ -51,6 +51,8 @@ def fragment_text(token, text):
     max_lines = settings.NUM_CONTEXT_LINES
     new_line = settings.NEW_LINE
     assert max_lines > 0
+    if not isinstance(settings.MATCHED_TERM_WRAP, tuple) or len(settings.MATCHED_TERM_WRAP) != 2:
+        raise Exception('Invalid matched term wrap. Please set MATCHED_TERM_WRAP setting.')
     nl = new_line
     # add the formatted token
     bText = text[:token.startchar]
@@ -90,8 +92,8 @@ def fragment_text(token, text):
     # escape html before adding our own html for highlighting
     token_text = cgi.escape(text[prevIdx:nextIdx])
     # replace html highlighter placeholders
-    token_text = token_text.replace('[ts[[', "<span class='match'>")
-    token_text = token_text.replace(']]ts]', '</span>')
+    token_text = token_text.replace('[ts[[', settings.MATCHED_TERM_WRAP[0])
+    token_text = token_text.replace(']]ts]', settings.MATCHED_TERM_WRAP[1])
     # truncate text
     return token_text[:777]
 

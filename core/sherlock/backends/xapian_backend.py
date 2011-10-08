@@ -168,9 +168,16 @@ class XapianResult(SearchResult):
         pass
 
     def process_hit(self, hit):
+        self.context = self._hit_context(hit)
+        # the file path could have matched
+        if not self.context:
+            self.context = self.path
+        pass
+    
+    def _hit_context(self, hit):
         qparser = self._searcher.parser
         query = self._searcher.query
-        content = read_file(self.path)
+        contents = read_file(self.path)
         lines = []
         # For each query word,
         for queryWord in set(query):
@@ -182,15 +189,13 @@ class XapianResult(SearchResult):
             # Prepare regular expression using matching document words
             searchExpression = r'|'.join(documentWords)
             pattern = re.compile(searchExpression, re.IGNORECASE)
-            for match in pattern.finditer(content):
+            for match in pattern.finditer(contents):
                 token = self.Token()
                 token.startchar = match.start()
                 token.endchar = match.end()
                 # get the context line
-                context = fragment_text(token, content)
+                context = fragment_text(token, contents)
                 lines.append(context)
                 if len(lines) >= self.max_sub_results:
                     break
-        self.context = u''.join(lines)
-        pass
-
+        return u''.join(lines)

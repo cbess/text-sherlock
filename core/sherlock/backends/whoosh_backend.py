@@ -56,11 +56,12 @@ class WhooshIndexer(FileIndexer):
         contents = safe_read_file(filepath)
         if contents is None:
             return
+        path = unicode(filepath)
         # build doc
         doc = dict(
             filename=unicode(os.path.basename(filepath)),
-            path=unicode(filepath),
-            content=contents
+            path=path,
+            content=contents + path
         )
         self._writer.add_document(**doc)
         pass
@@ -141,6 +142,9 @@ class WhooshResult(SearchResult):
     def process_hit(self, hit):
         contents = read_file(self.path)
         self.context = hit.highlights('content', text=contents)
+        # the file path could have matched
+        if not self.context:
+            self.context = self.path
         pass
 
 

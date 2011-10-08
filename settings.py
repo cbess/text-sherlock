@@ -98,6 +98,12 @@ DEFAULT_SEARCHER = 'whoosh'
 # default: not Debug (opposite of Debug value) = False
 IGNORE_INDEXER_ERRORS = False
 
+# The tag used to wrap the matched term in the search results. The first index is placed
+# in the front of the matched term and the second index goes after the matched term.
+# type: tuple
+# default: ("<span class='match'>", '</span>')
+MATCHED_TERM_WRAP = ("<span class='match'>", '</span>')
+
 
 # Customzie the settings per installation
 try:
