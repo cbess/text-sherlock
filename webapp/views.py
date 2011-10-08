@@ -53,7 +53,7 @@ def search():
     results = results_from_search_text(search_text, pagenum)
     # build response
     response = {
-        'title' : 'Search',
+        'title' : search_text or 'Search',
         'search_text' : search_text,
         'results' : results.items,
         'total_count' : results.total_count,
