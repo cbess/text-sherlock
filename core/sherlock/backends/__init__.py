@@ -6,23 +6,24 @@ Copyright 2011
 """
 __author__ = 'C. Bess'
 
-import indexer
+import whoosh_backend
 import searcher
 
 # Lists the indexer classes that can handle indexing operations
 AVAILABLE_INDEXERS = {
-    'whoosh' : indexer.WhooshIndexer
+    'whoosh' : whoosh_backend.WhooshIndexer
 }
 
 # Lists the searcher classes that can handle search operations
 AVAILABLE_SEARCHERS = {
-    'whoosh' : searcher.WhooshSearcher
+    'whoosh' : whoosh_backend.WhooshSearcher
 }
 
 
 try:
-    import xapian
-    AVAILABLE_INDEXERS['xapian'] = indexer.XapianIndexer
-    AVAILABLE_SEARCHERS['xapian'] = searcher.XapianSearcher
+    import xapian_backend
+    AVAILABLE_INDEXERS['xapian'] = xapian_backend.XapianIndexer
+    AVAILABLE_SEARCHERS['xapian'] = xapian_backend.XapianSearcher
 except ImportError:
+    print 'Xapian backend support unavailable'
     pass
