@@ -14,7 +14,7 @@ import re
 import os
 import xapian
 from core import settings
-from core.utils import debug, read_file, fragment_text
+from core.utils import debug, safe_read_file, fragment_text, read_file
 from base import FileSearcher, FileIndexer, SearchResult, SearchResults
 
 
@@ -62,7 +62,9 @@ class XapianIndexer(FileIndexer):
 
     def index_file(self, filepath, *args, **kwargs):
         # index file content
-        content = read_file(filepath)
+        contents = safe_read_file(filepath)
+        if contents is None:
+            return
         document = xapian.Document()
         # store file meta
         filename = os.path.basename(filepath)
@@ -70,7 +72,7 @@ class XapianIndexer(FileIndexer):
         document.add_value(self.DOC_VALUE_FILEPATH, filepath)
         # index document and file path
         self.indexer.set_document(document)
-        self.indexer.index_text(content+' '+filepath)
+        self.indexer.index_text(contents+' '+filepath)
         self.index.add_document(document)
         pass
 

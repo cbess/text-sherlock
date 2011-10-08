@@ -12,7 +12,7 @@ from whoosh.fields import *
 from whoosh.qparser import QueryParser
 from whoosh import highlight
 from core import settings
-from core.utils import debug, read_file, fragment_text
+from core.utils import debug, safe_read_file, fragment_text, read_file
 from base import FileSearcher, FileIndexer, SearchResult, SearchResults
 
 ## Indexer
@@ -53,14 +53,17 @@ class WhooshIndexer(FileIndexer):
 
     def index_file(self, filepath, *args, **kwargs):
         assert self._index is not None
-        contents = read_file(filepath)
+        contents = safe_read_file(filepath)
+        if contents is None:
+            return
+        # build doc
         doc = dict(
             filename=unicode(os.path.basename(filepath)),
             path=unicode(filepath),
             content=contents
         )
         self._writer.add_document(**doc)
-        return None
+        pass
 
     def end_index_file(self, filepath):
         self._writer.commit()

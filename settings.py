@@ -86,6 +86,13 @@ DEFAULT_INDEXER = 'whoosh'
 # default: whoosh
 DEFAULT_SEARCHER = 'whoosh'
 
+# Allows the indexer to ignore errors produced during file indexing. For example:
+# any unicode or file read errors, it will skip indexing those files.
+# Backends are not required to support this setting. Built-in backends (whoosh and xapian)
+# honor this setting.
+# default: not Debug (opposite of Debug value) = False
+IGNORE_INDEXER_ERRORS = False
+
 
 # Customzie the settings per installation
 try:

@@ -25,6 +25,19 @@ def read_file(path, encoding='utf-8'):
     return contents
 
 
+def safe_read_file(path, ignore_errors=settings.IGNORE_INDEXER_ERRORS, encoding='utf-8'):
+    """Returns the contents of the file at the specified path. Ignores any
+    errors that may occur
+    """
+    try:
+        contents = read_file(path)
+    except Exception, e:
+        if not ignore_errors:
+            raise e
+        return None
+    return contents
+
+
 def fragment_text(token, text):
     """Returns the text for the specified token.
     :param token: The token or fragment that provides the start and end pos
