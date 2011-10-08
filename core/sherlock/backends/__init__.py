@@ -27,3 +27,11 @@ try:
 except ImportError:
     print 'Xapian backend support unavailable'
     pass
+
+
+# for stats output
+def searcher_names(separator=', '):
+    return separator.join(AVAILABLE_SEARCHERS.keys())
+
+def indexer_names(separator=', '):
+    return separator.join(AVAILABLE_INDEXERS.keys())

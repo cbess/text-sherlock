@@ -21,7 +21,7 @@ except ImportError:
 
 from pdb import set_trace
 from webapp import server
-from core.sherlock import indexer
+from core.sherlock import indexer, backends
 import tests
 import settings
 
@@ -63,6 +63,10 @@ def run():
     if options.run_tests:
         tests.run_all()
     elif options.show_stats:
+        # backend stats
+        print 'Available indexer backends: %s' % backends.indexer_names()
+        print 'Available searcher backends: %s' % backends.searcher_names()
+        # indexer stats
         idxr = indexer.get_indexer()
         print 'Total documents indexed: %d' % idxr.doc_count()
     elif options.run_webapp:
