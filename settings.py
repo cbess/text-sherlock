@@ -81,15 +81,11 @@ SERVICE_ADDRESS = '127.0.0.1'
 # default: 10
 RESULTS_PER_PAGE = 10
 
-# Default file indexer. Available indexers: whoosh and xapian
+# Default file indexer and searcher. Available indexers: whoosh and xapian
+# They can be set to different values only if the two backends are compatible with each other.
 # type: string
 # default: 'whoosh'
-DEFAULT_INDEXER = 'whoosh'
-
-# Default file searcher. Available searchers: whoosh and xapian
-# type: string
-# default: 'whoosh'
-DEFAULT_SEARCHER = 'whoosh'
+DEFAULT_SEARCHER = DEFAULT_INDEXER = 'whoosh'
 
 # Allows the indexer to ignore errors produced during file indexing. For example:
 # any unicode or file read errors, it will skip indexing those files.
