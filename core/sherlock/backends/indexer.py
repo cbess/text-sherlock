@@ -112,22 +112,10 @@ class XapianIndexer(FileIndexer):
         filename = os.path.basename(filepath)
         document.add_value(self.DOC_VALUE_FILENAME, filename)
         document.add_value(self.DOC_VALUE_FILEPATH, filepath)
-        document.add_term('P'+filepath)
-        document.add_term('F'+filename)
-        # index document
+        # index document and file path
         self.indexer.set_document(document)
-        self.indexer.index_text(content)
+        self.indexer.index_text(content+' '+filepath)
         self.index.add_document(document)
-        
-        # index the path to search against it
-#        document = self.xapian.Document()
-#        document.add_value(self.DOC_VALUE_FILENAME, filename)
-#        document.add_value(self.DOC_VALUE_FILEPATH, filepath)
-#        document.set_data(filepath)
-#        # index it
-#        self.indexer.set_document(document)
-#        self.indexer.index_text(filepath)
-#        self.index.add_document(document)
         pass
 
     def end_index_file(self, filepath):

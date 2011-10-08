@@ -190,8 +190,6 @@ class XapianSearcher(FileSearcher):
         self.parser = xapian.QueryParser()
         self.parser.set_stemmer(xapian.Stem("english"))
         self.parser.set_database(database)
-        self.parser.add_prefix("path", "P")
-        self.parser.add_prefix("filename", "F")
         self.parser.set_stemming_strategy(xapian.QueryParser.STEM_SOME)
         self.query = self.parser.parse_query(text, DEFAULT_SEARCH_FLAGS)
         # find using the parsed query
