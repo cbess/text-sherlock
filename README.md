@@ -25,7 +25,8 @@ Includes:
 - Main controller script 
 	- Run `main.py -h` for more information.
 - End-to-end interface
-	- Indexer using [whoosh](http://packages.python.org/Whoosh).
+	- Indexing and searching text (source code). Built-in support for [whoosh](http://packages.python.org/Whoosh) or [xapian](http://xapian.org/).
+	    - Easily extend indexing or searching via custom backends.
 	- Front end web app using [flask](http://flask.pocoo.org).
 	- Settings and configuration using [Python](http://python.org).
 
