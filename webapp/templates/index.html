@@ -3,14 +3,15 @@
 {% block content %}
 <form action="/search" method="GET">
     <div>
-        <label for="text">Text</label>
+        <!--<label for="text">Text</label>-->
         <input type="text"
                class="field"
                name="q"
                autocomplete="off"
                autocorrect="off"
                value="{{ search_text }}"
-               id="text">
+               placeholder="Search text"
+               id="text" />
     </div>
 
     <!--<div>
@@ -25,7 +26,7 @@
         <input type="submit"
                value="Search"
                class="btn primary"
-               id="submit">
+               id="submit" />
     </div>
 
     {% if search_text %}
