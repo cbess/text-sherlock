@@ -11,6 +11,7 @@ except ImportError:
 
 import codecs
 import settings
+from core.sherlock import logger as log
 
 
 def read_file(path, encoding='utf-8'):
@@ -30,8 +31,9 @@ def safe_read_file(path, ignore_errors=settings.IGNORE_INDEXER_ERRORS, encoding=
     errors that may occur
     """
     try:
-        contents = read_file(path)
+        contents = read_file(path, encoding=encoding)
     except Exception, e:
+        log.error('Skipped file: %s' % path)
         if not ignore_errors:
             raise e
         return None
