@@ -2,5 +2,3 @@ flask
 whoosh
 jinja2
 pygments
-# for xapian support
-#xappy
