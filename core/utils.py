@@ -9,6 +9,7 @@ except ImportError:
     debug = set_trace
     pass
 
+import cgi
 import codecs
 import settings
 from core.sherlock import logger as log
@@ -60,7 +61,7 @@ def fragment_text(token, text):
         of the search result context
         """
         token_text = text[token.startchar:token.endchar]
-        return "<span class='match'>%s</span>" % token_text
+        return "[ts[[%s]]ts]" % token_text
     # get text with formatted token
     text = u''.join((bText, format_token(token, text), eText))
     # get the position up to the previous new line
@@ -86,6 +87,8 @@ def fragment_text(token, text):
     # get token and context
     if prevIdx < 0:
         prevIdx = 0
-    token_text = text[prevIdx:nextIdx]
-    return token_text
+    token_text = cgi.escape(text[prevIdx:nextIdx])
+    token_text = token_text.replace('[ts[[', "<span class='match'>")
+    token_text = token_text.replace(']]ts]', '</span>')
+    return token_text[:777]
 

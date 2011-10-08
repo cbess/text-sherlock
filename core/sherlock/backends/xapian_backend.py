@@ -153,6 +153,7 @@ class XapianResults(SearchResults):
 class XapianResult(SearchResult):
     max_lines = settings.NUM_CONTEXT_LINES # fragment context
     new_line = settings.NEW_LINE
+    max_sub_results = 3
     class Token:
         startchar = 0
         endchar = 0
@@ -188,6 +189,8 @@ class XapianResult(SearchResult):
                 # get the context line
                 context = fragment_text(token, content)
                 lines.append(context)
+                if len(lines) >= self.max_sub_results:
+                    break
         self.context = u''.join(lines)
         pass
 

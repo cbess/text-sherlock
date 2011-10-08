@@ -159,11 +159,14 @@ class ResultFragmenter(highlight.Fragmenter):
 class ResultFormatter(highlight.Formatter):
     max_lines = settings.NUM_CONTEXT_LINES # fragment context
     new_line = settings.NEW_LINE
-
+    max_sub_results = 3
+    
     def format(self, fragments, replace=False):
         lines = []
         for fragment in fragments:
             context = fragment_text(fragment, fragment.text)
             lines.append(context)
+            if len(lines) >= self.max_sub_results:
+                break
         final_text = u''.join(lines)
         return final_text
