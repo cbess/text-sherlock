@@ -16,7 +16,7 @@ ROOT_DIR = os.path.abspath('.')
 # An absolute path to the directory that will store all indexes
 # for the search engine. Must have trailing slash.
 # type: string
-# default: %(sherlock_dir)s/data/indexes/
+# default: '%(sherlock_dir)s/data/indexes/'
 INDEXES_PATH = '%(sherlock_dir)s/data/indexes/'
 
 # True if the target path will be indexed recursively (includes sub directories).
@@ -30,9 +30,9 @@ INDEX_RECURSIVE = True
 # default: ''
 LOG_PATH = ''
 
-# New line character value, maybe '\n' or '\r\n'.
+# New line character value, may be '\n' or '\r\n'.
 # type: character|string
-# default: \n
+# default: '\n'
 NEW_LINE = '\n'
 
 # During the indexing all items with the given suffix will be exclude from the index.
@@ -60,6 +60,11 @@ NUM_CONTEXT_LINES = 1
 # default: '%(sherlock_dir)s/tests/text/'
 INDEX_PATH = '%(sherlock_dir)s/tests/text/'
 
+# The default index name that is used. This is an index created within the INDEXES_PATH.
+# type: string
+# default: 'main'
+DEFAULT_INDEX_NAME = 'main'
+
 # The local port to expose the web service.
 # type: integer
 # default: 7777
@@ -78,12 +83,12 @@ RESULTS_PER_PAGE = 10
 
 # Default file indexer. Available indexers: whoosh and xapian
 # type: string
-# default: whoosh
+# default: 'whoosh'
 DEFAULT_INDEXER = 'whoosh'
 
 # Default file searcher. Available searchers: whoosh and xapian
 # type: string
-# default: whoosh
+# default: 'whoosh'
 DEFAULT_SEARCHER = 'whoosh'
 
 # Allows the indexer to ignore errors produced during file indexing. For example:

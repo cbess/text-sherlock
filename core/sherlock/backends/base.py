@@ -115,6 +115,9 @@ class SearchResults(list):
         if self.pagenum > 1 and self.limit > 0:
             self.prev_pagenum = self.pagenum - 1
         self.process_hits(hits)
+        # calculate last page
+        if self.pagenum * self.limit >= self.total_count:
+            self.next_pagenum = -1
         pass
 
     @property

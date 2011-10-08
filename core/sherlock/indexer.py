@@ -12,7 +12,7 @@ from core.sherlock import searcher
 import backends
 
 
-def get_indexer(name='main', rebuild_index=False, **kwargs):
+def get_indexer(name=settings.DEFAULT_INDEX_NAME, rebuild_index=False, **kwargs):
     """Returns an indexer with the specified name. Provides an indexer
     using the default settings.
     :param rebuild_index: True to rebuild the index on open/create. Default is False.
@@ -23,7 +23,7 @@ def get_indexer(name='main', rebuild_index=False, **kwargs):
     return idxr
 
 
-def index_path(path, name='main'):
+def index_path(path, name=settings.DEFAULT_INDEX_NAME):
     """Indexes the files at the given path and places then in
     the specified index.
     :param path: The absolute path to the directory or file to index.
@@ -37,7 +37,7 @@ def index_path(path, name='main'):
 
 
 class Indexer(object):
-    def __init__(self, name='main', *args, **kwargs):
+    def __init__(self, name=settings.DEFAULT_INDEX_NAME, *args, **kwargs):
         """Initializes this instance with the given arguments.
         @param kwargs {
             rebuild_index = True
