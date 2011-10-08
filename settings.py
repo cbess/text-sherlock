@@ -76,12 +76,12 @@ SERVICE_ADDRESS = '127.0.0.1'
 # default: 10
 RESULTS_PER_PAGE = 10
 
-# Default file indexer
+# Default file indexer. Available indexers: whoosh and xapian
 # type: string
 # default: whoosh
 DEFAULT_INDEXER = 'whoosh'
 
-# Default file searcher
+# Default file searcher. Available searchers: whoosh and xapian
 # type: string
 # default: whoosh
 DEFAULT_SEARCHER = 'whoosh'
