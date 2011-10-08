@@ -109,7 +109,7 @@ class SearchResults(list):
         self.total_count = kwargs.get('total_count', -1)
         self.pagenum = kwargs.get('pagenum', 0)
         self.limit = kwargs.get('limit', settings.RESULTS_PER_PAGE)
-        self.searcher = searcher
+        self._searcher = searcher
         self.next_pagenum = self.pagenum + 1
         self.prev_pagenum = -1
         if self.pagenum > 1 and self.limit > 0:
@@ -123,8 +123,14 @@ class SearchResults(list):
         """
         return self._items
 
+    @property
+    def searcher(self):
+        return self._searcher
+
     def process_hits(self, hits):
-        """Processes the raw search result hits
+        """Processes the raw search result hits. It must add the processed
+        hit as a base.SearchResult instance, then pass it to `this.append` to store
+        them as a result.
         """
         raise NotImplementedError
 
@@ -149,8 +155,8 @@ class SearchResult(object):
         """
         # the textual context of the hit
         self.context = ''
-        self.path = kwargs['path']
-        self.filename = kwargs['filename']
+        self.path = kwargs.get('path')
+        self.filename = kwargs.get('filename')
         # build index path
         path = settings.INDEX_PATH % { 'sherlock_dir' : settings.ROOT_DIR }
         self.index_path = self.path.replace(path, '')
@@ -158,8 +164,9 @@ class SearchResult(object):
         pass
 
     def process_hit(self, hit):
-        """Process the result data, reads the original file to produce
-        the context
-        @remark For now it only processes to get the context for the result
+        """Process the result data, it should read the original file to produce
+        the processed search result.
+        @remark For now it only processes to get the context for the result. The
+        processing operation should populate the default class properties.
         """
         raise NotImplementedError

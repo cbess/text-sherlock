@@ -71,20 +71,29 @@ class WhooshIndexer(FileIndexer):
 
 
 class XapianIndexer(FileIndexer):
+    DOC_VALUE_FILENAME = 0
+    DOC_VALUE_FILEPATH = 1
     def __init__(self, *args, **kwargs):
         super(XapianIndexer, self).__init__(*args, **kwargs)
         import xapian
         self.xapian = xapian
+        self._path = None
         pass
+
+    @property
+    def path(self):
+        return self._path
 
     def doc_count(self):
         return self.index.get_doccount()
 
     def open_index(self, path, *args, **kwargs):
+        self._path = path
         self.index = self.xapian.WritableDatabase(path, self.xapian.DB_OPEN)
         pass
 
     def create_index(self, path, *args, **kwargs):
+        self._path = path
         self.index = self.xapian.WritableDatabase(path, self.xapian.DB_CREATE_OR_OVERWRITE)
         pass
 
@@ -96,20 +105,29 @@ class XapianIndexer(FileIndexer):
         pass
 
     def index_file(self, filepath, *args, **kwargs):
-        # get file content
+        # index file content
         content = read_file(filepath)
         document = self.xapian.Document()
-#        document.set_data(content)
-        # store fileName
+        # store file meta
         filename = os.path.basename(filepath)
-        document.add_value(0, filename)
-        # store file path
-        document.add_value(1, filepath)
+        document.add_value(self.DOC_VALUE_FILENAME, filename)
+        document.add_value(self.DOC_VALUE_FILEPATH, filepath)
+        document.add_term('P'+filepath)
+        document.add_term('F'+filename)
         # index document
         self.indexer.set_document(document)
         self.indexer.index_text(content)
-        # store indexed content in database
         self.index.add_document(document)
+        
+        # index the path to search against it
+#        document = self.xapian.Document()
+#        document.add_value(self.DOC_VALUE_FILENAME, filename)
+#        document.add_value(self.DOC_VALUE_FILEPATH, filepath)
+#        document.set_data(filepath)
+#        # index it
+#        self.indexer.set_document(document)
+#        self.indexer.index_text(filepath)
+#        self.index.add_document(document)
         pass
 
     def end_index_file(self, filepath):

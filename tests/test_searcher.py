@@ -51,7 +51,7 @@ class TestSearcher(testcase.BaseTestCase):
         self.assertTrue(len(results) > 1, 'not enough results from the search, expected more than 1 but, found %d' % len(results))
         # search by path
         results = idx.search_path(os.path.join(path, 'objc_example.m'))
-        self.assertTrue(len(results) == 1, 'wrong number of results, expected 1, but found %d' % len(results))
+        self.assertTrue(len(results) == 1, 'wrong number of results for the path search, expected 1, but found %d' % len(results))
         pass
 
 
