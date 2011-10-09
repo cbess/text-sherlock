@@ -7,6 +7,7 @@
 {% block content %}
     &larr; <a href="/search?q={{ search_text }}&p={{ page_number }}">Back to search</a>
     <h3>{{ doc.result.path }}</h3>
+    <a href='{{ request.url }}&raw=true'>raw</a>
     <div class="syntax">
     {{ contents|safe }}
     </div>

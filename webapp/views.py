@@ -3,7 +3,7 @@
 
 import os
 from server import app
-from flask import render_template, request, abort
+from flask import render_template, request, abort, Response
 from core.sherlock import indexer, searcher, transformer
 from core import settings as core_settings
 from core.utils import debug, read_file
@@ -73,6 +73,7 @@ def document():
     """
     root_dir = core_settings.INDEX_PATH % { 'sherlock_dir' : core_settings.ROOT_DIR }
     full_path = request.args.get('path')
+    is_raw = (request.args.get('raw') == 'true')
     # if the full path wasn't appended, then append it (assumes path exist in default index path)
     if root_dir not in full_path:
         full_path = os.path.join(root_dir, full_path)
@@ -85,6 +86,9 @@ def document():
         abort(404)
     doc = results.items[0]
     doc_contents = read_file(full_path)
+    if is_raw:
+        # dump the document text
+        return Response(doc_contents, mimetype='text/plain')
     # get syntax highlighted html
     trn = transformer.Transformer()
     doc_html = trn.to_html(doc_contents, doc.result.filename)
