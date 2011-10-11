@@ -79,6 +79,11 @@ def run():
         path = options.index_path
         if path == 'default':
             path = settings.INDEX_PATH
+            # check path
+            if not path.endswith('/'):
+                raise Exception('INDEX_PATH must end with a trailing slash.')
+        if not os.path.exists(path):
+            raise Exception('Check INDEX_PATH. Does it exist?')
         path = path % { 'sherlock_dir' : settings.ROOT_DIR }
         print 'Indexing path: %s' % path
         indexer.index_path(path)
