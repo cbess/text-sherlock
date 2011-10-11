@@ -24,7 +24,7 @@ from webapp import server
 from core.sherlock import indexer, backends
 import tests
 import settings
-
+import os
 
 def get_app_args():
     """Returns the application arguments from stdin
