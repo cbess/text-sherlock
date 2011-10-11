@@ -7,7 +7,6 @@ Copyright 2011
 __author__ = 'C. Bess'
 
 import whoosh_backend
-import searcher
 
 # Lists the indexer classes that can handle indexing operations
 AVAILABLE_INDEXERS = {
