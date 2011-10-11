@@ -10,6 +10,10 @@ html body {
     width: 850px;
     margin: 0 auto;
 }
+.document #content {
+    margin: auto;
+    width: auto;
+}
 #content .field {
     width: 300px;
     font-size: 19px;

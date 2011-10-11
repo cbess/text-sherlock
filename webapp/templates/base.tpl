@@ -1,4 +1,4 @@
-<html>
+<html class='{{ html_css_class }}'>
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
         <title>{% block title %}{{ title }}{% endblock %} - Text Sherlock</title>
@@ -8,7 +8,7 @@
 
         {% endblock %}
     </head>
-    <body id="">
+    <body>
         <div id="content">
         {% block content %}
             Content here

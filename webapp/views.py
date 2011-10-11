@@ -54,6 +54,7 @@ def search():
     # build response
     response = {
         'title' : search_text or 'Search',
+        'html_css_class' : 'search',
         'search_text' : search_text,
         'results' : results.items,
         'total_count' : results.total_count,
@@ -95,6 +96,7 @@ def document():
     # build response
     response = {
         "title" : doc.result.filename,
+        'html_css_class' : 'document',
         'doc' : doc,
         'contents' : doc_html,
         'search_text' : search_text,
