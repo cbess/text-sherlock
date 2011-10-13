@@ -4,6 +4,7 @@
         <title>{% block title %}{{ title }}{% endblock %} - Text Sherlock</title>
         <link rel="stylesheet" href="/static/css/bootstrap.min.css">
         <link rel="stylesheet" href="/static/css/main.css" type="text/css" media="screen" charset="utf-8">
+        <script src='/static/js/jquery.min.js'></script>
         {% block header %}
 
         {% endblock %}

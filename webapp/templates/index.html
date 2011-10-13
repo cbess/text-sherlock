@@ -1,5 +1,9 @@
 {% extends "base.tpl" %}
 
+{% block header %}
+<script src='/static/js/search.js'></script>
+{% endblock %}
+
 {% block content %}
 <form action="/search" method="GET">
     <div>
