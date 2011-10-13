@@ -195,7 +195,7 @@ class XapianResult(SearchResult):
                 token.endchar = match.end()
                 # get the context line
                 context = fragment_text(token, contents)
-                lines.append(context)
+                self.append_line(lines, context)
                 if len(lines) >= self.max_sub_results:
                     break
         return u''.join(lines)

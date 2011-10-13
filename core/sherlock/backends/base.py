@@ -173,3 +173,8 @@ class SearchResult(object):
         processing operation should populate the default class properties.
         """
         raise NotImplementedError
+        
+    def append_line(self, lines, text):
+        """ Appends the text to the target lines """        
+        lines.append("<div class='line'>%s</div>\n" % text.strip())
+        pass
