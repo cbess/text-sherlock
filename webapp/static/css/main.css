@@ -60,7 +60,8 @@ label {
     margin: -10px;
 }
 .result .line:hover {
-    background-color: ghostWhite;
+    background-color: #f0f0ff;
+    border-radius: 3px;
 }
 td.linenos {
     padding-right: 0;
