@@ -9,19 +9,25 @@ echo "Setting up core packages"
 mkdir ../data
 mkdir ../data/indexes
 
-# for the webapp
+# for the sherlock.webapp
 echo "grabbing flask"
 curl -o flask.zip https://nodeload.github.com/mitsuhiko/flask/zipball/0.7.2
 unzip flask.zip
 cp -r mitsuhiko-flask-*/flask ../core
 
-# flask dependency
+# flask web server
 echo "grabbing Werkzeug"
 curl -o Werkzeug.tar.gz http://pypi.python.org/packages/source/W/Werkzeug/Werkzeug-0.7.1.tar.gz
 tar -xvzf Werkzeug.tar.gz
 cp -r Werkzeug-*/werkzeug ../core
 
-#required for sherlock.transformer
+# cherrypy web server
+echo "grabbing cherrypy"
+curl -o cherrypy.zip http://download.cherrypy.org/cherrypy/3.2.0/CherryPy-3.2.0.zip
+unzip cherrypy.zip
+cp -r CherryPy*/py2/cherrypy ../core
+
+# required for sherlock.webapp
 echo "grabbing Jinja2"
 curl -o jinja2.tar.gz http://pypi.python.org/packages/source/J/Jinja2/Jinja2-2.5.tar.gz
 tar -xvzf jinja2.tar.gz

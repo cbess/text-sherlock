@@ -11,4 +11,3 @@ logger = logging.getLogger('core.sherlock')
 from core import whoosh
 from core import pygments
 from core import flask
-# from core import jinja2

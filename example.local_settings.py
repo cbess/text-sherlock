@@ -29,3 +29,8 @@ INCLUDE_FILE_SUFFIX = (
 # honor this setting.
 # default: not Debug (opposite of Debug value) = False
 IGNORE_INDEXER_ERRORS = not DEBUG
+
+# The name of the server type to use as the web server.
+# type: string
+# default: None or 'cherrypy'
+SERVER_TYPE = 'cherrypy'
