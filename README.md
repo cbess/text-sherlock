@@ -1,16 +1,17 @@
 # Text Sherlock (or Sherlock or TS)
 
-Provides an easy to install and use search engine for text, but mostly for source code. [OpenGrok](http://hub.opensolaris.org/bin/view/Project+opengrok/) requires to much time to install (though it may be worth it for some). Sherlock will give you a much easier setup, a text indexer, and a web app interface for searching.
+Provides an easy to install and use search engine for text but, mostly for source code. [OpenGrok](http://hub.opensolaris.org/bin/view/Project+opengrok/) requires to much time to install (though it may be worth it for some). Sherlock will give you a much easier setup, a text indexer, and a web app interface for searching.
 
 ## Basic Setup
 
 Instructions:
 
-1. Download and place the sherlock source code in the desired (install) directory. This will be where sherlock lives.
+1. Download [sherlock](https://github.com/cbess/text-sherlock) source
+1. Extract/place the sherlock source code in the desired (install) directory. This will be where sherlock lives.
 1. Run one of the setup scripts in `/setup` to download core packages.
 1. Update `settings.py`. It provides adequate documentation for each setting.
 1. Run `main.py --index-path` to index target directory/content. Watch indexing output.
-1. Run `main.py --run-webapp` to startup the web service.
+1. Run `main.py --run-webapp` to start the web server.
 1. Go to `http://localhost:5000` to access the web interface. Uses the [twitter bootstrap](http://twitter.github.com/bootstrap) for its UI.
 
 ---
@@ -27,7 +28,9 @@ Includes:
 - End-to-end interface
 	- Indexing and searching text (source code). Built-in support for [whoosh](http://packages.python.org/Whoosh) or [xapian](http://xapian.org/).
 	    - Easily extend indexing or searching via custom backends.
-	- Front end web app using [flask](http://flask.pocoo.org).
+	- Front end web app served using [werkzeug](http://werkzeug.pocoo.org/) or [cherrypy](http://www.cherrypy.org/).
+	    - `werkzeug` is for development to small traffic.
+	    - `cherrypy` is a high-speed, production ready, thread pooled, generic HTTP server.
 	- Settings and configuration using [Python](http://python.org).
 
 ### Web Interface
@@ -44,7 +47,14 @@ settings.py
     - Available backends:
         - `whoosh` the default, no extra work needed.
         - `xapian` must be installed separately using the included `setup/install-xapian.sh` setup script.
-
+        
+## Using other web servers
+- Text Sherlock has built-in support for [werkzeug](http://werkzeug.pocoo.org/) and [cherrypy](http://www.cherrypy.org/) WSGI compliant servers.
+    - Available server types:
+        - `default`, werkzeug, no extra work required.
+        - `cherrypy`, to use install cherrypy.
+            - For pip installs, uncomment the cherrypy line in `setup/requirements.txt`, then run `pip install -r requirements.txt`.
+            - For manual installs, [download the latest stable version](http://www.cherrypy.org/wiki/CherryPyDownload) of cherrypy.
 
 ## Core packages
 
@@ -62,6 +72,8 @@ settings.py
 * http://twitter.github.com/bootstrap/examples/container-app.html
 * http://pygments.org/
 * http://charlesleifer.com/docs/peewee/
+* http://www.cherrypy.org/
+* http://xapian.org/
 
 ## Project Goals
 

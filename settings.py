@@ -65,6 +65,12 @@ INDEX_PATH = '%(sherlock_dir)s/tests/text/'
 # default: 'main'
 DEFAULT_INDEX_NAME = 'main'
 
+# The name of the server type to use as the web server.
+# Cherrypy support is built-in, if installed use: 'cherrypy'.
+# type: string
+# default: None
+SERVER_TYPE = None
+
 # The local port to expose the web server.
 # type: integer
 # default: 7777
@@ -78,12 +84,14 @@ SERVER_ADDRESS = '127.0.0.1'
 
 # The number of processes to spawn for the server.
 # You can only have one or the other; multi-threaded or multi-process.
+# Ignored if using default server.
 # type: integer
 # default: 1
 SERVER_PROCESSES = 1
 
 # True if the web server process should handle each request in a separate thread.
 # You can only have one or the other; multi-threaded or multi-process.
+# Ignored if using the default server.
 # type: boolean
 # default: False
 SERVER_IS_THREADED = False
