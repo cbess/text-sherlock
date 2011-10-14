@@ -87,17 +87,6 @@ class XapianIndexer(FileIndexer):
 ## Searcher
 
 class XapianSearcher(FileSearcher):
-    class MatchDecider(xapian.MatchDecider):
-        def __init__(self, path, value):
-            xapian.MatchDecider.__init__(self)
-            self.path = path
-            self.doc_value = value
-            pass
-
-        def __call__(self, document):
-            path = xapian.sortable_unserialise(document.get_value(self.doc_value))
-            return path == self.path
-
     def __init__(self, indexer):
         super(XapianSearcher, self).__init__(indexer)
         self._index = indexer.index
@@ -125,9 +114,7 @@ class XapianSearcher(FileSearcher):
         enquire.set_query(self.query)
         offset = pagenum * limit - limit
         matches = enquire.get_mset(offset, limit)
-        return self._get_results(matches, pagenum, limit)
-
-    def _get_results(self, matches, pagenum, limit):
+        # build results
         results = XapianResults(
             self,
             matches,
@@ -153,7 +140,7 @@ class XapianResults(SearchResults):
 class XapianResult(SearchResult):
     max_lines = settings.NUM_CONTEXT_LINES # fragment context
     new_line = settings.NEW_LINE
-    max_sub_results = 3
+    max_sub_results = settings.MAX_SUB_RESULTS
     class Token:
         startchar = 0
         endchar = 0

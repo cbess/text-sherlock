@@ -76,10 +76,15 @@ SERVICE_PORT = 7777
 # default: '127.0.0.1' or 'localhost'
 SERVICE_ADDRESS = '127.0.0.1'
 
-# Default number of results per page
+# Default number of results per page.
 # type: integer
 # default: 10
 RESULTS_PER_PAGE = 10
+
+# Default number of sub results shown in each search result.
+# type: integer
+# default: 3
+MAX_SUB_RESULTS = 3
 
 # Default file indexer and searcher. Available indexers: whoosh and xapian
 # They can be set to different values only if the two backends are compatible with each other.
