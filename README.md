@@ -51,10 +51,8 @@ settings.py
 ## Using other web servers
 - Text Sherlock has built-in support for [werkzeug](http://werkzeug.pocoo.org/) and [cherrypy](http://www.cherrypy.org/) WSGI compliant servers.
     - Available server types:
-        - `default`, werkzeug, no extra work required.
-        - `cherrypy`, to use install cherrypy.
-            - For pip installs, uncomment the cherrypy line in `setup/requirements.txt`, then run `pip install -r requirements.txt`.
-            - For manual installs, [download the latest stable version](http://www.cherrypy.org/wiki/CherryPyDownload) of cherrypy.
+        - `default`, werkzeug web server (default).
+        - `cherrypy`, production ready web server.
 
 ## Core packages
 
