@@ -65,16 +65,28 @@ INDEX_PATH = '%(sherlock_dir)s/tests/text/'
 # default: 'main'
 DEFAULT_INDEX_NAME = 'main'
 
-# The local port to expose the web service.
+# The local port to expose the web server.
 # type: integer
 # default: 7777
-SERVICE_PORT = 7777
+SERVER_PORT = 7777
 
-# The local address to access the web service (the host name to listen on).
+# The local address to access the web server (the host name to listen on).
 # Use '0.0.0.0' to make it available externally.
 # type: string
 # default: '127.0.0.1' or 'localhost'
-SERVICE_ADDRESS = '127.0.0.1'
+SERVER_ADDRESS = '127.0.0.1'
+
+# The number of processes to spawn for the server.
+# You can only have one or the other; multi-threaded or multi-process.
+# type: integer
+# default: 1
+SERVER_PROCESSES = 1
+
+# True if the web server process should handle each request in a separate thread.
+# You can only have one or the other; multi-threaded or multi-process.
+# type: boolean
+# default: False
+SERVER_IS_THREADED = False
 
 # Default number of results per page.
 # type: integer

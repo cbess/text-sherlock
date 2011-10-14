@@ -71,11 +71,7 @@ def run():
         print 'Total documents indexed: %d' % idxr.doc_count()
     elif options.run_webapp:
         print 'Backend: %s' % settings.DEFAULT_SEARCHER
-        server.app.run(
-            host=settings.SERVICE_ADDRESS,
-            port=settings.SERVICE_PORT,
-            debug=settings.DEBUG
-        )
+        server.run()
     elif options.index_path:
         path = options.index_path
         if path == 'default':
