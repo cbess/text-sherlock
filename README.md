@@ -6,7 +6,7 @@ Provides an easy to install and use search engine for text but, mostly for sourc
 
 Instructions:
 
-1. Download [sherlock](https://github.com/cbess/text-sherlock) source
+1. Download [sherlock](https://github.com/cbess/text-sherlock) source from [GitHub](https://github.com/cbess/text-sherlock).
 1. Extract/place the sherlock source code in the desired (install) directory. This will be where sherlock lives.
 1. Run one of the setup scripts in `/setup` to download core packages.
 1. Update `settings.py`. It provides adequate documentation for each setting.
@@ -19,7 +19,7 @@ Instructions:
 Includes:
 
 - Settings/Configuration
-	- See `settings.py`
+	- See `settings.py` for details.
 - Setup scripts (read contents of script for more information)
 	- Run `manual-setup.sh` to perform an in directory install. Easiest setup.
 	- Run `virtualenv-setup.sh` to perform an isolated installation. Preferred setup.
