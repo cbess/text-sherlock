@@ -2,5 +2,5 @@ flask
 whoosh
 jinja2
 pygments
-# for production servers
 cherrypy
+peewee

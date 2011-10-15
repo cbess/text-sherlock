@@ -5,6 +5,7 @@ Copyright: 2011
 """
 
 from core import settings
+from core.sherlock import db
 
 ## Indexer Base Classes
 
@@ -34,6 +35,12 @@ class FileIndexer(object):
         open document writers for the indexer.
         """
         pass
+
+    def can_index_file(self, filepath):
+        """Returns True if the specified file can be indexed. By default it checks the indexer database to see
+        if the target file has been updated.
+        """
+        return db.can_update_index(filepath)
 
     def index_file(self, filepath, *args, **kwargs):
         """Indexes and stores the file at the specified path

@@ -5,3 +5,4 @@ import flask
 import pygments
 import settings
 from cherrypy import wsgiserver as cherrypy_wsgiserver
+import peewee

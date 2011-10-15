@@ -61,6 +61,8 @@ class XapianIndexer(FileIndexer):
         pass
 
     def index_file(self, filepath, *args, **kwargs):
+        if not self.can_index_file(filepath):
+            return
         # index file content
         contents = safe_read_file(filepath)
         if contents is None:
