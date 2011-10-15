@@ -7,18 +7,20 @@ Copyright 2011
 
 import os
 import settings
+from core import FULL_INDEXES_PATH, FORCE_INDEX_REBUILD
 from core.sherlock import logger as log
 from core.sherlock import searcher
 import backends
+from core.utils import debug
 
 
-def get_indexer(name=settings.DEFAULT_INDEX_NAME, rebuild_index=False, **kwargs):
+def get_indexer(name=settings.DEFAULT_INDEX_NAME, rebuild_index=FORCE_INDEX_REBUILD, **kwargs):
     """Returns an indexer with the specified name. Provides an indexer
     using the default settings.
     :param rebuild_index: True to rebuild the index on open/create. Default is False.
     """
     idxr = Indexer(name, recursive=settings.INDEX_RECURSIVE, rebuild_index=rebuild_index)
-    path = settings.INDEXES_PATH % { 'sherlock_dir' : os.path.abspath('.') }
+    path = FULL_INDEXES_PATH
     idxr.open(path, **kwargs)
     return idxr
 
@@ -31,7 +33,7 @@ def index_path(path, name=settings.DEFAULT_INDEX_NAME):
     target path to.
     """
     # index a file for the search
-    idxr = get_indexer(name, rebuild_index=True)
+    idxr = get_indexer(name, rebuild_index=FORCE_INDEX_REBUILD)
     idxr.index_text(path)
     pass
 
@@ -190,8 +192,13 @@ class Indexer(object):
     def __index_file(self, filepath):
         """Indexes the contents of the file at the specified path.
         """
+        has_file_changed, db_record = self._index.has_file_updated(filepath)
+        if FORCE_INDEX_REBUILD:
+            has_file_changed = True
+        if not has_file_changed:
+            return
         log.debug('indexing file: %s' % filepath)
-        self._index.index_file(filepath)
+        self._index.index_file(filepath, document_id=db_record.id)
         pass
 
         

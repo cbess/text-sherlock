@@ -1,20 +1,31 @@
+# encoding: utf-8
+"""
+indexer.py
+Created by Christopher Bess
+Copyright 2011
+
+refs:
+https://github.com/coleifer/peewee/blob/master/README.rst
+"""
 import os
 import stat  # index constants for os.stat()
 import time
 from datetime import datetime
 from core import peewee
-from core import settings
+from core import settings, FULL_INDEXES_PATH
 from core.utils import debug
 
+try:
+    import sqlite3
+except ImportError:
+    from pysqlite2 import dbapi2 as sqlite3
 
-db_path = os.path.join(settings.INDEXES_PATH % {'sherlock_dir' : settings.ROOT_DIR },
-                       '%s-index.db' % settings.DEFAULT_INDEX_NAME)
-print 'Index Database: '+db_path
 
+DATABASE_PATH = os.path.join(FULL_INDEXES_PATH, '%s-index.db' % settings.DEFAULT_INDEX_NAME)
 
 class BaseModel(peewee.Model):
     class Meta:
-        database = peewee.SqliteDatabase(db_path)
+        database = peewee.SqliteDatabase(DATABASE_PATH)
 
 
 class IndexerMeta(BaseModel):
@@ -29,7 +40,7 @@ IndexerMeta.create_table(fail_silently=True)
 
 ## Database Methods
 
-def is_file_updated(filepath, check_file_exists=False, create=False):
+def is_file_updated(filepath, check_file_exists=False, update_db=False):
     """Determines if the target filepath is new or updated. Attempts to find the
     record by file path then compares the file stats.
     :return: tuple has_changed, db_record
@@ -49,12 +60,17 @@ def is_file_updated(filepath, check_file_exists=False, create=False):
     record = None
     query = IndexerMeta.select().where(path=filepath)
     if query.exists():
+        # get the one record
         record = [q for q in query][0]
         # compare mod dates
         if last_mod_dt > record.mod_date:
+            # file on disk has changes after db record changed
             has_file_changed = True
+        if update_db:
+            record.mod_date = last_mod_dt
+            record.save()
     else:
-        if create:
+        if update_db:
             record = IndexerMeta.create(
                 path=filepath,
                 mod_date=last_mod_dt,
@@ -64,9 +80,41 @@ def is_file_updated(filepath, check_file_exists=False, create=False):
     return has_file_changed, record
 
 
-def can_update_index(filepath, create=True):
+def can_update_index(filepath, update_db=True):
     """Returns True if the target file should be updated or added to the index. Also, creates a DB entry if
     it can be updated.
     """
-    is_updated, record = is_file_updated(filepath, create=create)
+    is_updated, record = is_file_updated(filepath, update_db=update_db)
     return is_updated
+
+
+def get_file_record(filepath):
+    """Returns the database record for the target filepath.
+    """
+    record = IndexerMeta.select().get(path=filepath)
+    return record
+
+
+def get_raw_file_record(filepath):
+    """Returns the raw file record, connecting to the database at a lower level (without peewee).
+    """
+    database = sqlite3.connect(DATABASE_PATH)
+    cursor = database.cursor()
+    # get the results
+    try:
+        record = { }
+        records = cursor.execute("""
+        SELECT * FROM indexermeta WHERE path = ? LIMIT 1
+        """, (filepath,))
+        # get the record data
+        col_data = records.next()
+        for idx, data in enumerate(col_data):
+            col = records.description[idx][0] # column name
+            record[col] = col_data[idx] # column value
+    except Exception, e:
+        print 'Raw sql error: %s' % e
+        return record
+    # close the connection
+    cursor.close()
+    database.close()
+    return record

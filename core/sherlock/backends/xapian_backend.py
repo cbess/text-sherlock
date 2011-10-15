@@ -1,6 +1,6 @@
 # encoding: utf-8
 """
-indexer.py
+xapian_backend.py
 Created by Christopher Bess
 Copyright 2011
 
@@ -61,8 +61,6 @@ class XapianIndexer(FileIndexer):
         pass
 
     def index_file(self, filepath, *args, **kwargs):
-        if not self.can_index_file(filepath):
-            return
         # index file content
         contents = safe_read_file(filepath)
         if contents is None:
@@ -75,7 +73,11 @@ class XapianIndexer(FileIndexer):
         # index document and file path
         self.indexer.set_document(document)
         self.indexer.index_text(contents+' '+filepath)
-        self.index.add_document(document)
+        doc_id = kwargs.get('document_id')
+        if doc_id:
+            self.index.replace_document(doc_id, document)
+        else:
+            self.index.add_document(document)
         pass
 
     def end_index_file(self, filepath):

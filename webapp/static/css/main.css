@@ -36,6 +36,11 @@ a:visited {
 label {
     width: auto;
 }
+/*Document styles*/
+.document #last-mod {
+    font-size: small;
+    color: #808080;
+}
 /*Search results styles*/
 #results {
     margin-top: 5px;

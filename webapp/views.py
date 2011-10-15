@@ -4,8 +4,8 @@
 import os
 from server import app
 from flask import render_template, request, abort, Response
-from core.sherlock import indexer, searcher, transformer
-from core import settings as core_settings
+from core.sherlock import indexer, searcher, transformer, db
+from core import settings as core_settings, FULL_INDEXES_PATH
 from core.utils import debug, read_file
 
 
@@ -72,7 +72,7 @@ def search():
 def document():
     """Handles document display requests
     """
-    root_dir = core_settings.INDEX_PATH % { 'sherlock_dir' : core_settings.ROOT_DIR }
+    root_dir = FULL_INDEXES_PATH
     full_path = request.args.get('path')
     is_raw = (request.args.get('raw') == 'true')
     # if the full path wasn't appended, then append it (assumes path exist in default index path)
@@ -93,6 +93,7 @@ def document():
     # get syntax highlighted html
     trn = transformer.Transformer()
     doc_html = trn.to_html(doc_contents, doc.result.filename)
+    db_record = db.get_raw_file_record(full_path)
     # build response
     response = {
         "title" : doc.result.filename,
@@ -100,6 +101,7 @@ def document():
         'doc' : doc,
         'contents' : doc_html,
         'search_text' : search_text,
-        'page_number' : pagenum
+        'page_number' : pagenum,
+        'last_modified' : db_record.get('mod_date')
     }
     return render_template('document.html', **response)

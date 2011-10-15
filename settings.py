@@ -52,7 +52,7 @@ INCLUDE_FILE_SUFFIX = None
 # default: 1
 NUM_CONTEXT_LINES = 1
 
-# The absolute path to index when the indexing is ran with the 'default' option.
+# The absolute path to index when the indexing is performed.
 # This is the index that has the original text to be indexed. This is also used when displaying
 # the actual document from the search results. Must have trailing slash.
 # The user running the app must have read access to the path.
@@ -108,8 +108,8 @@ IGNORE_INDEXER_ERRORS = False
 # The tag used to wrap the matched term in the search results. The first index is placed
 # in the front of the matched term and the second index goes after the matched term.
 # type: tuple
-# default: ("<span class='match'>", '</span>')
-MATCHED_TERM_WRAP = ("<span class='match'>", '</span>')
+# default: ("<span class='match'>", "</span>")
+MATCHED_TERM_WRAP = ("<span class='match'>", "</span>")
 
 
 # Customzie the settings per installation

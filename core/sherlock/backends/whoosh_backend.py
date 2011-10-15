@@ -3,6 +3,10 @@
 whoosh_backend.py
 Created by Christopher Bess
 Copyright 2011
+
+refs:
+http://packages.python.org/Whoosh/quickstart.html
+http://packages.python.org/Whoosh/indexing.html
 """
 __author__ = 'C. Bess'
 
@@ -21,7 +25,7 @@ class WhooshIndexer(FileIndexer):
     # Text index schema
     schema = Schema(
         filename=TEXT(stored=True),
-        path=ID(stored=True),
+        path=ID(stored=True, unique=True),
         content=TEXT
     )
     _index = None
@@ -63,7 +67,7 @@ class WhooshIndexer(FileIndexer):
             path=path,
             content=contents + path
         )
-        self._writer.add_document(**doc)
+        self._writer.update_document(**doc)
         pass
 
     def end_index_file(self, filepath):

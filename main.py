@@ -22,6 +22,8 @@ except ImportError:
 from pdb import set_trace
 from webapp import server
 from core.sherlock import indexer, backends
+from core.utils import resolve_path
+from core.sherlock import db
 import tests
 import settings
 import os
@@ -45,18 +47,17 @@ def run():
     add_argument("--stats", dest="show_stats",
                     action='store_true',
                       help="Show sherlock statistics.")
-    add_argument('--run-webapp', dest='run_webapp',
+    add_argument('--runserver', dest='run_server',
                  action='store_true',
-                    help='Run the Sherlock webapp.')
+                    help='Run the Sherlock web server.')
     # not available, yet
 #    add_argument("-q", "--quiet",
 #                      action="store_false", dest="verbose", default=True,
 #                      help="Don't print status messages to stdout.")
-    add_argument("--index-path", dest="index_path",
+    add_argument("--index", dest="reindex",
                     action='store',
-                      help="Indexes the files at the given path or use `default` "\
-                            "to index the item(s) at settings.INDEX_PATH "\
-                            "(replaces the index).")
+                      help="Indexes the in the path specified by settings.INDEX_PATH. "\
+                            "Use `update` (default) or `rebuild` to replace the entire index.")
     options = get_app_args()
 
     # determine app action
@@ -66,24 +67,24 @@ def run():
         # backend stats
         print 'Available indexer backends: %s' % backends.indexer_names()
         print 'Available searcher backends: %s' % backends.searcher_names()
+        print 'Current backend: %s' % settings.DEFAULT_SEARCHER
         # indexer stats
         idxr = indexer.get_indexer()
         print 'Total documents indexed: %d' % idxr.doc_count()
-    elif options.run_webapp:
+        # database stats
+        print 'Index Database: %s' % db.DATABASE_PATH
+    elif options.run_server:
         print 'Backend: %s' % settings.DEFAULT_SEARCHER
         print 'Server: %s' % settings.SERVER_TYPE
         # launch web server
         server.run()
-    elif options.index_path:
-        path = options.index_path
-        if path == 'default':
-            path = settings.INDEX_PATH
-            # check path
-            if not path.endswith('/'):
-                raise Exception('INDEX_PATH must end with a trailing slash.')
+    elif options.reindex:
+        path = resolve_path(settings.INDEX_PATH)
+        # check path
+        if not path.endswith('/'):
+            raise Exception('INDEX_PATH must end with a trailing slash. %s' % path)
         if not os.path.exists(path):
-            raise Exception('Check INDEX_PATH. Does it exist?')
-        path = path % { 'sherlock_dir' : settings.ROOT_DIR }
+            raise Exception('Check INDEX_PATH. Does it exist? %s' % path)
         print 'Indexing path: %s' % path
         indexer.index_path(path)
     else:

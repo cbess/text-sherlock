@@ -25,6 +25,7 @@ class BaseTestCase(unittest.TestCase):
     
     def setUp(self):
         self.test_dir = '%s/tests' % settings.ROOT_DIR
+        settings.DEFAULT_INDEX_NAME = 'test'
         pass
 
     def get_test_string(self):

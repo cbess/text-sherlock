@@ -6,7 +6,6 @@
         <link rel="stylesheet" href="/static/css/main.css" type="text/css" media="screen" charset="utf-8">
         <script src='/static/js/jquery.min.js'></script>
         {% block header %}
-
         {% endblock %}
     </head>
     <body>
@@ -15,5 +14,9 @@
             Content here
         {% endblock %}
         </div>
+<!--
+    For His glory (Hebrews 1, Colossians 1, Genesis 1).
+    Copyright 2011 Christopher Bess
+-->
     </body>
 </html>

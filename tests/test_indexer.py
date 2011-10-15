@@ -14,11 +14,11 @@ class TestIndexer(testcase.BaseTestCase):
         """ Called before each test """
         testcase.BaseTestCase.setUp(self)
         pass
-        
+
     def tearDown(self):
         """ Called after each test """
         pass
-        
+
     def test_indexer_creation(self):
         """Test indexer creation logic
         """

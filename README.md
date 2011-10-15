@@ -10,8 +10,8 @@ Instructions:
 1. Extract/place the sherlock source code in the desired (install) directory. This will be where sherlock lives.
 1. Run one of the setup scripts in `/setup` to download core packages.
 1. Update `settings.py`. It provides adequate documentation for each setting.
-1. Run `main.py --index-path` to index target directory/content. Watch indexing output.
-1. Run `main.py --run-webapp` to start the web server.
+1. Run `main.py --index update` to index the path specified in the settings. Watch indexing output.
+1. Run `main.py --runserver` to start the web server.
 1. Go to `http://localhost:5000` to access the web interface. Uses the [twitter bootstrap](http://twitter.github.com/bootstrap) for its UI.
 
 ---

@@ -4,7 +4,7 @@ Created by: Christopher Bess
 Copyright: 2011
 """
 
-from core import settings
+from core import settings, FULL_INDEXES_PATH
 from core.sherlock import db
 
 ## Indexer Base Classes
@@ -36,11 +36,12 @@ class FileIndexer(object):
         """
         pass
 
-    def can_index_file(self, filepath):
-        """Returns True if the specified file can be indexed. By default it checks the indexer database to see
-        if the target file has been updated.
+    def has_file_updated(self, filepath):
+        """Determines if the specified file can be indexed. By default it checks the indexer database to see
+        if the target file has been updated after it was stored (if storea at all).
+        :return: tuple (file_is_updated, db_record)
         """
-        return db.can_update_index(filepath)
+        return db.is_file_updated(filepath, update_db=True)
 
     def index_file(self, filepath, *args, **kwargs):
         """Indexes and stores the file at the specified path
@@ -167,9 +168,7 @@ class SearchResult(object):
         self.context = ''
         self.path = kwargs.get('path')
         self.filename = kwargs.get('filename')
-        # build index path
-        path = settings.INDEX_PATH % { 'sherlock_dir' : settings.ROOT_DIR }
-        self.index_path = self.path.replace(path, '')
+        self.index_path = self.path.replace(FULL_INDEXES_PATH, '')
         self.process_hit(hit)
         pass
 

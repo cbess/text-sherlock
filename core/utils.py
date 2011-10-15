@@ -97,3 +97,8 @@ def fragment_text(token, text):
     # truncate text
     return token_text[:777]
 
+
+def resolve_path(path):
+    """Returns the resolved path based on sherlock path variables.
+    """
+    return path % { 'sherlock_dir' : settings.ROOT_DIR }
