@@ -21,9 +21,8 @@ except ImportError:
 
 from pdb import set_trace
 from webapp import server
-from core.sherlock import indexer, backends
-from core.utils import resolve_path
-from core.sherlock import db
+from core.sherlock import indexer, backends, db
+from core import FORCE_INDEX_REBUILD, utils
 import tests
 import settings
 import os
@@ -79,13 +78,15 @@ def run():
         # launch web server
         server.run()
     elif options.reindex:
-        path = resolve_path(settings.INDEX_PATH)
+        path = utils.resolve_path(settings.INDEX_PATH)
         # check path
         if not path.endswith('/'):
             raise Exception('INDEX_PATH must end with a trailing slash. %s' % path)
         if not os.path.exists(path):
             raise Exception('Check INDEX_PATH. Does it exist? %s' % path)
         print 'Indexing path: %s' % path
+        if FORCE_INDEX_REBUILD:
+            print 'Reindexing everything!'
         indexer.index_path(path)
     else:
         print 'Use -h to see options.'

@@ -5,7 +5,7 @@ Copyright: 2011
 """
 
 from core import settings, FULL_INDEXES_PATH
-from core.sherlock import db
+from core.sherlock import db, logger
 
 ## Indexer Base Classes
 
@@ -58,6 +58,21 @@ class FileIndexer(object):
         """Returns True if an index exist at the specified path, False otherwise
         """
         raise NotImplementedError
+
+    def clean_index(self):
+        """Cleans the index by purging any documents that no longer exist.
+        """
+        raise NotImplementedError
+
+    def file_meta_exists(self, filepath):
+        """Returns True if the specified filepath has meta data in the index database.
+        """
+        return db.file_record_exists(filepath)
+
+    def get_indexed_files(self):
+        """Returns all indexed file documents
+        """
+        return db.IndexerMeta.select()
 
     
 ## Searcher Base Classes
@@ -169,7 +184,11 @@ class SearchResult(object):
         self.path = kwargs.get('path')
         self.filename = kwargs.get('filename')
         self.index_path = self.path.replace(FULL_INDEXES_PATH, '')
-        self.process_hit(hit)
+        try:
+            self.process_hit(hit)
+        except IOError, e:
+            logger.warning('IOError while processing hit: %s:%s' % (self.path, e))
+            pass
         pass
 
     def process_hit(self, hit):

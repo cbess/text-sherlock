@@ -33,8 +33,10 @@ def index_path(path, name=settings.DEFAULT_INDEX_NAME):
     target path to.
     """
     # index a file for the search
-    idxr = get_indexer(name, rebuild_index=FORCE_INDEX_REBUILD)
+    idxr = get_indexer(name)
     idxr.index_text(path)
+    if not FORCE_INDEX_REBUILD:
+        idxr.clean_index()
     pass
 
 
@@ -88,6 +90,13 @@ class Indexer(object):
             os.system('rm -rf %s' % self.path)
             log.warning('removed index at %s' % self.path)
         pass
+
+    def clean_index(self):
+        """Cleans the index by purging any documents that no longer exist.
+        """
+        log.info('Cleaning index')
+        self._index.clean_index()
+        pass
         
     def open(self, index_path):
         """Creates or opens an index at the specified path.
@@ -127,7 +136,6 @@ class Indexer(object):
     def __index_path(self, path):
         """Indexes the items at the specified path.
         """
-        log.debug('indexing item(s) at %s' % path)
         if os.path.isdir(path):
             self.__index_dir(path)
         elif os.path.isfile(path):
@@ -141,7 +149,7 @@ class Indexer(object):
     def __index_dir(self, dpath):
         """Indexes the contents of the directory at the specified path.
         """
-        log.debug('indexing directory: %s' % dpath)
+        log.debug('Checking directory: %s' % dpath)
         # sanity checks
         if not isinstance(settings.EXCLUDE_FILE_SUFFIX, (tuple, type(None))):
             raise Exception("settings.EXCLUDE_FILE_SUFFIX must be a tuple or None, found: %s" %

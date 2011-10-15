@@ -6,6 +6,7 @@ Copyright 2011
 
 refs:
 https://github.com/coleifer/peewee/blob/master/README.rst
+http://charlesleifer.com/blog/peewee-a-lightweight-python-orm/
 """
 import os
 import stat  # index constants for os.stat()
@@ -34,6 +35,9 @@ class IndexerMeta(BaseModel):
     path = peewee.CharField(unique=True, help_text='The absolute path of the item.')
     mod_date = peewee.DateTimeField(help_text='The date it was modified on the file system.')
     date_added = peewee.DateTimeField(help_text='The date this record was added to the index.')
+
+    def __unicode__(self):
+        return u'<IndexerMeta: %d:%s>' % (self.id, self.path)
 
 IndexerMeta.create_table(fail_silently=True)
 
@@ -93,6 +97,12 @@ def get_file_record(filepath):
     """
     record = IndexerMeta.select().get(path=filepath)
     return record
+
+
+def file_record_exists(filepath):
+    """Returns True if a record with the specified file path exists in the database
+    """
+    return IndexerMeta.select().where(path=filepath).exists()
 
 
 def get_raw_file_record(filepath):

@@ -14,6 +14,7 @@ import re
 import os
 import xapian
 from core import settings
+from core.sherlock import logger
 from core.utils import debug, safe_read_file, fragment_text, read_file
 from base import FileSearcher, FileIndexer, SearchResult, SearchResults
 
@@ -86,6 +87,18 @@ class XapianIndexer(FileIndexer):
 
     def index_exists(self, path):
         return os.path.isdir(path)
+
+    def clean_index(self):
+        """Cleans the index by purging any documents that no longer exist.
+        """
+        # iterate each record in the database
+        # see if it exists on the file system
+        for record in self.get_indexed_files():
+            if not os.path.exists(record.path):
+                self.index.delete_document(record.id)
+                record.delete_instance()
+                logger.debug('removed indexed file: %s' % record)
+        pass
 
 
 ## Searcher

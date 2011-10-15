@@ -51,6 +51,7 @@ def search():
     pagenum = int(form.get('p', 1))
     app.logger.debug('page %d, searching for: %s' % (pagenum, search_text))
     results = results_from_search_text(search_text, pagenum)
+    
     # build response
     response = {
         'title' : search_text or 'Search',
@@ -72,28 +73,44 @@ def search():
 def document():
     """Handles document display requests
     """
+    http_status = 200
     root_dir = FULL_INDEXES_PATH
     full_path = request.args.get('path')
     is_raw = (request.args.get('raw') == 'true')
+
     # if the full path wasn't appended, then append it (assumes path exist in default index path)
     if root_dir not in full_path:
         full_path = os.path.join(root_dir, full_path)
     search_text = request.args.get('q')
     pagenum = request.args.get('p')
+
     # perform the text search, get wrapped results
     results = results_from_search_text(full_path, isPath=True)
     if not results:
         app.logger.error('Unable to find document: %s' % full_path)
         abort(404)
     doc = results.items[0]
-    doc_contents = read_file(full_path)
+
+    # grab contents, if file gone, then send 404 error message
+    try:
+        doc_contents = read_file(full_path)
+    except IOError:
+        app.logger.error('Document no longer exists: %s' % full_path)
+        doc_contents = "Document does not exist"
+        http_status = 404
+
     if is_raw:
         # dump the document text
         return Response(doc_contents, mimetype='text/plain')
-    # get syntax highlighted html
-    trn = transformer.Transformer()
-    doc_html = trn.to_html(doc_contents, doc.result.filename)
     db_record = db.get_raw_file_record(full_path)
+    
+    # get syntax highlighted html
+    if http_status == 200:
+        trn = transformer.Transformer()
+        doc_html = trn.to_html(doc_contents, doc.result.filename)
+    else:
+        doc_html = doc_contents
+
     # build response
     response = {
         "title" : doc.result.filename,
@@ -102,6 +119,7 @@ def document():
         'contents' : doc_html,
         'search_text' : search_text,
         'page_number' : pagenum,
-        'last_modified' : db_record.get('mod_date')
+        'last_modified' : db_record.get('mod_date'),
+        'http_status' : http_status
     }
-    return render_template('document.html', **response)
+    return render_template('document.html', **response), http_status

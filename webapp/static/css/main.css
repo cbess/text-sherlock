@@ -24,6 +24,9 @@ html body {
 #content form .primary {
     width: 100px;
 }
+.error {
+    color: #800000;
+}
 a {
     text-decoration: none;
 }
