@@ -16,6 +16,7 @@ from whoosh.fields import *
 from whoosh.qparser import QueryParser
 from whoosh import highlight
 from core import settings
+from core.sherlock import logger
 from core.utils import debug, safe_read_file, fragment_text, read_file
 from base import FileSearcher, FileIndexer, SearchResult, SearchResults
 
@@ -77,6 +78,22 @@ class WhooshIndexer(FileIndexer):
     def index_exists(self, path):
         return exists_in(path)
 
+    def clean_index(self):
+        """Cleans the index by purging any documents that no longer exist.
+        """
+        # iterate each record in the database
+        # see if it exists on the file system
+        for record in self.get_indexed_files():
+            if not os.path.exists(record.path):
+                self._index.delete_by_term('path', record.path)
+                record.delete_instance()
+                logger.debug('removed indexed file: %s' % record)
+        # Docs says the index has this method, it doesn't
+        # must find a way to 'purge' deleted documents.
+        # It does remove them from the query, but the index info is stored until purged.
+        # http://packages.python.org/Whoosh/indexing.html#deleting-documents
+        #self.index.commit()
+        pass
 
 ## Searcher
 
