@@ -10,7 +10,7 @@ Instructions:
 1. Extract/place the sherlock source code in the desired (install) directory. This will be where sherlock lives.
 1. Run one of the setup scripts in `/setup` to download core packages.
 1. Update `settings.py`. It provides adequate documentation for each setting.
-1. Run `main.py --index update` to index the path specified in the settings. Watch indexing output.
+1. Run `main.py --index update` or `--index rebuild` to index the path specified in the settings. Watch indexing output.
 1. Run `main.py --runserver` to start the web server.
 1. Go to `http://localhost:5000` to access the web interface. Uses the [twitter bootstrap](http://twitter.github.com/bootstrap) for its UI.
 
@@ -49,6 +49,7 @@ settings.py
         - `xapian` must be installed separately using the included `setup/install-xapian.sh` setup script.
         
 ## Using other web servers
+
 - Text Sherlock has built-in support for [werkzeug](http://werkzeug.pocoo.org/) and [cherrypy](http://www.cherrypy.org/) WSGI compliant servers.
     - Available server types:
         - `default`, werkzeug web server (default).
@@ -62,7 +63,7 @@ settings.py
 * Flask - [flask](http://flask.pocoo.org)
 * Jinja2 - [jinja2](http://jinja.pocoo.org/docs)
 * Pygments - [pygments](http://pygments.org/docs/quickstart)
-* peewee - [peewee](https://github.com/coleifer/peewee) *(not used, yet)*
+* peewee - [peewee](https://github.com/coleifer/peewee)
 * Twitter Bootstrap - [twitter bootstrap](http://twitter.github.com/bootstrap)
 
 ## Other References
