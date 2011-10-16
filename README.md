@@ -35,6 +35,13 @@ Includes:
 
 ### Web Interface
 
+Features:
+
+Append to document URL.
+
+- To highlight lines append to URL: `&hl=3,7`
+- To jump to a line append to end of URL: `#L-3`
+
 ![screenshot](https://github.com/cbess/text-sherlock/raw/master/setup/web-example1.jpg)
 
 ![screenshot](https://github.com/cbess/text-sherlock/raw/master/setup/web-example2.jpg)
