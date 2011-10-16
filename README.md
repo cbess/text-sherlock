@@ -10,13 +10,14 @@ You may need to install some packages before the installations will run without 
 
 - Install curl: `sudo apt-get install curl`
 - Install uuid libs: `sudo apt-get install uuid-dev`
+- Install python dev: `sudo apt-get install python-dev`
 
 Instructions:
 
 1. Download [sherlock](https://github.com/cbess/text-sherlock) source from [GitHub](https://github.com/cbess/text-sherlock).
 1. Extract/place the sherlock source code in the desired (install) directory. This will be where sherlock lives.
 1. Run one of the setup scripts in `/setup` to download core packages.
-1. Configure settings. The defaults in `settings.py` provide adequate documentation for each setting.
+1. Configure settings. The defaults in `settings.py` provide documentation for each setting.
 	- Copy `example.local_settings.py` to `local_settings.py`.
  	- Override/copy any setting from `settings.py` to `local_settings.py` (change the values as needed).
 1. Run `main.py --index update` or `--index rebuild` to index the path specified in the settings. Watch indexing output.
