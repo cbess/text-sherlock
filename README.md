@@ -62,14 +62,17 @@ Append to document URL.
 settings.py
 
 - Change the `DEFAULT_INDEXER` and `DEFAULT_SEARCHER` values to match the name given to the backend.
-    - Available backends:
+    - Possbile values:
         - `whoosh` the default, no extra work needed.
         - `xapian` must be installed separately using the included `setup/install-xapian.sh` setup script.
         
 ## Using other web servers
 
+settings.py
+
 - Text Sherlock has built-in support for [werkzeug](http://werkzeug.pocoo.org/) and [cherrypy](http://www.cherrypy.org/) WSGI compliant servers.
-    - Available server types:
+- Change the `SERVER_TYPE` value to one of the available server types.
+    - Possible values:
         - `default`, werkzeug web server (default).
         - `cherrypy`, production ready web server.
 
