@@ -5,7 +5,7 @@ import os
 from server import app
 from flask import render_template, request, abort, Response
 from core.sherlock import indexer, searcher, transformer, db
-from core import settings as core_settings, FULL_INDEXES_PATH
+from core import settings as core_settings, FULL_INDEX_PATH
 from core.utils import debug, read_file
 
 
@@ -74,7 +74,7 @@ def document():
     """Handles document display requests
     """
     http_status = 200
-    root_dir = FULL_INDEXES_PATH
+    root_dir = FULL_INDEX_PATH
     full_path = request.args.get('path')
     is_raw = (request.args.get('raw') == 'true')
 

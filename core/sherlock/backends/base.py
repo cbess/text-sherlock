@@ -4,7 +4,7 @@ Created by: Christopher Bess
 Copyright: 2011
 """
 
-from core import settings, FULL_INDEXES_PATH
+from core import settings, FULL_INDEX_PATH
 from core.sherlock import db, logger
 
 ## Indexer Base Classes
@@ -183,7 +183,7 @@ class SearchResult(object):
         self.context = ''
         self.path = kwargs.get('path')
         self.filename = kwargs.get('filename')
-        self.index_path = self.path.replace(FULL_INDEXES_PATH, '')
+        self.index_path = self.path.replace(FULL_INDEX_PATH, '')
         try:
             self.process_hit(hit)
         except IOError, e:

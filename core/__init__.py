@@ -3,7 +3,8 @@ __all__ = [
     'whoosh', 'flask',
     'pygments', 'settings',
     'cherrypy_wsgiserver', 'peewee',
-    'FULL_INDEXES_PATH', 'FORCE_INDEX_REBUILD'
+    'FULL_INDEXES_PATH', 'FORCE_INDEX_REBUILD',
+    'FULL_INDEX_PATH'
 ]
 import sys
 import whoosh
@@ -23,7 +24,8 @@ if '--test' in sys.argv:
 if '--index' in sys.argv and 'rebuild' in sys.argv:
     force_rebuild = True
 
-# build the full indexes path
+# build the full path
+FULL_INDEX_PATH = utils.resolve_path(settings.INDEX_PATH)
 FULL_INDEXES_PATH = utils.resolve_path(settings.INDEXES_PATH)
 
 # force index rebuilding
