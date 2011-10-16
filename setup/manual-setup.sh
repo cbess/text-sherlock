@@ -1,13 +1,13 @@
 #!/bin/sh
 # Created by: Christopher Bess
-# this is for non virtualenv and non pip setups
-# this script should be run from the setup directory (ex: /my-app/setup)
+# This is for non virtualenv and non pip setups.
+# This script should be run from the setup directory (ex: /my-app/setup) using the privileges of the user
+# that will run the server.
 
 echo "Setting up core packages"
 
 # create the default directories
-mkdir ../data
-mkdir ../data/indexes
+mkdir -p ../data/indexes
 
 # for the sherlock.webapp
 echo "grabbing flask"
