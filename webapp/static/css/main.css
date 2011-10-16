@@ -39,11 +39,6 @@ a:visited {
 label {
     width: auto;
 }
-/*Document styles*/
-.document #last-mod {
-    font-size: small;
-    color: #808080;
-}
 /*Search results styles*/
 #results {
     margin-top: 5px;
@@ -85,6 +80,11 @@ td.code {
     /*fixes right border issue, next to the line numbers */
     border: none;
 }
+/*Document styles*/
+.document #last-mod {
+    font-size: small;
+    color: #808080;
+}
 /*displays the source code*/
 div.source pre {
     border: none;
@@ -95,6 +95,13 @@ td.linenos pre {
     background-color: #d3d3d3;
     color: #fff;
     border-right: none;
+}
+td.linenos pre a {
+    color: white;
+}
+td.linenos pre a:hover {
+    text-decoration: none;
+    color: #000000;
 }
 /*matched term in each search result*/
 .result .match {

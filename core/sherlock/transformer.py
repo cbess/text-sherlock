@@ -2,6 +2,10 @@
 transformer.py
 Created by: Christopher Bess
 Copyright: 2011
+
+refs:
+pygments/formatters/html.py
+https://bitbucket.org/birkenfeld/pygments-main/src/72d5ec2c3be6/pygments/formatters/html.py
 """
 
 import pygments
@@ -30,12 +34,18 @@ class Transformer(object):
         assert result is not None
         return self.to_html(result.context, result.filename)
 
-    def to_html(self, text, filename):
+    def to_html(self, text, filename, **kwargs):
         """Returns the HTML for the given text, highlighting it based on the
         specified filename (file type)
         """
         lexer = get_lexer_for_filename(filename)
-        formatter = HtmlFormatter(linenos=True, cssclass="source")
+        formatter = HtmlFormatter(
+            linenos='table',
+            cssclass="source",
+            lineanchors='L',
+            anchorlinenos=True,
+            **kwargs
+        )
         html = highlight(text, lexer, formatter)
         return html
         

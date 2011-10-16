@@ -77,7 +77,8 @@ def document():
     root_dir = FULL_INDEX_PATH
     full_path = request.args.get('path')
     is_raw = (request.args.get('raw') == 'true')
-
+    # allow `lines` or `hl` to highlight the target lines
+    hl_str = request.args.get('lines') or request.args.get('hl', '')
     # if the full path wasn't appended, then append it (assumes path exist in default index path)
     if root_dir not in full_path:
         full_path = os.path.join(root_dir, full_path)
@@ -103,11 +104,18 @@ def document():
         # dump the document text
         return Response(doc_contents, mimetype='text/plain')
     db_record = db.get_raw_file_record(full_path)
-    
-    # get syntax highlighted html
+
     if http_status == 200:
+        # get highlighted lines
+        hl_lines = []
+        try:
+            if hl_str:
+                hl_lines = [int(line) for line in hl_str.split(',')]
+        except ValueError:
+            pass
+        # get syntax highlighted html
         trn = transformer.Transformer()
-        doc_html = trn.to_html(doc_contents, doc.result.filename)
+        doc_html = trn.to_html(doc_contents, doc.result.filename, hl_lines=hl_lines)
     else:
         doc_html = doc_contents
 

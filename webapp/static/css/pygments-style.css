@@ -1,4 +1,4 @@
-.syntax .hll { background-color: #ffffcc }
+.syntax .hll { background-color: #ffffcc; display: block; }
 .syntax  { background: #ffffff; }
 .syntax .c { color: #808080 } /* Comment */
 .syntax .err { color: #F00000; background-color: #F0A0A0 } /* Error */
