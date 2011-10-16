@@ -4,6 +4,13 @@ Provides an easy to install and use search engine for text but, mostly for sourc
 
 ## Basic Setup
 
+*Ubuntu* Pre install:
+
+You may need to install some packages before the installations will run without error.
+
+- Install curl: `sudo apt-get install curl`
+- Install uuid libs: `sudo apt-get install uuid-dev`
+
 Instructions:
 
 1. Download [sherlock](https://github.com/cbess/text-sherlock) source from [GitHub](https://github.com/cbess/text-sherlock).
@@ -12,7 +19,8 @@ Instructions:
 1. Update `settings.py`. It provides adequate documentation for each setting.
 1. Run `main.py --index update` or `--index rebuild` to index the path specified in the settings. Watch indexing output.
 1. Run `main.py --runserver` to start the web server.
-1. Go to `http://localhost:5000` to access the web interface. Uses the [twitter bootstrap](http://twitter.github.com/bootstrap) for its UI.
+1. Go to `http://localhost:7777` to access the web interface. Uses the [twitter bootstrap](http://twitter.github.com/bootstrap) for its UI.
+
 
 ---
 
