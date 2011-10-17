@@ -37,18 +37,8 @@
     {% if search_text %}
     <h4>Page <em>{{ page.current }}</em> of <em>{{ total_count }}</em> Results</h4>
     {% endif %}
-    
-    {% if page %}
-    <div class="page-control">
-        {% if page.previous > 0 %}
-        <a href="/search?q={{ search_text }}&p={{ page.previous }}">&larr; Previous</a>
-        {% endif %}
 
-        {% if page.next > 0 %}
-        <a href="/search?q={{ search_text }}&p={{ page.next }}">Next &rarr;</a>
-        {% endif %}
-    </div>
-    {% endif %}
+    {% include "pagination.tpl" %}
 
     <div id="results">
         {% if results %}
@@ -67,16 +57,6 @@
         {% endif %}
     </div>
 </form>
-        
-{% if page %}
-<div class="page-control">
-    {% if page.previous > 0 %}
-    <a href="/search?q={{ search_text }}&p={{ page.previous }}">&larr; Previous</a>
-    {% endif %}
 
-    {% if page.next > 0 %}
-    <a href="/search?q={{ search_text }}&p={{ page.next }}">Next &rarr;</a>
-    {% endif %}
-</div>
-{% endif %}
+{% include "pagination.tpl" %}
 {% endblock %}

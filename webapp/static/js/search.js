@@ -11,6 +11,9 @@ var TSSearch = {
             var url = $(this).find('.filename a').attr('href');
             location.href = url;
         });
+
+        // focus the search field
+        $("#text").focus();
     }
 };
 

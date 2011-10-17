@@ -80,6 +80,19 @@ td.code {
     /*fixes right border issue, next to the line numbers */
     border: none;
 }
+/*pagination styles*/
+.pagination {
+    margin: 5px 0;
+}
+.pagination a {
+    line-height: 22px;
+}
+.pagination a:hover {
+    background-color: #f8f8ff;
+}
+.pagination a:visited {
+    color: blue;
+}
 /*Document styles*/
 .document #last-mod {
     font-size: small;
