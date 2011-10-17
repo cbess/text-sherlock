@@ -12,7 +12,7 @@ from core.utils import debug, read_file
 def results_from_search_text(text, pagenum=1, isPath=False, type=None):
     """Returns the results from the search using the given text, populated with the transformed items
     """
-    idx = indexer.get_indexer().get_index()
+    idx = indexer.get_indexer(writable=False).get_index()
     # find something in the index
     if isPath:
         results = idx.search_path(text)

@@ -19,7 +19,7 @@ def get_indexer(name=settings.DEFAULT_INDEX_NAME, rebuild_index=FORCE_INDEX_REBU
     using the default settings.
     :param rebuild_index: True to rebuild the index on open/create. Default is False.
     """
-    idxr = Indexer(name, recursive=settings.INDEX_RECURSIVE, rebuild_index=rebuild_index)
+    idxr = Indexer(name, recursive=settings.INDEX_RECURSIVE, rebuild_index=rebuild_index, **kwargs)
     path = FULL_INDEXES_PATH
     idxr.open(path, **kwargs)
     return idxr
@@ -52,6 +52,7 @@ class Indexer(object):
         # path of the index directory
         self._path = None
         self._name = name
+        self._is_writable = kwargs.get('writable', True)
         self._rebuild_index = kwargs.get('rebuild_index', False)
         self._is_recursive = kwargs.get('recursive', False)
         pass
@@ -98,7 +99,7 @@ class Indexer(object):
         self._index.clean_index()
         pass
         
-    def open(self, index_path):
+    def open(self, index_path, **kwargs):
         """Creates or opens an index at the specified path.
         """
         if not os.path.isdir(index_path):
@@ -116,7 +117,7 @@ class Indexer(object):
             self._index.create_index(path)
         else:
             log.debug('opening index at %s' % path)
-            self._index.open_index(path)
+            self._index.open_index(path, writable=self._is_writable)
         # store indexes path
         self._path = path
         pass

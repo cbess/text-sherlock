@@ -47,7 +47,11 @@ class XapianIndexer(FileIndexer):
 
     def open_index(self, path, *args, **kwargs):
         self._path = path
-        self.index = xapian.WritableDatabase(path, xapian.DB_OPEN)
+        is_writable = kwargs.get('writable', True)
+        if is_writable:
+            self.index = xapian.WritableDatabase(path, xapian.DB_OPEN)
+        else:
+            self.index = xapian.Database(path)
         pass
 
     def create_index(self, path, *args, **kwargs):
