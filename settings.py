@@ -111,6 +111,17 @@ IGNORE_INDEXER_ERRORS = False
 # default: ("<span class='match'>", "</span>")
 MATCHED_TERM_WRAP = ("<span class='match'>", "</span>")
 
+# The banner text displayed in the header of each page.
+# type: string/html
+# default: 'Sherlock Search'
+SITE_BANNER_TEXT = 'Sherlock Search'
+
+# The site title text (displayed in browser tab or title bar of window).
+# This is appended to each auto-generated page title.
+# type: string
+# default: 'Text Sherlock'
+SITE_TITLE = 'Text Sherlock'
+
 
 # Customzie the settings per installation
 try:
