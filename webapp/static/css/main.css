@@ -47,23 +47,13 @@ label {
     height: 40px;
     margin: -8px -8px 7px;
     box-shadow: 5px 2px 5px #777;
-    
-    background: #4c4c4c;
-    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzRjNGM0YyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEyJSIgc3RvcC1jb2xvcj0iIzU5NTk1OSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjM5JSIgc3RvcC1jb2xvcj0iIzQ3NDc0NyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzJjMmMyYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUxJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjYwJSIgc3RvcC1jb2xvcj0iIzExMTExMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjkxJSIgc3RvcC1jb2xvcj0iIzFjMWMxYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxMzEzMTMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-    background: -moz-linear-gradient(top, #4c4c4c 0%, #595959 12%, #474747 39%, #2c2c2c 50%, #000000 51%, #111111 60%, #1c1c1c 91%, #131313 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4c4c4c), color-stop(12%,#595959), color-stop(39%,#474747), color-stop(50%,#2c2c2c), color-stop(51%,#000000), color-stop(60%,#111111), color-stop(91%,#1c1c1c), color-stop(100%,#131313));
-    background: -webkit-linear-gradient(top, #4c4c4c 0%,#595959 12%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#1c1c1c 91%,#131313 100%);
-    background: -o-linear-gradient(top, #4c4c4c 0%,#595959 12%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#1c1c1c 91%,#131313 100%);
-    background: -ms-linear-gradient(top, #4c4c4c 0%,#595959 12%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#1c1c1c 91%,#131313 100%);
-    background: linear-gradient(top, #4c4c4c 0%,#595959 12%,#474747 39%,#2c2c2c 50%,#000000 51%,#111111 60%,#1c1c1c 91%,#131313 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4c4c4c', endColorstr='#131313',GradientType=0 );
 }
 #top-banner #banner-text {
     text-transform: uppercase;
     position: relative;
     top: 10px;
     left: 20px;
-    color: #ccc;
+    color: silver;
     font-size: 20px;
     text-shadow: 0 0 silver, -2px 0 black;
 }
