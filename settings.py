@@ -122,6 +122,14 @@ SITE_BANNER_TEXT = 'Sherlock Search'
 # default: 'Text Sherlock'
 SITE_TITLE = 'Text Sherlock'
 
+# The site banner background color. This banner is shown at the top of each page.
+# Possible values: black, blue, skyblue, silver, orange, white
+# More colors can be added to 'bg-gradients.css'
+# The banner text styles must be changed in the stylesheet: main.css (#top-banner #banner-text)
+# type: string
+# default: black
+SITE_BANNER_COLOR = 'black'
+
 
 # Customzie the settings per installation
 try:

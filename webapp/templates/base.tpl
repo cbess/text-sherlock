@@ -11,7 +11,7 @@
     </head>
     <body>
 
-        <div id='top-banner' class="bg-gradient-black">
+        <div id='top-banner' class="bg-gradient-{{ site_banner_color }}">
             <!-- Start custom banner HTML here -->
             <span id='banner-text'>{{ site_banner_text }}</span>
             <!-- End custom banner HTML here -->

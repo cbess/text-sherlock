@@ -33,6 +33,7 @@ def add_default_reponse(response):
     """
     response['site_banner_text'] = core_settings.SITE_BANNER_TEXT
     response['site_title'] = core_settings.SITE_TITLE
+    response['site_banner_color'] = core_settings.SITE_BANNER_COLOR
     pass
     
 
