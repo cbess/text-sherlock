@@ -19,13 +19,14 @@ except ImportError:
     add_argument = parser.add_argument
     pass
 
-from pdb import set_trace
 from webapp import server
 from core.sherlock import indexer, backends, db
-from core import FORCE_INDEX_REBUILD, utils
+from core import FORCE_INDEX_REBUILD, utils, get_version_info
 import tests
 import settings
 import os
+import sys
+
 
 def get_app_args():
     """Returns the application arguments from stdin
@@ -49,6 +50,9 @@ def run():
     add_argument('--runserver', dest='run_server',
                  action='store_true',
                     help='Run the Sherlock web server.')
+    add_argument('-v', '--version', dest='show_version',
+                 action='store_true',
+                    help='Show sherlock version information.')
     # not available, yet
 #    add_argument("-q", "--quiet",
 #                      action="store_false", dest="verbose", default=True,
@@ -62,6 +66,14 @@ def run():
     # determine app action
     if options.run_tests:
         tests.run_all()
+    elif options.show_version:
+        pyver = sys.version_info
+        print '  Python: v%d.%d.%d' % (pyver.major, pyver.minor, pyver.micro)
+        print 'Sherlock: v' + get_version_info('sherlock')
+        print '   Flask: v' + get_version_info('flask')
+        print 'Pygments: v' + get_version_info('pygments')
+        print '  Whoosh: v' + get_version_info('whoosh')
+        print 'CherryPy: v' + get_version_info('cherrypy')
     elif options.show_stats:
         # backend stats
         print 'Available indexer backends: %s' % backends.indexer_names()
@@ -94,6 +106,6 @@ def run():
     
 
 if __name__ == '__main__':
-    print 'sherlock started'
+    print 'sherlock v%s started' % get_version_info('sherlock')
     run()
     print 'sherlock done.'

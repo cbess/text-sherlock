@@ -15,6 +15,27 @@ from cherrypy import wsgiserver as cherrypy_wsgiserver
 import peewee
 import utils
 
+
+def get_version_info(module):
+    """Returns the version information for the target core module
+    :return: string
+    """
+    module = module.lower()
+    if module == 'cherrypy':
+        import cherrypy
+        return cherrypy.__version__
+    elif module == 'whoosh':
+        return whoosh.versionstring()
+    elif module == 'pygments':
+        return pygments.__version__
+    elif module == 'flask':
+        return flask.__version__
+    elif module == 'sherlock':
+        import sherlock
+        return sherlock.__version__
+    return '0.0'
+
+
 # determine actual index name
 force_rebuild = False
 if '--test' in sys.argv:
