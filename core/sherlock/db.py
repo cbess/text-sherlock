@@ -7,6 +7,7 @@ Copyright 2011
 refs:
 https://github.com/coleifer/peewee/blob/master/README.rst
 http://charlesleifer.com/blog/peewee-a-lightweight-python-orm/
+http://charlesleifer.com/docs/flask-peewee/
 """
 import os
 import stat  # index constants for os.stat()

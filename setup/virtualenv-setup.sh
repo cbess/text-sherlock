@@ -13,9 +13,10 @@ sudo pip install virtualenv
 # adjust permission (allow it to be executed)
 chmod +x ../main.py
 
-# local
 # if on a Mac exec below line (maybe)
 # ARCHFLAGS="-arch i386 -arch x86_64"
+
+# setup sherlock environment
 mkdir -p ../data/indexes
 virtualenv ../sherlock_env --distribute --no-site-packages
 source ../sherlock_env/bin/activate

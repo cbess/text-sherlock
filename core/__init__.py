@@ -2,8 +2,7 @@
 __all__ = [
     'whoosh', 'flask',
     'pygments', 'settings',
-    'cherrypy_wsgiserver', 'peewee',
-    'flaskext',
+    'cherrypy_wsgiserver', 'flaskext',
     # settings
     'FULL_INDEXES_PATH', 'FORCE_INDEX_REBUILD',
     'FULL_INDEX_PATH'
@@ -13,9 +12,9 @@ import whoosh
 import flask
 import pygments
 import settings
+from cherrypy import wsgiserver as cherrypy_wsgiserver
 import peewee
 import utils
-import flaskext
 
 
 def get_version_info(module):
