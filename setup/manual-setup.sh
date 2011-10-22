@@ -15,6 +15,16 @@ curl -o flask.zip https://nodeload.github.com/mitsuhiko/flask/zipball/0.7.2
 unzip flask.zip
 cp -r mitsuhiko-flask-*/flask ../core
 
+# flask peewee database layer
+echo "grabbing flask-peewee"
+curl -o flask-peewee.tar.gz http://pypi.python.org/packages/source/f/flask-peewee/flask-peewee-0.2.0.tar.gz
+tar -xvzf flask-peewee.tar.gz
+cp -r flask-peewee-*/flaskext ../core
+
+# peewee database layer
+curl -o peewee.py https://raw.github.com/coleifer/peewee/master/peewee.py
+cp ./peewee.py ../core
+
 # flask web server
 echo "grabbing Werkzeug"
 curl -o Werkzeug.tar.gz http://pypi.python.org/packages/source/W/Werkzeug/Werkzeug-0.7.1.tar.gz

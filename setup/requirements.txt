@@ -3,4 +3,4 @@ whoosh
 jinja2
 pygments
 cherrypy
-peewee
+flask-peewee

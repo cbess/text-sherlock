@@ -13,3 +13,4 @@ from core import whoosh
 from core import pygments
 from core import flask
 from core import cherrypy_wsgiserver
+from core import flaskext
