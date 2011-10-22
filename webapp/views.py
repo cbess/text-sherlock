@@ -9,6 +9,11 @@ from core import settings as core_settings, FULL_INDEX_PATH
 from core.utils import debug, read_file
 
 
+@app.template_filter('dt_format')
+def dt_format_filter(value, format='%H:%M / %d-%m-%Y'):
+    return value.strftime(format)
+
+
 def results_from_search_text(text, pagenum=1, isPath=False, type=None):
     """Returns the results from the search using the given text, populated with the transformed items
     """
