@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!sherlock_env/bin/python
 # encoding: utf-8
 """ 
 main.py

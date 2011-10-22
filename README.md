@@ -16,12 +16,13 @@ Instructions:
 
 1. Download [sherlock](https://github.com/cbess/text-sherlock) source from [GitHub](https://github.com/cbess/text-sherlock).
 1. Extract/place the sherlock source code in the desired (install) directory. This will be where sherlock lives.
-1. Run one of the setup scripts in `/setup` to download core packages.
+1. Run `setup/virtualenv-setup.sh` to setup an isolated environment and download core packages.
 1. Configure settings. The defaults in `settings.py` provide documentation for each setting.
 	- Copy `example.local_settings.py` to `local_settings.py`.
  	- Override/copy any setting from `settings.py` to `local_settings.py` (change the values as needed).
-1. Run `main.py --index update` or `--index rebuild` to index the path specified in the settings. Watch indexing output.
-1. Run `main.py --runserver` to start the web server.
+1. Run `source sherlock_env/bin/activate` to enter the virtual environment.
+1. Run `python main.py --index update` or `--index rebuild` to index the path specified in the settings. Watch indexing output.
+1. Run `python main.py --runserver` to start the web server.
 1. Go to `http://localhost:7777` to access the web interface. Uses the [twitter bootstrap](http://twitter.github.com/bootstrap) for its UI.
 
 
@@ -31,9 +32,8 @@ Includes:
 
 - Settings/Configuration
 	- See `settings.py` for details.
-- Setup scripts (read contents of script for more information)
-	- Run `manual-setup.sh` to perform an in directory install. Easiest setup.
-	- Run `virtualenv-setup.sh` to perform an isolated installation. Preferred setup.
+- Setup script (read contents of script for more information)
+	- Run `virtualenv-setup.sh` to perform an isolated installation.
 - Main controller script 
 	- Run `main.py -h` for more information.
 - End-to-end interface
