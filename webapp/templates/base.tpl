@@ -15,6 +15,25 @@
             <!-- Start custom banner HTML here -->
             <span id='banner-text'>{{ site_banner_text }}</span>
             <!-- End custom banner HTML here -->
+            {% if doc %}
+            <form action="/search" method="GET">
+                <div>
+                    <input type="text"
+                           class="field"
+                           name="q"
+                           autocomplete="off"
+                           autocorrect="off"
+                           value="{{ search_text }}"
+                           placeholder="Search text"
+                           id="text" />
+                    <input type="submit"
+                           value="Search"
+                           class="btn"
+                           id="submit" />
+                    <a href='/'>clear</a>
+                </div>
+            </form>
+            {% endif %}
         </div>
 
         <div id="content">

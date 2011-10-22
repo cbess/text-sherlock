@@ -39,6 +39,10 @@ a:link {
 a:visited {
     color: gray;
 }
+a.clear-btn {
+    position: relative;
+    top: 2px;
+}
 label {
     width: auto;
 }
@@ -56,6 +60,18 @@ label {
     color: silver;
     font-size: 20px;
     text-shadow: 0 0 silver, -2px 0 black;
+}
+#top-banner form {
+    float: right;
+    margin: 6px 10px;
+}
+#top-banner form #text {
+    font-size: 16px;
+    height: 24px;
+    padding: 2px;
+}
+#top-banner form #submit {
+    padding: 5px 7px 3px;
 }
 /*Search results styles*/
 #results {
