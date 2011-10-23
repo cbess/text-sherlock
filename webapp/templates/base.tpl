@@ -4,7 +4,7 @@
         <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
         <title>{% block title %}{{ title }}{% endblock %} - {{ site_title }}</title>
         <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/static/css/bgackground-gradients.css">
+        <link rel="stylesheet" href="/static/css/background-gradients.css">
         <link rel="stylesheet" href="/static/css/main.css" type="text/css" charset="utf-8">
         <script src='/static/js/jquery.min.js'></script>
         
