@@ -5,6 +5,7 @@ main.py
 Created by Christopher Bess
 Copyright 2011
 """
+from datetime import datetime
 
 script_description = 'Runs the main application.'
 try:
@@ -21,7 +22,8 @@ except ImportError:
 
 from webapp import server
 from core.sherlock import indexer, backends, db
-from core import FORCE_INDEX_REBUILD, utils, get_version_info
+from core import FORCE_INDEX_REBUILD, utils, get_version_info, \
+    SherlockMeta, LONG_DATE_FORMAT
 import tests
 import settings
 import os
@@ -100,6 +102,8 @@ def run():
         if FORCE_INDEX_REBUILD:
             print 'Reindexing everything!'
         indexer.index_path(path)
+        # record indexed time
+        SherlockMeta.set('last_indexed', datetime.now().strftime(LONG_DATE_FORMAT))
     else:
         print 'Use -h to see options.'
     pass

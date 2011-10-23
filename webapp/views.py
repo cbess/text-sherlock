@@ -5,12 +5,14 @@ import os
 from server import app
 from flask import render_template, request, abort, Response
 from core.sherlock import indexer, searcher, transformer, db
-from core import settings as core_settings, FULL_INDEX_PATH
+from core import settings as core_settings, FULL_INDEX_PATH, LONG_DATE_FORMAT
+from core import SherlockMeta
 from core.utils import debug, read_file
 from datetime import datetime
 
+
 @app.template_filter('dt_format')
-def dt_format_filter(value, format='%A, %B %d, %Y %I:%M%p'):
+def dt_format_filter(value, format=LONG_DATE_FORMAT):
     """Returns a string of the value formated as a date string
     :param: value date time or string '2009-11-22 01:20:07'
     """
@@ -45,6 +47,7 @@ def add_default_reponse(response):
     response['site_banner_text'] = core_settings.SITE_BANNER_TEXT
     response['site_title'] = core_settings.SITE_TITLE
     response['site_banner_color'] = core_settings.SITE_BANNER_COLOR
+    response['last_indexed'] = SherlockMeta.get('last_indexed') or 'Never'
     pass
     
 

@@ -7,6 +7,7 @@ __all__ = [
     'FULL_INDEXES_PATH', 'FORCE_INDEX_REBUILD',
     'FULL_INDEX_PATH'
 ]
+import os
 import sys
 import whoosh
 import flask
@@ -15,6 +16,33 @@ import settings
 from cherrypy import wsgiserver as cherrypy_wsgiserver
 import peewee
 import utils
+import ConfigParser
+
+
+class SherlockMeta:
+    """Represents the sherlock meta data that is stored.
+    """
+    config = ConfigParser.RawConfigParser()
+    @classmethod
+    def set(cls, key, value):
+        """Sets the meta value for the target key
+        """
+        if not cls.config.has_section('main'):
+            cls.config.add_section('main')
+        cls.config.set('main', key, value)
+        # write config
+        with open(os.path.join(settings.ROOT_DIR, 'sherlock-meta.cfg'), 'wb') as configfile:
+            cls.config.write(configfile)
+        pass
+
+    @classmethod
+    def get(cls, key):
+        """Returns the meta value for the target key
+        """
+        cls.config.read(os.path.join(settings.ROOT_DIR, 'sherlock-meta.cfg'))
+        if not cls.config.has_section('main'):
+            return None
+        return cls.config.get('main', key)
 
 
 def get_version_info(module):
@@ -52,3 +80,5 @@ FULL_INDEXES_PATH = utils.resolve_path(settings.INDEXES_PATH)
 
 # force index rebuilding
 FORCE_INDEX_REBUILD = force_rebuild
+
+LONG_DATE_FORMAT = '%A, %B %d, %Y %I:%M%p'

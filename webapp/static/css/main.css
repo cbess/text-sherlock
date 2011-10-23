@@ -46,6 +46,10 @@ a.clear-btn {
 label {
     width: auto;
 }
+#last-indexed {
+    font-size: small;
+    color: #808080;
+}
 /*top banner styles*/
 #top-banner {
     height: 40px;
