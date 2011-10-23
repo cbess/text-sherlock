@@ -16,6 +16,7 @@ from datetime import datetime
 from core import peewee
 from core import settings, FULL_INDEXES_PATH
 from core.utils import debug
+import flaskext
 
 try:
     import sqlite3
@@ -24,10 +25,12 @@ except ImportError:
 
 
 DATABASE_PATH = os.path.join(FULL_INDEXES_PATH, '%s-index.db' % settings.DEFAULT_INDEX_NAME)
+app_database = peewee.SqliteDatabase(DATABASE_PATH)
+
 
 class BaseModel(peewee.Model):
     class Meta:
-        database = peewee.SqliteDatabase(DATABASE_PATH)
+        database = app_database
 
 
 class IndexerMeta(BaseModel):
@@ -129,3 +132,15 @@ def get_raw_file_record(filepath):
     cursor.close()
     database.close()
     return record
+
+
+def register_database_handlers(app):
+    def connect_db():
+       app_database.connect()
+
+    def close_db(resp):
+       app_database.close()
+       return resp
+
+    app.before_request(connect_db)
+    app.after_request(close_db)
