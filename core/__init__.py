@@ -82,3 +82,4 @@ FULL_INDEXES_PATH = utils.resolve_path(settings.INDEXES_PATH)
 FORCE_INDEX_REBUILD = force_rebuild
 
 LONG_DATE_FORMAT = '%A, %B %d, %Y %I:%M%p'
+SHORT_DATE_FORMAT = '%m/%d/%Y %H:%M'
