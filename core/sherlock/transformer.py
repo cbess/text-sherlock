@@ -42,7 +42,7 @@ class Transformer(object):
         formatter = HtmlFormatter(
             linenos='table',
             cssclass="source",
-            lineanchors='L',
+            lineanchors='line',
             anchorlinenos=True,
             **kwargs
         )
