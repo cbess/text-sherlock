@@ -18,5 +18,5 @@
     {{ contents|safe }}
     </div>
 
-    <div id='last-mod'>File Last modified: {{ last_modified }}</div>
+    <div id='last-mod'>File Last modified: {{ last_modified|dt_format }}</div>
 {% endblock %}
