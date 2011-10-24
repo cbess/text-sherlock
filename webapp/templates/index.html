@@ -45,7 +45,7 @@
         {% for item in results %}
         <div class='result' data-src="{{ item.result.index_path }}">
             <div class="filename">
-                <a href='/document?path={{ item.result.index_path }}&q={{ search_text }}&p={{ page.current }}'>/{{ item.result.index_path }}</a>
+                <a href='/document?path={{ item.result.index_path|urlencode }}&q={{ search_text }}&p={{ page.current }}'>/{{ item.result.index_path }}</a>
             </div>
             <div class="syntax">
                 <pre>{{ item.html|safe|trim }}</pre>

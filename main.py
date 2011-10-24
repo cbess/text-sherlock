@@ -2,11 +2,9 @@
 # encoding: utf-8
 """ 
 main.py
-Created by Christopher Bess
+Created by Christopher Bess (https://github.com/cbess/text-sherlock)
 Copyright 2011
 """
-from datetime import datetime
-
 script_description = 'Runs the main application.'
 try:
     # optparse is deprecated, but I wanted broader compatibility
@@ -28,6 +26,7 @@ import tests
 import settings
 import os
 import sys
+from datetime import datetime
 
 
 def get_app_args():
@@ -41,8 +40,9 @@ def get_app_args():
         return opts
     return arguments
     
-    
-def run():
+
+def get_options():
+    """ Returns the options from the script """
     add_argument("--test", dest="run_tests",
                     action='store_true',
                       help="Run tests to ensure everything works correctly.")
@@ -64,7 +64,11 @@ def run():
                       help="Indexes the in the path specified by settings.INDEX_PATH. "\
                             "Use `update` (default) or `rebuild` to replace the entire index.")
     options = get_app_args()
-
+    return options
+    
+    
+def run():
+    options = get_options()
     # determine app action
     if options.run_tests:
         tests.run_all()

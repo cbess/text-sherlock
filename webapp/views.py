@@ -5,21 +5,13 @@ import os
 from server import app
 from flask import render_template, request, abort, Response
 from core.sherlock import indexer, searcher, transformer, db
-from core import settings as core_settings, FULL_INDEX_PATH, LONG_DATE_FORMAT
+from core import settings as core_settings, FULL_INDEX_PATH
 from core import SherlockMeta
 from core.utils import debug, read_file
-from datetime import datetime
+from template_filters import register_filters
 
-
-@app.template_filter('dt_format')
-def dt_format_filter(value, format=LONG_DATE_FORMAT):
-    """Returns a string of the value formated as a date string
-    :param: value date time or string '2009-11-22 01:20:07'
-    """
-    if isinstance(value, (str, unicode)):
-        # make datetime
-        value = datetime.strptime(value, '%Y-%m-%d %H:%M:%S')
-    return value.strftime(format)
+# regitster template filters
+register_filters(app)
 
 
 def results_from_search_text(text, pagenum=1, isPath=False, type=None):
