@@ -10,7 +10,7 @@ from core import SherlockMeta
 from core.utils import debug, read_file
 from template_filters import register_filters
 
-# regitster template filters
+# register template filters
 register_filters(app)
 
 
@@ -33,7 +33,7 @@ def results_from_search_text(text, pagenum=1, isPath=False, type=None):
     return trns.transform_results(results, type)
 
 
-def add_default_reponse(response):
+def add_default_response(response):
     """Adds the default response parameters to the response.
     """
     response['site_banner_text'] = core_settings.SITE_BANNER_TEXT
@@ -50,7 +50,7 @@ def index():
     response = {
         "title" : u"Welcome"
     }
-    add_default_reponse(response)
+    add_default_response(response)
     return render_template('index.html', **response)
     
 
@@ -82,7 +82,7 @@ def search():
             'count' : len(results)
         }
     }
-    add_default_reponse(response)
+    add_default_response(response)
     return render_template('index.html', **response)
 
 
@@ -147,5 +147,5 @@ def document():
         'last_modified' : db_record.get('mod_date'),
         'http_status' : http_status
     }
-    add_default_reponse(response)
+    add_default_response(response)
     return render_template('document.html', **response), http_status
