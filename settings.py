@@ -103,7 +103,7 @@ DEFAULT_SEARCHER = DEFAULT_INDEXER = 'whoosh'
 # Backends are not required to support this setting. Built-in backends (whoosh and xapian)
 # honor this setting.
 # default: not Debug (opposite of Debug value) = False
-IGNORE_INDEXER_ERRORS = False
+IGNORE_INDEXER_ERRORS = not DEBUG
 
 # The tag used to wrap the matched term in the search results. The first index is placed
 # in the front of the matched term and the second index goes after the matched term.
