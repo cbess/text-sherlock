@@ -162,6 +162,9 @@ class Indexer(object):
         def check_name(name):
             """Returns True if the item with the specified name can be indexed"""
             can_index = True
+            # ignore hidden files
+            if name.startswith("."):
+                return False
             # ignore excluded files
             if settings.EXCLUDE_FILE_SUFFIX:
                 for suffix in settings.EXCLUDE_FILE_SUFFIX:
@@ -188,11 +191,12 @@ class Indexer(object):
         else:
             # traverse the given path
             for dirpath, dirnames, filenames in os.walk(dpath):
+                dirname = os.path.basename(dirpath)
+                # ignore hidden dirs
+                if dirname.startswith('.'):
+                    continue
                 for name in filenames:
                     can_index = check_name(name)
-                    # don't look at hidden files
-                    if can_index:
-                        can_index = not name.startswith(".")
                     if can_index:
                         path = os.path.join(dirpath, name)
                         self.__index_file(path)
