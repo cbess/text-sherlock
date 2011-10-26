@@ -25,7 +25,7 @@ echo "Installing sherlock dependencies"
 ../sherlock_env/bin/pip install -r requirements.txt
 
 # confirm installation by showing version information
-echo "Sherlock version information"
-../sherlock_env/bin/python ./main.py -v
+# echo "Sherlock version information"
+# ../sherlock_env/bin/python ../main.py -v
 
 echo "Done, sherlock install finished"
