@@ -123,16 +123,9 @@ def document():
     db_record = db.get_raw_file_record(full_path)
 
     if http_status == 200:
-        # get highlighted lines
-        hl_lines = []
-        try:
-            if hl_str:
-                hl_lines = [int(line) for line in hl_str.split(',')]
-        except ValueError:
-            pass
         # get syntax highlighted html
         trn = transformer.Transformer()
-        doc_html = trn.to_html(doc_contents, doc.result.filename, hl_lines=hl_lines)
+        doc_html = trn.to_html(doc_contents, doc.result.filename, highlight_lines=hl_str)
     else:
         doc_html = doc_contents
 

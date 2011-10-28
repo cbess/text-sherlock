@@ -25,6 +25,32 @@ class Transformer(object):
         """
         self._result = result
         pass
+
+    def get_lines(self, lines):
+        """Returns the lines that were parsed out of the specified lines. Parses
+        out ranges or line numbers
+        """
+        if not lines:
+            return []
+        # convert string into lines, if needed
+        if isinstance(lines, (str, unicode)):
+            lines = lines.split(',')
+        result = []
+        for part in lines:
+            try:
+                if '-' in part:
+                    nStart, nEnd = part.split('-')
+                    # prevent large ranges
+                    if nEnd > 9999:
+                        nEnd = 0
+                    nStart, nEnd = int(nStart), int(nEnd)
+                    result.extend(range(nStart, nEnd + 1))
+                else:
+                    num = int(part)
+                    result.append(num)
+            except ValueError:
+                pass
+        return result
         
     def html(self, result=None):
         """Transforms the internal or specified result object to HTML
@@ -38,6 +64,10 @@ class Transformer(object):
         """Returns the HTML for the given text, highlighting it based on the
         specified filename (file type)
         """
+        # get the highlighted lines
+        hl_lines = kwargs.get('highlight_lines', '')
+        kwargs['hl_lines'] = self.get_lines(hl_lines)
+        # get html syntax
         lexer = get_lexer_for_filename(filename)
         formatter = HtmlFormatter(
             linenos='table',
