@@ -50,8 +50,8 @@ Features:
 
 Append to document URL.
 
-- To highlight lines append to URL: `&hl=3,7`
-- To jump to a line append to end of URL: `#line-3`
+- To highlight lines, append to URL: `&hl=3,7,12-14,21`
+- To jump to a line, append to end of URL: `#line-3`
 
 ![screenshot](https://github.com/cbess/text-sherlock/raw/master/setup/web-example1.jpg)
 
