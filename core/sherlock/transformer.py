@@ -40,10 +40,10 @@ class Transformer(object):
             try:
                 if '-' in part:
                     nStart, nEnd = part.split('-')
+                    nStart, nEnd = int(nStart), int(nEnd)
                     # prevent large ranges
                     if nEnd > 9999:
                         nEnd = 0
-                    nStart, nEnd = int(nStart), int(nEnd)
                     result.extend(range(nStart, nEnd + 1))
                 else:
                     num = int(part)
