@@ -4,3 +4,4 @@ jinja2
 pygments
 cherrypy
 flask-peewee
+path.py
