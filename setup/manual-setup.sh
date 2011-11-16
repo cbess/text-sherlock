@@ -4,7 +4,7 @@
 # This script should be run from the setup directory (ex: /my-app/setup) using the privileges of the user
 # that will run the server.
 #
-# Warning: This setup type is deprecated and no longer fully supported. But, it is left here as a starting point
+# Warning: This setup type is deprecated and no longer fully supported, use virtual-setup.sh instead. But, it is left here as a starting point
 # for anyone who desires to utilize this type of installation.
 
 echo "Setting up core packages"
