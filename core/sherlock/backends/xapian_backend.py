@@ -101,7 +101,11 @@ class XapianIndexer(FileIndexer):
         # see if it exists on the file system
         for record in self.get_indexed_files():
             if not os.path.exists(record.path):
-                self.index.delete_document(record.id)
+                try:
+                    self.index.delete_document(record.id)
+                except xapian.DocNotFoundError:
+                    # it is safe to continue
+                    pass
                 record.delete_instance()
                 logger.debug('removed indexed file: %s' % record)
         pass
