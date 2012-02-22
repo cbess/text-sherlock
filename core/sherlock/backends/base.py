@@ -38,7 +38,7 @@ class FileIndexer(object):
 
     def has_file_updated(self, filepath):
         """Determines if the specified file can be indexed. By default it checks the indexer database to see
-        if the target file has been updated after it was stored (if storea at all).
+        if the target file has been updated after it was stored (if stored at all).
         :return: tuple (file_is_updated, db_record)
         """
         return db.is_file_updated(filepath, update_db=True)
