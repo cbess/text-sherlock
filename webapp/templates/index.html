@@ -2,6 +2,9 @@
 
 {% block header %}
 <script src='/static/js/search.js'></script>
+{% if type == 'docs' %}
+<scrip src='/static/js/docs-manage.js'></script>
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -14,8 +17,17 @@
                autocomplete="off"
                autocorrect="off"
                value="{{ search_text }}"
+               {% if type == 'docs' %}
+               placeholder="Search documents"
+               {% else %}
                placeholder="Search text"
+               {% endif %}
                id="text" />
+        {% if type == 'docs' and projects %}
+        <select name="project">
+            <option>All</option>
+        </select>
+        {% endif %}
     </div>
 
     <!--<div>

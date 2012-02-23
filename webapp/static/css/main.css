@@ -165,3 +165,11 @@ td.linenos pre a:hover {
     font-style: italic;
     background-color: #ffff99;
 }
+
+/* document sherlock styles */
+ol#projects li {
+    margin: 15 0px;
+}
+ol.files li {
+    margin: 0;
+}

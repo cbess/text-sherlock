@@ -1,0 +1,46 @@
+{% extends "base.tpl" %}
+
+{% block header %}
+<script src='/static/js/docs-manage.js'></script>
+{% endblock %}
+
+{% block content %}
+<form action="/docs/manage" method="POST">
+    <div class='control-group {% if errors.proj_add_name %}error{% endif %}'>
+        {% if errors.proj_add_name %}
+        <div class='error'>{{ errors.proj_add_name }}</div>
+        {% endif %}
+        <input type='text' class='field' maxlength='255' name='proj_add_name'>
+        <input type='submit' class='btn' value='Add Project' name='btn_add_project'>
+    </div>
+    
+    <ol id='projects'>
+        {% for project in projects %}
+        <li>
+            <strong>{{ project.name }}</strong> - {{ project.date_added|dt_format }}
+            {# The project files #}
+            <div>
+                <p>
+                    <input type="file" name="files" id="files">
+                </p>
+                <ol class='files'>
+                    {% for document in project.documents %}
+                    <li>
+                        <div>{{ document.name }}</div>
+                    </li>
+                    {% else %}
+                    <span>No documents for this project</span>
+                    {% endfor %}
+                </ol>
+            </div>
+        </li>
+        {% endfor %}
+    </ol>
+</form>
+
+{% include "pagination.tpl" %}
+
+<div id='last-indexed'>
+    Indexes updated {{ last_indexed }}
+</div>
+{% endblock %}

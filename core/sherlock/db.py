@@ -1,6 +1,6 @@
 # encoding: utf-8
 """
-indexer.py
+db.py
 Created by Christopher Bess
 Copyright 2011
 
@@ -17,7 +17,8 @@ from core import peewee
 from core import settings, FULL_INDEXES_PATH
 from core.utils import debug
 import flaskext
-
+from docdb import create_doc_tables, TSProject, TSDocument, app_doc_database
+# from ipdb import set_trace
 try:
     import sqlite3
 except ImportError:
@@ -25,7 +26,7 @@ except ImportError:
 
 
 DATABASE_PATH = os.path.join(FULL_INDEXES_PATH, '%s-index.db' % settings.DEFAULT_INDEX_NAME)
-app_database = peewee.SqliteDatabase(DATABASE_PATH)
+app_database = peewee.SqliteDatabase(DATABASE_PATH, check_same_thread=False)
 
 
 class BaseModel(peewee.Model):
@@ -44,7 +45,7 @@ class IndexerMeta(BaseModel):
         return u'<IndexerMeta: %d:%s>' % (self.id, self.path)
 
 IndexerMeta.create_table(fail_silently=True)
-
+create_doc_tables()
 
 ## Database Methods
 
@@ -137,9 +138,12 @@ def get_raw_file_record(filepath):
 def register_database_handlers(app):
     def connect_db():
        app_database.connect()
+       app_doc_database.connect()
+       pass
 
     def close_db(resp):
        app_database.close()
+       app_doc_database.close()
        return resp
 
     app.before_request(connect_db)
