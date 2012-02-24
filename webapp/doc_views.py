@@ -4,6 +4,7 @@
 import os
 from server import app
 from core.sherlock.db import TSProject, TSDocument
+from core.sherlock import indexer, searcher, transformer, db
 from core import settings as core_settings
 from core import SherlockMeta
 from flask import render_template, request, abort, Response
@@ -11,6 +12,22 @@ from flask import send_from_directory
 from core import utils
 from datetime import datetime
 from core import peewee
+
+
+def results_from_search_text(project, text, pagenum=1, isPath=False, type=None):
+    """Returns the results from the search using the given text, populated with the transformed items
+    """
+    idx = indexer.get_project_indexer(project, writable=False).get_index()
+    # find something in the index
+    try:
+        results = idx.search('*%s*' % text, pagenum, core_settings.RESULTS_PER_PAGE)
+    except ValueError, e:
+        # This assumes the value error resulted from a page count issue
+        app.logger.error('Out of page bounds: %s' % e)
+        return []
+    # transform the results
+    trns = transformer.Transformer()
+    return trns.transform_results(results, type)
 
 
 def add_default_response(response):
@@ -34,6 +51,43 @@ def doc_index():
         "title" : u"Docs",
         "type" : 'docs',
         'projects' : tuple(projects)
+    }
+    add_default_response(response)
+    return render_template('index.html', **response)
+
+
+@app.route('/docs/search')
+def doc_search():
+    """Handles search requests
+    """
+    form = request.args
+    search_text = form.get('q')
+    pagenum = int(form.get('p', 1))
+    proj_id = form.get('project')
+    app.logger.debug('page %d, searching for: %s' % (pagenum, search_text))
+    try:
+        project = TSProject.get(id=proj_id)
+        results = results_from_search_text(project, search_text, pagenum)
+    except TSProject.DoesNotExist:
+        abort(500)
+    projects = TSProject.get_projects()
+    
+    # build response
+    response = {
+        'title' : search_text or 'Document Search',
+        'type' : 'docs',
+        'projects' : tuple(projects),
+        'html_css_class' : 'search',
+        'search_text' : search_text,
+        'search_proj' : proj_id,
+        'results' : results.items,
+        'total_count' : results.total_count,
+        'page' : {
+            'current' : pagenum,
+            'previous' : results.prev_pagenum,
+            'next' : results.next_pagenum,
+            'count' : len(results)
+        }
     }
     add_default_response(response)
     return render_template('index.html', **response)
@@ -93,7 +147,7 @@ def doc_manage():
             except TSProject.DoesNotExist:
                 return render_error({'file' : 'project does not exist'})
             result = project.add_file(fileobj)
-            if result[0]:
+            if not result[0]:
                 return render_error({'btn_add_file' : result[1]})
         elif form.get('btn_delete_proj'):
             try:
@@ -105,5 +159,12 @@ def doc_manage():
             docid = form.get('btn_delete_file')
             doc = TSDocument.get(id=docid)
             doc.remove()
+        elif form.get('btn_index_proj'):
+            try:
+                project = TSProject.get(id=form.get('proj_id'))
+            except TSProject.DoesNotExist:
+                return render_error({'btn_delete_proj' : 'project does not exist'})
+            # index the project
+            indexer.index_project(project, rebuild_index=True)
         pass
     return render(response)

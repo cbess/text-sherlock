@@ -40,17 +40,26 @@ def index_path(path, name=settings.DEFAULT_INDEX_NAME):
     pass
     
     
+def get_project_indexer(project, rebuild_index=FORCE_INDEX_REBUILD, **kwargs):
+    """Returns the indexer for the specified project
+    :param project: TSProject instance
+    """
+    idxr = Indexer(rebuild_index=rebuild_index, **kwargs)
+    idxr.open(project.dirpath(), **kwargs)
+    return idxr
+    
+    
 def index_project(project, **kwargs):
     """Indexes the specified project documents
     :param project: TSProject instance
     """
-    idxr = Indexer(rebuild_index=FORCE_INDEX_REBUILD, **kwargs)
-    idxr.open(os.path.join(project.dirpath(), settings.DEFAULT_INDEX_NAME), **kwargs)
+    idxr = get_project_indexer(project, **kwargs)
     # index each document
-    for document in project.documents:
-        idxr.index_text(document.path)
-        document.indexed = True
-        document.save()
+    for document in project.all_documents():
+        if not document.indexed:
+            idxr.index_text(document.path)
+            document.indexed = True
+            document.save()
     pass
 
 
@@ -117,10 +126,6 @@ class Indexer(object):
     def open(self, index_path, **kwargs):
         """Creates or opens an index at the specified path.
         """
-        if not os.path.isdir(index_path):
-            msg = "Directory `%s` is not a valid index directory." % index_path
-            log.warning(msg)
-            raise Exception(msg)
         # create the dir, if needed
         path = os.path.join(index_path, self._name)
         if not os.path.isdir(path):

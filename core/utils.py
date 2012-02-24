@@ -183,7 +183,7 @@ def is_doc_allowed(path):
     """Returns True if the path is a document that is allowed"""
     path = path.lower()
     for ext in settings.ALLOWED_DOC_EXTENSIONS:
-        if not path.endswith(ext.lower()):
-            return False
-    return True
+        if path.endswith(ext.lower()):
+            return True
+    return False
     

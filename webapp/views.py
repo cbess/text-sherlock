@@ -26,7 +26,7 @@ def results_from_search_text(text, pagenum=1, isPath=False, type=None):
         try:
             results = idx.search(text, pagenum, core_settings.RESULTS_PER_PAGE)
         except ValueError, e:
-            # This assumes the value error resulted from an page count issue
+            # This assumes the value error resulted from a page count issue
             app.logger.error('Out of page bounds: %s' % e)
             return []
     # transform the results

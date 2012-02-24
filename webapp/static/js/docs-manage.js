@@ -9,7 +9,7 @@ var TSDocManage = {
         // add project document
         $('#projects form button[name="btn_add_file"]').click(function() {
             var pname = $(this).parent('form').data('project-name');
-            return confirm('Add the files to '+pname+'?');
+            return confirm('Add the file to '+pname+'?');
         });
         
         // delete project action
@@ -25,6 +25,9 @@ var TSDocManage = {
             var fname = $(this).data('filename');
             return confirm('Delete "'+fname+'" from '+pname+'? This cannot be undone.');
         });
+        
+        // select the searched project in the dropdown
+        $('select[name="project"]').val($('select[name="project"]').data('selected-project-id'));
     }
 };
 

@@ -17,7 +17,7 @@ import os
 import xapian
 from core import settings
 from core.sherlock import logger
-from core.utils import debug, safe_read_file, fragment_text, read_file
+from core.utils import debug, safe_read_file, fragment_text, read_file, is_doc_allowed
 from base import FileSearcher, FileIndexer, SearchResult, SearchResults
 
 
@@ -79,7 +79,11 @@ class XapianIndexer(FileIndexer):
         document.add_value(self.DOC_VALUE_FILEPATH, filepath)
         # index document and file path
         self.indexer.set_document(document)
-        self.indexer.index_text(contents+' '+filepath)
+        # assume it is a doc, if True then no need to index the filepath as well
+        if settings.DOC_SEARCH and is_doc_allowed(filepath):
+            self.indexer.index_text(contents)
+        else:
+            self.indexer.index_text(contents+' '+filepath)
         doc_id = kwargs.get('document_id')
         if doc_id:
             self.index.replace_document(doc_id, document)

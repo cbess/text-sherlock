@@ -15,18 +15,25 @@
     </div>
 </form>
     
+{% if errors.btn_add_file %}
+<div class='error'>{{ errors.btn_add_file }}</div>
+{% endif %}
+
 <ol id='projects'>
     {# the projects #}
     {% for project in projects %}
     <li>
         <form class='project' action="/docs/manage" method="POST" data-project-name="{{ project.name }}" enctype="multipart/form-data">
             <strong>{{ project.name }}</strong> - {{ project.date_added|dt_format }}
+            {% if not project.is_indexed() %}
+            <button type='submit' class='btn btn-mini btn-warning' name='btn_index_proj' value='delete'>index project</button>
+            {% endif %}
             <button type='submit' class='btn btn-mini btn-danger' name='btn_delete_proj' value='delete'>delete</button>
             {# The project files #}
             <div>
                 <input type="file" name="file" id="file" class='input-file'>
                 <ul class='files'>
-                    {% for document in project.documents %}
+                    {% for document in project.all_documents() %}
                     <li>
                         {{ document.name }}
                         {% if not document.indexed %}<em>(not indexed)</em>{% endif %}

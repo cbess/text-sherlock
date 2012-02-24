@@ -3,12 +3,12 @@
 {% block header %}
 <script src='/static/js/search.js'></script>
 {% if type == 'docs' %}
-<scrip src='/static/js/docs-manage.js'></script>
+<script src='/static/js/docs-manage.js'></script>
 {% endif %}
 {% endblock %}
 
 {% block content %}
-<form action="/search" method="GET">
+<form action="{% if type == 'docs' %}/docs/search{% else %}/search{% endif %}" method="GET">
     <div>
         <!--<label for="text">Text</label>-->
         <input type="text"
@@ -24,7 +24,7 @@
                {% endif %}
                id="text" />
         {% if type == 'docs' and projects %}
-        <select name="project">
+        <select name="project" data-selected-project-id="{{ search_proj }}">
             {% for project in projects %}
             <option value='{{ project.id }}'>{{ project.name }}</option>
             {% endfor %}
@@ -45,7 +45,7 @@
                value="Search"
                class="btn btn-primary"
                id="submit" />
-        <a href='/' class="clear-btn">clear</a>
+        <a href="{% if type == 'docs' %}/docs{% else %}/{% endif %}" class="clear-btn">clear</a>
     </div>
 
     {% if search_text %}

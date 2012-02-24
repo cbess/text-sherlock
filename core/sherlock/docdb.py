@@ -15,7 +15,7 @@ import time
 from datetime import datetime
 from core import peewee
 from core import settings, FULL_INDEXES_PATH
-from core.utils import debug, resolve_path
+from core.utils import debug, resolve_path, is_doc_allowed
 import flaskext
 from werkzeug import secure_filename
 import shutil
@@ -45,7 +45,7 @@ class TSProject(TSBaseModel):
     date_added = peewee.DateTimeField()
     
     def __unicode__(self):
-        return u'<TSProject: %d:%s>' % (self.id, self.name)
+        return u'%d:%s' % (self.id, self.name)
     
     @classmethod
     def get_projects(cls):
@@ -55,7 +55,7 @@ class TSProject(TSBaseModel):
     def remove_project(cls, project):
         """Removes the specified project and all its associated files"""
         # delete all the project files
-        for doc in project.documents:
+        for doc in project.all_documents():
             doc.remove()
         # delete the proj folder
         if os.path.isdir(project.dirpath()):
@@ -81,16 +81,19 @@ class TSProject(TSBaseModel):
         dirpath = self.dirpath()
         if not os.path.isdir(dirpath):
             os.makedirs(dirpath)
-        # create a TSDocument from the file
+        # build the path and check the filepath
         filename = secure_filename(file_obj.filename)
         filepath = os.path.join(dirpath, filename)
+        if not is_doc_allowed(filepath):
+            return (False, 'document type for `%s` is not allowed' % filename)
         if os.path.isfile(filepath):
             return (False, 'file already exists')
+        # create the document record
         doc = TSDocument.create(
             name=filename,
             path=filepath,
             file_size=file_obj.content_length,
-            file_type=filename[len(filename) - 3], # last three letters of the file
+            file_type=filename[len(filename) - 3:], # last three letters of the file
             date_added=datetime.now(),
             mod_date=datetime.now(),
             indexed=False,
@@ -111,6 +114,23 @@ class TSProject(TSBaseModel):
         if isZipFile:
             return self.__add_zipfile_contents(file_obj)
         return self.__add_file(file_obj)
+        
+    def is_indexed(self):
+        """Returns True if all documents for this project have been indexed"""
+        return not TSDocument.filter(project=self, indexed=False).exists()
+        
+    def all_documents(self):
+        """Returns all documents assigned to this project
+        @remark This is here mostly because a random 'sqlite3.InterfaceError' occurs when using the peewee 
+        generated ForeignKeyField property
+        """
+        try:
+            query = peewee.RawQuery(TSDocument, 'SELECT * FROM tsdocument WHERE project_id = %s' % str(self.id))
+            return query.execute()
+        except sqlite3.InterfaceError, e:
+            print 'fetch documents error'
+            debug()
+            return []
 
 
 class TSDocument(TSBaseModel):
@@ -127,7 +147,7 @@ class TSDocument(TSBaseModel):
     project = peewee.ForeignKeyField(TSProject, null=False, cascade=True, related_name='documents') # ref to the project
 
     def __unicode__(self):
-        return u'<TSDocument: %d:%s>' % (self.id, self.path)
+        return u'%d:%s' % (self.id, self.path)
         
     def remove(self):
         """Removes the db record and the associated file from the file system"""

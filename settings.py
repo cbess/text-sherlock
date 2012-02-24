@@ -132,7 +132,7 @@ SITE_BANNER_COLOR = 'black'
 
 DOC_SEARCH = True
 PROJECT_DOC_PATH = '%(sherlock_dir)s/data/projects'
-ALLOWED_DOC_EXTENSIONS = ('pdf', 'docx')
+ALLOWED_DOC_EXTENSIONS = ('pdf', 'docx', 'txt')
 
 # Customzie the settings per installation
 try:
