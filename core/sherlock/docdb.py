@@ -15,9 +15,10 @@ import time
 from datetime import datetime
 from core import peewee
 from core import settings, FULL_INDEXES_PATH
-from core.utils import debug
+from core.utils import debug, resolve_path
 import flaskext
-
+from werkzeug import secure_filename
+import shutil
 try:
     import sqlite3
 except ImportError:
@@ -49,6 +50,67 @@ class TSProject(TSBaseModel):
     @classmethod
     def get_projects(cls):
         return TSProject.select().order_by(('date_added', 'DESC'))
+        
+    @classmethod
+    def remove_project(cls, project):
+        """Removes the specified project and all its associated files"""
+        # delete all the project files
+        for doc in project.documents:
+            doc.remove()
+        # delete the proj folder
+        if os.path.isdir(project.dirpath()):
+            shutil.rmtree(project.dirpath())
+        # remove the proj db record
+        project.delete_instance()
+        pass
+        
+    def dirpath(self):
+        """Returns the directory path for this project"""
+        return os.path.join(resolve_path(settings.PROJECT_DOC_PATH), str(self.id))
+        
+    def __add_zipfile_contents(self, file_obj):
+        """Adds the specified zip file contents to this project"""
+        # use self.__add_file(fileobj) for each applicable file in the zip
+        pass    
+        
+    def __add_file(self, file_obj):
+        """Adds the specified file to this project
+        @return tuple (success = True|False, 'message')
+        """
+        # create the project folder `/projects/$proj_id/`, if needed
+        dirpath = self.dirpath()
+        if not os.path.isdir(dirpath):
+            os.makedirs(dirpath)
+        # create a TSDocument from the file
+        filename = secure_filename(file_obj.filename)
+        filepath = os.path.join(dirpath, filename)
+        if os.path.isfile(filepath):
+            return (False, 'file already exists')
+        doc = TSDocument.create(
+            name=filename,
+            path=filepath,
+            file_size=file_obj.content_length,
+            file_type=filename[len(filename) - 3], # last three letters of the file
+            date_added=datetime.now(),
+            mod_date=datetime.now(),
+            indexed=False,
+            project=self
+        )
+        doc.save()
+        # save the file to disk
+        file_obj.save(filepath)
+        # add to indexing queue
+        return (True, None)
+    
+    def add_file(self, file_obj):
+        """Adds the specified file to this project
+        """
+        # debug()
+        isZipFile = False
+        # determine the file action
+        if isZipFile:
+            return self.__add_zipfile_contents(file_obj)
+        return self.__add_file(file_obj)
 
 
 class TSDocument(TSBaseModel):
@@ -60,11 +122,21 @@ class TSDocument(TSBaseModel):
     file_type = peewee.CharField(help_text='The file type (usually the file ext)')
     mod_date = peewee.DateTimeField(help_text='The date it was modified on the file system.')
     date_added = peewee.DateTimeField(help_text='The date this record was added to the index.')
+    indexed = peewee.BooleanField(help_text='True if this file has been indexed.')
     # relationships
     project = peewee.ForeignKeyField(TSProject, null=False, cascade=True, related_name='documents') # ref to the project
 
     def __unicode__(self):
         return u'<TSDocument: %d:%s>' % (self.id, self.path)
+        
+    def remove(self):
+        """Removes the db record and the associated file from the file system"""
+        # remove the file
+        if os.path.isfile(self.path):
+            os.remove(self.path)
+        # remove the db record
+        self.delete_instance()
+        pass
     
 
 def create_doc_tables():

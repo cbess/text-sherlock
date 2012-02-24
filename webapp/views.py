@@ -9,10 +9,11 @@ from core import settings as core_settings, FULL_INDEX_PATH
 from core import SherlockMeta
 from core.utils import debug, read_file
 from template_filters import register_filters
+from core.sherlock.db import register_database_handlers
+from doc_views import *
 
-# register template filters
+# register_database_handlers(app)
 register_filters(app)
-
 
 def results_from_search_text(text, pagenum=1, isPath=False, type=None):
     """Returns the results from the search using the given text, populated with the transformed items

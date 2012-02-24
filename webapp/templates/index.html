@@ -25,7 +25,10 @@
                id="text" />
         {% if type == 'docs' and projects %}
         <select name="project">
-            <option>All</option>
+            <option value='all'>All</option>
+            {% for project in projects %}
+            <option value='{{ project.id }}'>{{ project.name }}</option>
+            {% endfor %}
         </select>
         {% endif %}
     </div>
@@ -41,7 +44,7 @@
     <div>
         <input type="submit"
                value="Search"
-               class="btn primary"
+               class="btn btn-primary"
                id="submit" />
         <a href='/' class="clear-btn">clear</a>
     </div>

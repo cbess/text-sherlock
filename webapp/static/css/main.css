@@ -106,7 +106,7 @@ label {
 }
 td.linenos {
     padding-right: 0;
-    width: 20px;
+    width: 40px;
 }
 .syntax .sourcetable {
     border: none;
@@ -172,4 +172,10 @@ ol#projects li {
 }
 ol.files li {
     margin: 0;
+}
+.project {
+    padding: 5px;
+    background-color: ghostWhite;
+    border: 1px solid #DEDEDE;
+    color: #444;
 }

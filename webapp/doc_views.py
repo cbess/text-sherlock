@@ -3,12 +3,14 @@
 
 import os
 from server import app
-from core.sherlock.db import TSProject
+from core.sherlock.db import TSProject, TSDocument
 from core import settings as core_settings
 from core import SherlockMeta
 from flask import render_template, request, abort, Response
+from flask import send_from_directory
 from core import utils
 from datetime import datetime
+from core import peewee
 
 
 def add_default_response(response):
@@ -53,7 +55,7 @@ def doc_manage():
     def render_error(errors):
         response['errors'] = errors
         return render(response)
-    
+
     if request.method == 'POST':
         form = request.form
         # determine the action
@@ -67,6 +69,7 @@ def doc_manage():
                 }
                 return render_error(err)
             # try to find a project with that name
+            # if projects.where(peewee.R('LOWER(name) = %s', proj_name)).exists():
             if projects.where(name=proj_name).exists():
                 err = {
                    "proj_add_name" : "already exists"
@@ -80,5 +83,27 @@ def doc_manage():
             )
             project.save()
             pass
+        elif form.get('btn_add_file'):
+            fileobj = request.files['file']
+            if not fileobj:
+                return render_error({'file' : 'no file'})
+            # get the associated proj
+            try:
+                project = TSProject.get(id=form.get('proj_id'))
+            except TSProject.DoesNotExist:
+                return render_error({'file' : 'project does not exist'})
+            result = project.add_file(fileobj)
+            if result[0]:
+                return render_error({'btn_add_file' : result[1]})
+        elif form.get('btn_delete_proj'):
+            try:
+                project = TSProject.get(id=form.get('proj_id'))
+            except TSProject.DoesNotExist:
+                return render_error({'btn_delete_proj' : 'project does not exist'})
+            TSProject.remove_project(project)
+        elif form.get('btn_delete_file'):
+            docid = form.get('btn_delete_file')
+            doc = TSDocument.get(id=docid)
+            doc.remove()
         pass
     return render(response)

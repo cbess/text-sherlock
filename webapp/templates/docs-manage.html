@@ -10,33 +10,42 @@
         {% if errors.proj_add_name %}
         <div class='error'>{{ errors.proj_add_name }}</div>
         {% endif %}
-        <input type='text' class='field' maxlength='255' name='proj_add_name'>
-        <input type='submit' class='btn' value='Add Project' name='btn_add_project'>
+        <input type='text' class='field' maxlength='255' name='proj_add_name' placeholder='Project Name'>
+        <button type='submit' class='btn btn-primary' name='btn_add_project' value='add'>Add Project</button>
     </div>
+</form>
     
-    <ol id='projects'>
-        {% for project in projects %}
-        <li>
+<ol id='projects'>
+    {# the projects #}
+    {% for project in projects %}
+    <li>
+        <form class='project' action="/docs/manage" method="POST" data-project-name="{{ project.name }}" enctype="multipart/form-data">
             <strong>{{ project.name }}</strong> - {{ project.date_added|dt_format }}
+            <button type='submit' class='btn btn-mini btn-danger' name='btn_delete_proj' value='delete'>delete</button>
             {# The project files #}
             <div>
-                <p>
-                    <input type="file" name="files" id="files">
-                </p>
-                <ol class='files'>
+                <input type="file" name="file" id="file" class='input-file'>
+                <ul class='files'>
                     {% for document in project.documents %}
                     <li>
-                        <div>{{ document.name }}</div>
+                        {{ document.name }}
+                        <button type='submit' 
+                                class='btn btn-mini btn-danger' 
+                                data-filename="{{ document.name }}"
+                                name='btn_delete_file' 
+                                value='{{ document.id }}'>delete</button>
                     </li>
                     {% else %}
                     <span>No documents for this project</span>
                     {% endfor %}
-                </ol>
+                </ul>
             </div>
-        </li>
-        {% endfor %}
-    </ol>
-</form>
+            <input type='hidden' value='{{ project.id }}' name='proj_id' />
+            <button type='submit' name='btn_add_file' class='btn btn-small btn-info' value='upload'>Upload File</button>
+        </form>
+    </li>
+    {% endfor %}
+</ol>
 
 {% include "pagination.tpl" %}
 
