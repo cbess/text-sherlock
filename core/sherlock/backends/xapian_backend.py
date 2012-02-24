@@ -191,7 +191,12 @@ class XapianResult(SearchResult):
     def _hit_context(self, hit):
         qparser = self._searcher.parser
         query = self._searcher.query
-        contents = read_file(self.path)
+        # for the doc search, we want it to ignore errors for non-texual files
+        # because we can't properly display the hit context anyways
+        # TODO: optimize by file type (based on file extension)
+        contents = safe_read_file(self.path, ignore_errors=settings.DOC_SEARCH)
+        if not contents:
+            return None
         lines = []
         # For each query word,
         for queryWord in set(query):

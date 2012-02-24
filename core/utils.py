@@ -44,7 +44,7 @@ def safe_read_file(path, ignore_errors=settings.IGNORE_INDEXER_ERRORS, encoding=
     try:
         contents = read_file(path, encoding=encoding, allow_docs=allow_docs)
     except Exception, e:
-        log.error('Skipped file: %s' % path)
+        log.error('Skipped reading file: %s' % path)
         if not ignore_errors:
             raise e
         return None
@@ -177,3 +177,13 @@ def datetime_to_phrase(date_time):
     if not (xdays or months or years):
         datelets.append('%d minute%s' % (minutes, plural(minutes)))        
     return ', '.join(datelets) + ' ago.'
+    
+
+def is_doc_allowed(path):
+    """Returns True if the path is a document that is allowed"""
+    path = path.lower()
+    for ext in settings.ALLOWED_DOC_EXTENSIONS:
+        if not path.endswith(ext.lower()):
+            return False
+    return True
+    

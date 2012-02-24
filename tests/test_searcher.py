@@ -53,6 +53,20 @@ class TestSearcher(testcase.BaseTestCase):
         results = idx.search_path(os.path.join(path, 'objc_example.m'))
         self.assertTrue(len(results) == 1, 'wrong number of results for the path search, expected 1, but found %d' % len(results))
         pass
+        
+    def test_doc_search(self):
+        """Tests doc searching"""
+        # index directory
+        idxr = indexer.get_indexer(name='test', rebuild_index=True)
+        path = os.path.join(self.test_dir, 'docs')
+        idxr.index_text(path)
+        self.assertTrue(idxr.doc_count() == 2, "Bad document index count, expected 2 but, indexed %d" % idxr.doc_count())
+        # search for some text
+        idx = idxr.get_index()
+        search_text = 'kick off'
+        results = idx.search(search_text)
+        self.assertTrue(len(results) == 1, 'wrong results count')
+        pass
 
 
 def run():
