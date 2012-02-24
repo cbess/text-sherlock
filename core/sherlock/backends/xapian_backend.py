@@ -28,7 +28,7 @@ DEFAULT_SEARCH_FLAGS = (
     xapian.QueryParser.FLAG_BOOLEAN_ANY_CASE |
     xapian.QueryParser.FLAG_WILDCARD
 )
-
+    
 ## Indexer
 
 class XapianIndexer(FileIndexer):
@@ -69,7 +69,7 @@ class XapianIndexer(FileIndexer):
 
     def index_file(self, filepath, *args, **kwargs):
         # index file content
-        contents = safe_read_file(filepath)
+        contents = safe_read_file(filepath, allow_docs=settings.DOC_SEARCH)
         if contents is None:
             return
         document = xapian.Document()

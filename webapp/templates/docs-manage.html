@@ -29,6 +29,7 @@
                     {% for document in project.documents %}
                     <li>
                         {{ document.name }}
+                        {% if not document.indexed %}<em>(not indexed)</em>{% endif %}
                         <button type='submit' 
                                 class='btn btn-mini btn-danger' 
                                 data-filename="{{ document.name }}"

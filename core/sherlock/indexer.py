@@ -38,6 +38,20 @@ def index_path(path, name=settings.DEFAULT_INDEX_NAME):
     if not FORCE_INDEX_REBUILD:
         idxr.clean_index()
     pass
+    
+    
+def index_project(project, **kwargs):
+    """Indexes the specified project documents
+    :param project: TSProject instance
+    """
+    idxr = Indexer(rebuild_index=FORCE_INDEX_REBUILD, **kwargs)
+    idxr.open(os.path.join(project.dirpath(), settings.DEFAULT_INDEX_NAME), **kwargs)
+    # index each document
+    for document in project.documents:
+        idxr.index_text(document.path)
+        document.indexed = True
+        document.save()
+    pass
 
 
 class Indexer(object):
@@ -87,8 +101,9 @@ class Indexer(object):
     def clear_index_directory(self):
         """Removes the indexed contents
         """
+        import shutil
         if self.path and self._path.startswith(settings.INDEXES_PATH):
-            os.system('rm -rf %s' % self.path)
+            shutil.rmtree(self.path)
             log.warning('removed index at %s' % self.path)
         pass
 
@@ -109,7 +124,7 @@ class Indexer(object):
         # create the dir, if needed
         path = os.path.join(index_path, self._name)
         if not os.path.isdir(path):
-            os.mkdir(path)
+            os.makedirs(path)
             log.warning('created index directory at %s' % path)
         # create or open the index
         if self._rebuild_index or not self._index.index_exists(path):

@@ -14,31 +14,60 @@ import codecs
 import settings
 from core.sherlock import logger as log
 from datetime import datetime
+if settings.DOC_SEARCH:
+    import slate
+    import docx
+    
 
-
-def read_file(path, encoding='utf-8'):
+def read_file(path, encoding='utf-8', allow_docs=False):
     """Reads the file at the target path.
     """
     with codecs.open(path, "r", encoding=encoding) as f:
         try:
             contents = f.read()
         except UnicodeDecodeError, e:
+            if allow_docs:
+                try:
+                    contents = read_doc_file(path)
+                    return contents
+                except Exception, e2:
+                    raise Exception('doc error %s: %s' % (e2, path)) # replace the original exception
             # re-raise with more information
             raise Exception('%s: %s' % (e, path))
     return contents
 
 
-def safe_read_file(path, ignore_errors=settings.IGNORE_INDEXER_ERRORS, encoding='utf-8'):
+def safe_read_file(path, ignore_errors=settings.IGNORE_INDEXER_ERRORS, encoding='utf-8', allow_docs=False):
     """Returns the contents of the file at the specified path. Ignores any
     errors that may occur
     """
     try:
-        contents = read_file(path, encoding=encoding)
+        contents = read_file(path, encoding=encoding, allow_docs=allow_docs)
     except Exception, e:
         log.error('Skipped file: %s' % path)
         if not ignore_errors:
             raise e
         return None
+    return contents
+
+
+def read_doc_file(path):
+    """Attempts to extract text from the document at the specified path"""
+    contents = None
+    if path.endswith('pdf'):
+        with open(path) as fobj:
+            # read the pdf into memory and get the pages
+            pages = slate.PDF(fobj)
+            contents = ''.join(pages)
+            del pages
+        pass
+    elif path.endswith('docx'):
+        doc = docx.opendocx(path)
+        textlines = docx.getdocumenttext(doc)
+        # build contents
+        contents = u'\n'.join(textlines)
+        del doc
+        pass
     return contents
 
 

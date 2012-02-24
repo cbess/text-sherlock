@@ -50,6 +50,16 @@ class TestIndexer(testcase.BaseTestCase):
         self.assertTrue(idx.doc_count() == 7, 'bad doc count, expected 7 but, indexed %d' % idx.doc_count())
         pass
 
+    def test_doc_indexing(self):
+        """Tests document indexing
+        """
+        path = os.path.join(self.test_dir, 'docs')
+        idx = indexer.get_indexer(name='test', rebuild_index=True)
+        idx.index_text(path)
+        # test values
+        self.assertTrue(idx.doc_count() == 2, 'bad doc count, expected 2 but, indexed %d' % idx.doc_count())
+        pass
+        
 
 def run():
     testcase.run_all(TestIndexer)

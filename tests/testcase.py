@@ -19,13 +19,17 @@ def run_all(testCase):
     suite = unittest.TestLoader().loadTestsFromTestCase(testCase)
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
+    pass
 
 class BaseTestCase(unittest.TestCase):
     """ The base class for all Sherlock test cases """
     
     def setUp(self):
         self.test_dir = '%s/tests' % settings.ROOT_DIR
+        # override settings for the tests
         settings.DEFAULT_INDEX_NAME = 'test'
+        settings.EXCLUDE_FILE_SUFFIX = None
+        settings.INCLUDE_FILE_SUFFIX = None
         pass
 
     def get_test_string(self):

@@ -25,7 +25,6 @@
                id="text" />
         {% if type == 'docs' and projects %}
         <select name="project">
-            <option value='all'>All</option>
             {% for project in projects %}
             <option value='{{ project.id }}'>{{ project.name }}</option>
             {% endfor %}
