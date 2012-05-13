@@ -16,7 +16,6 @@ from datetime import datetime
 from core import peewee
 from core import settings, FULL_INDEXES_PATH
 from core.utils import debug
-import flaskext
 
 try:
     import sqlite3
