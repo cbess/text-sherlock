@@ -45,26 +45,26 @@ def get_app_args():
 def get_options():
     """ Returns the options from the script """
     add_argument('--test', dest='run_tests',
-                    action='store_true',
-                      help='Run tests to ensure everything works correctly.')
+                 action='store_true',
+                 help='Run tests to ensure everything works correctly.')
     add_argument('--stats', dest='show_stats',
-                    action='store_true',
-                      help="Show sherlock statistics.")
+                 action='store_true',
+                 help="Show sherlock statistics.")
     add_argument('--runserver', dest='run_server',
                  action='store_true',
-                    help='Run the Sherlock web server.')
+                 help='Run the Sherlock web server.')
     add_argument('-v', '--version', dest='show_version',
                  action='store_true',
-                    help='Show sherlock version information.')
+                 help='Show sherlock version information.')
     # TODO: not available, yet
 #    add_argument('-q', '--quiet',
-#                      action='store_false', dest='verbose', default=True,
-#                      help='Don\'t print status messages to stdout.')
+#                action='store_false', dest='verbose', default=True,
+#                help='Don\'t print status messages to stdout.')
     add_argument('--index', dest='reindex',
-                    action='store',
-                      help='Indexes the in the path specified by '
-                           'settings.INDEX_PATH. 'Use `update` (default) or '
-                           '`rebuild` to replace the entire index.')
+                 action='store',
+                 help=('Indexes the in the path specified by '
+                       'settings.INDEX_PATH. Use `update` (default) or '
+                       '`rebuild` to replace the entire index.'))
     options = get_app_args()
     return options
 
