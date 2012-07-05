@@ -1,6 +1,6 @@
 import os
 
-# `%(sherlock_dirs)s` resolves to the directory where sherlock is installed.
+# `%(sherlock_dir)s` resolves to the directory where sherlock is installed.
 
 # A value indicating whether the app runs in debug mode.
 # type: boolean
