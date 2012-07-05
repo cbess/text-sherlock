@@ -1,4 +1,6 @@
-# encoding: utf-8
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 """
 indexer.py
 Created by Christopher Bess
@@ -9,6 +11,7 @@ https://github.com/coleifer/peewee/blob/master/README.rst
 http://charlesleifer.com/blog/peewee-a-lightweight-python-orm/
 http://charlesleifer.com/docs/flask-peewee/
 """
+
 import os
 import stat  # index constants for os.stat()
 import time
@@ -23,8 +26,20 @@ except ImportError:
     from pysqlite2 import dbapi2 as sqlite3
 
 
-DATABASE_PATH = os.path.join(FULL_INDEXES_PATH, '%s-index.db' % settings.DEFAULT_INDEX_NAME)
-app_database = peewee.SqliteDatabase(DATABASE_PATH)
+def create_db(path=FULL_INDEXES_PATH, index=settings.DEFAULT_INDEX_NAME):
+    try:
+        os.makedirs(path)
+    except OSError, e:
+        if os.path.exists(path):
+            pass  # The directory already existed.
+        else:  # The directory couldn't be created.
+             raise
+    db_path = os.path.join(path, '%s-index.db' % index)
+    db = peewee.SqliteDatabase(db_path)
+
+    return db, db_path
+
+app_database, DATABASE_PATH = create_db()
 
 
 class BaseModel(peewee.Model):
@@ -33,11 +48,13 @@ class BaseModel(peewee.Model):
 
 
 class IndexerMeta(BaseModel):
-    """Represents the indexer meta data created during the indexing process.
-    """
-    path = peewee.CharField(unique=True, help_text='The absolute path of the item.')
-    mod_date = peewee.DateTimeField(help_text='The date it was modified on the file system.')
-    date_added = peewee.DateTimeField(help_text='The date this record was added to the index.')
+    """Represents the indexer meta data created during the indexing process."""
+    path = peewee.CharField(unique=True,
+                            help_text='The absolute path of the item.')
+    mod_date = peewee.DateTimeField(
+        help_text='The date it was modified on the file system.')
+    date_added = peewee.DateTimeField(
+        help_text='The date this record was added to the index.')
 
     def __unicode__(self):
         return u'<IndexerMeta: %d:%s>' % (self.id, self.path)
