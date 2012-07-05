@@ -1,4 +1,6 @@
-# encoding: utf-8
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 """
 indexer.py
 Created by Christopher Bess
@@ -7,6 +9,7 @@ Copyright 2011
 
 import os
 import settings
+import shutil
 from core import FULL_INDEXES_PATH, FORCE_INDEX_REBUILD
 from core.sherlock import logger as log
 from core.sherlock import searcher
@@ -37,7 +40,6 @@ def index_path(path, name=settings.DEFAULT_INDEX_NAME):
     idxr.index_text(path)
     if not FORCE_INDEX_REBUILD:
         idxr.clean_index()
-    pass
 
 
 class Indexer(object):
@@ -55,53 +57,43 @@ class Indexer(object):
         self._is_writable = kwargs.get('writable', True)
         self._rebuild_index = kwargs.get('rebuild_index', False)
         self._is_recursive = kwargs.get('recursive', False)
-        pass
-        
+
     def doc_count(self):
-        """ Returns the count of all documents indexed """
+        """Returns the count of all documents indexed."""
         return self.index.doc_count()
-        
+
     def get_index(self):
-        """Returns a Sherlock index for this indexer
-        """
+        """Returns a Sherlock index for this indexer."""
         return Index(self)
 
     @property
     def index(self):
-        """Returns the internal FileIndexer index
-        """
+        """Returns the internal FileIndexer index."""
         return self._index
 
     @property
     def name(self):
-        """Returns the name of this indexer
-        """
+        """Returns the name of this indexer."""
         return self._name
 
     @property
     def path(self):
-        """Returns the path of index
-        """
+        """Returns the path of index."""
         return self._path
 
     def clear_index_directory(self):
-        """Removes the indexed contents
-        """
+        """Removes the indexed contents."""
         if self.path and self._path.startswith(settings.INDEXES_PATH):
-            os.system('rm -rf %s' % self.path)
+            shutil.rmtree(self.path)
             log.warning('removed index at %s' % self.path)
-        pass
 
     def clean_index(self):
-        """Cleans the index by purging any documents that no longer exist.
-        """
+        """Cleans the index by purging any documents that no longer exist."""
         log.info('Cleaning index')
         self._index.clean_index()
-        pass
-        
+
     def open(self, index_path, **kwargs):
-        """Creates or opens an index at the specified path.
-        """
+        """Creates or opens an index at the specified path."""
         if not os.path.isdir(index_path):
             msg = "Directory `%s` is not a valid index directory." % index_path
             log.warning(msg)
@@ -120,11 +112,9 @@ class Indexer(object):
             self._index.open_index(path, writable=self._is_writable)
         # store indexes path
         self._path = path
-        pass
-        
+
     def index_text(self, path, recursive=None):
-        """Indexes the text at the specified path.
-        """
+        """Indexes the text at the specified path."""
         assert self._index is not None
         if recursive is not None:
             self._is_recursive = recursive
@@ -132,11 +122,9 @@ class Indexer(object):
         self._index.begin_index_file(path)
         self.__index_path(path)
         self._index.end_index_file(path)
-        pass
-        
+
     def __index_path(self, path):
-        """Indexes the items at the specified path.
-        """
+        """Indexes the items at the specified path."""
         if os.path.isdir(path):
             self.__index_dir(path)
         elif os.path.isfile(path):
@@ -145,11 +133,9 @@ class Indexer(object):
             msg = 'Path %s is not valid for indexing' % path
             log.warning(msg)
             raise Exception(msg)
-        pass
-        
+
     def __index_dir(self, dpath):
-        """Indexes the contents of the directory at the specified path.
-        """
+        """Indexes the contents of the directory at the specified path."""
         log.debug('Checking directory: %s' % dpath)
         # sanity checks
         if not isinstance(settings.EXCLUDE_FILE_SUFFIX, (tuple, type(None))):
@@ -160,7 +146,7 @@ class Indexer(object):
                             type(settings.INCLUDE_FILE_SUFFIX))
         # nested, reused code block
         def check_name(name):
-            """Returns True if the item with the specified name can be indexed"""
+            """Returns True if the item with the specified name can be indexed."""
             can_index = True
             # ignore hidden files
             if name.startswith("."):
@@ -187,7 +173,6 @@ class Indexer(object):
                     continue
                 path = os.path.join(dpath, item)
                 self.__index_file(path)
-                pass
         else:
             # traverse the given path
             for dirpath, dirnames, filenames in os.walk(dpath):
@@ -200,11 +185,9 @@ class Indexer(object):
                     if can_index:
                         path = os.path.join(dirpath, name)
                         self.__index_file(path)
-        pass
-        
+
     def __index_file(self, filepath):
-        """Indexes the contents of the file at the specified path.
-        """
+        """Indexes the contents of the file at the specified path."""
         has_file_changed, db_record = self._index.has_file_updated(filepath)
         if FORCE_INDEX_REBUILD:
             has_file_changed = True
@@ -212,22 +195,18 @@ class Indexer(object):
             return
         log.debug('indexing file: %s' % filepath)
         self._index.index_file(filepath, document_id=db_record.id)
-        pass
 
-        
+
 class Index(object):
     def __init__(self, indexer):
-        """Initializes this Index instance
-        """
+        """Initializes this Index instance."""
         self._indexer = indexer
         self._searcher = searcher.Searcher(indexer)
-        pass
-        
+
     def name(self):
-        """Returns the name of this index
-        """
+        """Returns the name of this index."""
         return self._indexer.name
-        
+
     def search(self, text, pagenum=1, limit=10):
         """Searches the index for the specified text.
         @return list of results
