@@ -11,15 +11,16 @@ __all__ = [
 ]
 
 from cherrypy import wsgiserver as cherrypy_wsgiserver
-import ConfigParser
 import flask
 import os
 import peewee
 import pygments
-import settings
 import sys
-import utils
 import whoosh
+
+import ConfigParser
+import settings
+import utils
 
 
 class SherlockMeta:
@@ -63,7 +64,7 @@ def get_version_info(module):
     return {
         'cherrypy': cherrypy_ver,
         'whoosh': whoosh.versionstring,
-        'pygments': lambda: return pygments.__version__,
+        'pygments': lambda: pygments.__version__,
         'flask': lambda: flask.__version__,
         'sherlock': sherlock_ver,
         }.get(module, lambda: '0.0')()
