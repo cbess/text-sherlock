@@ -1,22 +1,25 @@
-#!sherlock_env/bin/python
-# encoding: utf-8
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """ 
-main.py
+main.py - Runs the main application.
+
 Created by Christopher Bess (https://github.com/cbess/text-sherlock)
-Copyright 2011
+Copyright 2012
 """
-script_description = 'Runs the main application.'
+
 try:
     # optparse is deprecated, but I wanted broader compatibility
     from optparse import OptionParser
-    parser = OptionParser(description=script_description)
+    parser = OptionParser(description=__doc__)
     add_argument = parser.add_option
 except ImportError:
     # this is here to help any future upgrades
     from argparse import ArgumentParser
-    parser = ArgumentParser(description=script_description)
+    parser = ArgumentParser(description=__doc__)
     add_argument = parser.add_argument
     pass
+
 
 from webapp import server
 from core.sherlock import indexer, backends, db
