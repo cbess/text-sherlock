@@ -104,7 +104,11 @@ def run():
             raise Exception('Check INDEX_PATH. Does it exist? %s' % path)
         print 'Indexing path: %s' % path
         if FORCE_INDEX_REBUILD:
+            wait_time = 5 # seconds to wait/pause until rebuilding index
             print 'Reindexing everything!'
+            print 'Waiting %ss for interrupt...' % wait_time
+            import time
+            time.sleep(wait_time)
         indexer.index_path(path)
         # record indexed time
         SherlockMeta.set('last_indexed', datetime.now().strftime(SHORT_DATE_FORMAT))
@@ -114,6 +118,6 @@ def run():
     
 
 if __name__ == '__main__':
-    print 'sherlock v%s started' % get_version_info('sherlock')
+    print 'Running sherlock...'
     run()
     print 'sherlock done.'
