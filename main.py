@@ -92,7 +92,7 @@ def run():
         print 'Index Database: %s' % db.DATABASE_PATH
     elif options.run_server:
         print 'Backend: %s' % settings.DEFAULT_SEARCHER
-        print 'Server: %s' % settings.SERVER_TYPE
+        print 'Server: %s' % server.get_server_type()
         # launch web server
         server.run()
     elif options.reindex:

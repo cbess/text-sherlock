@@ -10,14 +10,14 @@ import views
 
 # The number of processes to spawn for the server.
 # You can only have one or the other; multi-threaded or multi-process.
-# Ignored if using default server.
+# Only applies to the default server, non-DEBUG mode.
 # type: integer
 # default: 1
 SERVER_PROCESSES = 1
 
 # True if the web server process should handle each request in a separate thread.
 # You can only have one or the other; multi-threaded or multi-process.
-# Ignored if using the default server.
+# Only applies to the default server, non-DEBUG mode.
 # type: boolean
 # default: True
 SERVER_IS_THREADED = True
@@ -39,6 +39,8 @@ def run():
         import server_cherrypy
         server_cherrypy.run()
     else: # default server (flask/werkzeug)
+        if SERVER_PROCESSES > 1 and SERVER_IS_THREADED:
+            raise Exception('Choose either multi-threaded or multi-process')
         # dev or low traffic
         app.run(
             host=core_settings.SERVER_ADDRESS,
