@@ -8,7 +8,7 @@ Instructions:
 
 1. Download [sherlock](https://github.com/cbess/text-sherlock) source from [GitHub](https://github.com/cbess/text-sherlock).
 1. Extract/place the sherlock source code in the desired (install) directory. This will be where sherlock lives.
-1. Run `setup/virtualenv-setup.sh` to setup an isolated environment and download core packages.
+1. Run `sh ./virtualenv-setup.sh` (from the setup dir) to setup an isolated environment and download core packages.
 1. Configure settings. The defaults in `settings.py` provide documentation for each setting.
 	- Copy `example.local_settings.py` to `local_settings.py`.
  	- Override/copy any setting from `settings.py` to `local_settings.py` (change the values as needed).
