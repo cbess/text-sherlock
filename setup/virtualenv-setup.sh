@@ -2,30 +2,30 @@
 # Created by: Christopher Bess
 # It is recomm. not to run this script using sudo, it is used as needed.
 #
-# Run this script from this `setup` directory.
-#
 # user$: sh ./virtualenv-setup.sh
 
-echo "Setting up virtualenv and pip"
+echo "Setting up virtualenv and pip - installing with sudo"
 sudo easy_install pip
 sudo pip install virtualenv
 
+PROJROOT=$(cd $(dirname $0) && cd .. && pwd)
+
 # adjust permission (allow it to be executed)
-chmod +x ../main.py
+chmod +x ${PROJROOT}/main.py
 
 # if on a Mac exec below line (maybe)
 # ARCHFLAGS="-arch i386 -arch x86_64"
 
 # setup sherlock environment
-mkdir -p ../data/indexes
-virtualenv ../sherlock_env --distribute --no-site-packages
-source ../sherlock_env/bin/activate
+mkdir -p ${PROJROOT}/data/indexes
+virtualenv ${PROJROOT}/sherlock_env --distribute --no-site-packages
+source ${PROJROOT}/sherlock_env/bin/activate
 
 echo "Installing sherlock dependencies"
-../sherlock_env/bin/pip install -r requirements.txt
+${PROJROOT}/sherlock_env/bin/pip install -r ${PROJROOT}/setup/requirements.txt
 
 # confirm installation by showing version information
 # echo "Sherlock version information"
-# ../sherlock_env/bin/python ../main.py -v
+# ${PROJROOT}/sherlock_env/bin/python ${PROJROOT}/main.py -v
 
 echo "Done, sherlock install finished"
