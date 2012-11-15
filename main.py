@@ -74,7 +74,7 @@ def run():
         tests.run_all()
     elif options.show_version:
         pyver = sys.version_info
-        print '  Python: v%d.%d.%d' % (pyver.major, pyver.minor, pyver.micro)
+        print '  Python: v%d.%d.%d' % (pyver[0], pyver[1], pyver[2])
         print 'Sherlock: v' + get_version_info('sherlock')
         print '   Flask: v' + get_version_info('flask')
         print 'Pygments: v' + get_version_info('pygments')
