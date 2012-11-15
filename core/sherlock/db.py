@@ -65,7 +65,7 @@ def is_file_updated(filepath, check_file_exists=False, update_db=False):
 
     # get db record
     record = None
-    query = IndexerMeta.select().where(path=filepath)
+    query = IndexerMeta.select().where(IndexerMeta.path == filepath)
     if query.exists():
         # get the one record
         record = [q for q in query][0]
@@ -98,14 +98,14 @@ def can_update_index(filepath, update_db=True):
 def get_file_record(filepath):
     """Returns the database record for the target filepath.
     """
-    record = IndexerMeta.select().get(path=filepath)
+    record = IndexerMeta.select().get(IndexerMeta.path == filepath)
     return record
 
 
 def file_record_exists(filepath):
     """Returns True if a record with the specified file path exists in the database
     """
-    return IndexerMeta.select().where(path=filepath).exists()
+    return IndexerMeta.select().where(IndexerMeta.path == filepath).exists()
 
 
 def get_raw_file_record(filepath):
