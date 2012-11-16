@@ -1,12 +1,17 @@
-# encoding: utf-8
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 __init__.py
 Created by Christopher Bess
 Copyright 2011
 """
+
 __author__ = 'C. Bess'
 
+
 import whoosh_backend
+
 
 # Lists the indexer classes that can handle indexing operations
 AVAILABLE_INDEXERS = {
@@ -25,7 +30,6 @@ try:
     AVAILABLE_SEARCHERS['xapian'] = xapian_backend.XapianSearcher
 except ImportError:
     print 'Xapian backend support unavailable'
-    pass
 
 
 # for stats output

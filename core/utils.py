@@ -1,6 +1,13 @@
-# encoding: utf-8
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-# try ipython first, fallback to standard pdb
+import cgi
+import codecs
+from datetime import datetime
+from core.sherlock import logger as log
+import settings
+
+# Try ipython first, fallback to standard pdb.
 try:
     from ipdb import set_trace
     debug = set_trace
@@ -9,16 +16,9 @@ except ImportError:
     debug = set_trace
     pass
 
-import cgi
-import codecs
-import settings
-from core.sherlock import logger as log
-from datetime import datetime
-
 
 def read_file(path, encoding='utf-8'):
-    """Reads the file at the target path.
-    """
+    """Reads the file at the target path."""
     with codecs.open(path, "r", encoding=encoding) as f:
         try:
             contents = f.read()
@@ -28,22 +28,22 @@ def read_file(path, encoding='utf-8'):
     return contents
 
 
-def safe_read_file(path, ignore_errors=settings.IGNORE_INDEXER_ERRORS, encoding='utf-8'):
+def safe_read_file(path, ignore_errors=settings.IGNORE_INDEXER_ERRORS,
+                   encoding='utf-8'):
     """Returns the contents of the file at the specified path. Ignores any
-    errors that may occur
-    """
+    errors that may occur."""
     try:
         contents = read_file(path, encoding=encoding)
+        return contents
     except Exception, e:
         log.error('Skipped file: %s' % path)
         if not ignore_errors:
             raise e
-        return None
-    return contents
 
 
 def fragment_text(token, text):
     """Returns the text for the specified token.
+
     :param token: The token or fragment that provides the start and end pos
     of the matched search term.
     :param text: The full text that was searched. The entire contents
@@ -52,8 +52,10 @@ def fragment_text(token, text):
     max_lines = settings.NUM_CONTEXT_LINES
     new_line = settings.NEW_LINE
     assert max_lines > 0
-    if not isinstance(settings.MATCHED_TERM_WRAP, tuple) or len(settings.MATCHED_TERM_WRAP) != 2:
-        raise Exception('Invalid matched term wrap. Please set MATCHED_TERM_WRAP setting.')
+    if (not isinstance(settings.MATCHED_TERM_WRAP, tuple)
+        or len(settings.MATCHED_TERM_WRAP) != 2):
+        raise Exception(
+            'Invalid matched term wrap. Please set MATCHED_TERM_WRAP setting.')
     nl = new_line
     # add the formatted token
     bText = text[:token.startchar]
@@ -100,22 +102,19 @@ def fragment_text(token, text):
 
 
 def resolve_path(path):
-    """Returns the resolved path based on sherlock path variables.
-    """
+    """Returns the resolved path based on sherlock path variables."""
     return path % { 'sherlock_dir' : settings.ROOT_DIR }
-    
-    
+
+
 def datetime_to_phrase(date_time):
-    """
-    converts a python datetime object to the 
-    format "X days, Y hours ago"
-    
+    """Converts a python datetime object to the format "X days, Y hours ago"
+
     @param date_time: Python datetime object
 
     @return:
         fancy datetime:: string
-        
-    @author: 
+
+    @author:
         Copyright 2009 Jai Vikram Singh Verma (jaivikram[dot]verma[at]gmail[dot]com)
         http://code.activestate.com/recipes/576880-convert-datetime-in-python-to-user-friendly-repres/
     """
@@ -138,13 +137,13 @@ def datetime_to_phrase(date_time):
         days = days % 365
     if days >= 30 and days < 365:
         months = int(days / 30)
-        datelets.append('%d month%s' % (months, plural(months)))        
+        datelets.append('%d month%s' % (months, plural(months)))
         days = days % 30
     if not years and days > 0 and days < 30:
         xdays = days
-        datelets.append('%d day%s' % (xdays, plural(xdays)))        
+        datelets.append('%d day%s' % (xdays, plural(xdays)))
     if not (months or years) and hours != 0:
-        datelets.append('%d hour%s' % (hours, plural(hours)))        
+        datelets.append('%d hour%s' % (hours, plural(hours)))
     if not (xdays or months or years):
-        datelets.append('%d minute%s' % (minutes, plural(minutes)))        
+        datelets.append('%d minute%s' % (minutes, plural(minutes)))
     return ', '.join(datelets) + ' ago.'

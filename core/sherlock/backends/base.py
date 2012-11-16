@@ -1,34 +1,37 @@
-# encoding: utf-8
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """ 
 base.py
 Created by: Christopher Bess
 Copyright: 2011
 """
 
-from core import settings, FULL_INDEX_PATH
-from core.sherlock import db, logger
+
+from core import settings
+from core import FULL_INDEX_PATH
+from core.sherlock import db
+from core.sherlock import logger
+
 
 ## Indexer Base Classes
 
 class FileIndexer(object):
-    """Represents the base file indexer object. All methods are required to be implemented.
-    """
+    """Represents the base file indexer object. All methods are required to be
+    implemented."""
     def __init__(self, *args, **kwargs):
         pass
 
     def doc_count(self):
-        """Returns the total document count
-        """
+        """Returns the total document count."""
         raise NotImplementedError
 
     def open_index(self, path, *args, **kwargs):
-        """Opens the index at the specified path
-        """
+        """Opens the index at the specified path."""
         raise NotImplementedError
 
     def create_index(self, path, *args, **kwargs):
-        """Creates the index at the specified path
-        """
+        """Creates the index at the specified path."""
         raise NotImplementedError
 
     def begin_index_file(self, filepath):
@@ -38,8 +41,7 @@ class FileIndexer(object):
         pass
 
     def index_file(self, filepath, *args, **kwargs):
-        """Indexes and stores the file at the specified path
-        """
+        """Indexes and stores the file at the specified path."""
         raise NotImplementedError
 
     def end_index_file(self, filepath):
@@ -54,25 +56,26 @@ class FileIndexer(object):
         raise NotImplementedError
 
     def clean_index(self):
-        """Cleans the index by purging any documents that no longer exist.
-        """
+        """Cleans the index by purging any documents that no longer exist."""
         raise NotImplementedError
 
     def has_file_updated(self, filepath):
-        """Determines if the specified file can be indexed. By default it checks the indexer database to see
-        if the target file has been updated after it was stored (if stored at all).
+        """Determines if the specified file can be indexed. By default it
+        checks the indexer database to see if the target file has been updated
+        after it was stored (if stored at all).
+
         :return: tuple (file_is_updated, db_record)
         """
         return db.is_file_updated(filepath, update_db=True)
 
     def file_meta_exists(self, filepath):
-        """Returns True if the specified filepath has meta data in the index database.
+        """Returns True if the specified filepath has meta data in the index
+        database.
         """
         return db.file_record_exists(filepath)
 
     def get_indexed_files(self):
-        """Returns all indexed file documents
-        """
+        """Returns all indexed file documents."""
         return db.IndexerMeta.select()
 
     
@@ -80,22 +83,22 @@ class FileIndexer(object):
 
 class FileSearcher(object):
     def __init__(self, indexer):
-        """Initializes this instance
+        """Initializes this instance.
+
         :param indexer: The sherlock.Indexer instance that is assigned to this search.
         """
         self._indexer = indexer
-        pass
 
     def find_text(self, text, pagenum=1, limit=10):
         """Returns the search results for the given user text input.
+
         :param pagenum: The page number of the search results.
         :param limit: The max number of results to return as the results.
         """
         raise NotImplementedError
 
     def find_path(self, path):
-        """Returns the search result for the target path.
-        """
+        """Returns the search result for the target path."""
         raise NotImplementedError
 
     @property
@@ -104,8 +107,7 @@ class FileSearcher(object):
 
 
 class SearchResults(list):
-    """Represents the search results
-    """
+    """Represents the search results."""
     searcher = None
     # the next page number, use -1 to indicate no next page available
     next_pagenum = -1
@@ -119,7 +121,8 @@ class SearchResults(list):
     pagenum = -1
     
     def __init__(self, searcher, hits, **kwargs):
-        """Initializes this Results instance
+        """Initializes this Results instance.
+
         :param searcher: sherlock.Searcher instance that created the hits
         :param hits: sequence of raw search result objects from the search
         :param kwargs: {
@@ -142,11 +145,10 @@ class SearchResults(list):
         # calculate last page
         if self.pagenum * self.limit >= self.total_count:
             self.next_pagenum = -1
-        pass
 
     @property
     def items(self):
-        """Returns the transformed results that represent the internal list elements
+        """The transformed results that represent the internal list elements.
         """
         return self._items
 
@@ -156,15 +158,14 @@ class SearchResults(list):
 
     def process_hits(self, hits):
         """Processes the raw search result hits. It must add the processed
-        hit as a base.SearchResult instance, then pass it to `this.append` to store
-        them as a result.
+        hit as a base.SearchResult instance, then pass it to `this.append` to
+        store them as a result.
         """
         raise NotImplementedError
 
 
 class SearchResult(object):
-    """Represents a sherlock result
-    """
+    """Represents a sherlock result."""
     context = ''
     path = None
     filename = None
@@ -172,7 +173,8 @@ class SearchResult(object):
     index_path = None
     
     def __init__(self, hit, indexer, **kwargs):
-        """Initializes this Result instance
+        """Initializes this Result instance.
+
         :param hit: The raw indexer search hit this instance represents
         :param indexer: The sherlock.Indexer that holds this search result
         @param kwargs {
@@ -188,19 +190,17 @@ class SearchResult(object):
         try:
             self.process_hit(hit)
         except IOError, e:
-            logger.warning('IOError while processing hit: %s:%s' % (self.path, e))
-            pass
-        pass
+            logger.warning('IOError while processing hit: %s:%s', self.path, e)
 
     def process_hit(self, hit):
         """Process the result data, it should read the original file to produce
         the processed search result.
+
         @remark For now it only processes to get the context for the result. The
         processing operation should populate the default class properties.
         """
         raise NotImplementedError
         
     def append_line(self, lines, text):
-        """ Appends the text to the target lines """        
+        """Appends the text to the target lines."""        
         lines.append("<div class='line'>%s</div>\n" % text.strip())
-        pass

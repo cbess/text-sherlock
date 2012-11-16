@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """ 
 transformer.py
 Created by: Christopher Bess
@@ -16,19 +18,17 @@ from pygments.formatters import HtmlFormatter
 
 
 class Transformer(object):
-    """
-    This transforms the result object to it's search result for various output.
-    """
+    """Transform the result object to it's search result for various outputs."""
     def __init__(self, result=None):
-        """Initializes this Transformer instance
+        """Initializes this Transformer instance.
+
         :param result: sherlock.Result instance
         """
         self._result = result
-        pass
 
     def get_lines(self, lines):
         """Returns the lines that were parsed out of the specified lines. Parses
-        out ranges or line numbers
+        out ranges or line numbers.
         """
         if not lines:
             return []
@@ -53,16 +53,15 @@ class Transformer(object):
         return result
         
     def html(self, result=None):
-        """Transforms the internal or specified result object to HTML
-        """
+        """Transform the internal or specified result object to HTML."""
         if not result:
             result = self._result
         assert result is not None
         return self.to_html(result.context, result.filename)
 
     def to_html(self, text, filename, **kwargs):
-        """Returns the HTML for the given text, highlighting it based on the
-        specified filename (file type)
+        """Return highlighted HTML for the given text, based on filename
+        (file type).
         """
         # get the highlighted lines
         hl_lines = kwargs.get('highlight_lines', '')
@@ -75,12 +74,13 @@ class Transformer(object):
             lineanchors='line',
             anchorlinenos=True,
             **kwargs
-        )
+            )
         html = highlight(text, lexer, formatter)
         return html
         
     def transform_results(self, results, type='html'):
-        """Returns a sequence of syntax hightlighted items
+        """Returns a sequence of syntax hightlighted items.
+
         :param results: searcher.Results instance
         :param string type: The type of transform to perform.
             possible values: html (that's it for now) or None
@@ -94,12 +94,10 @@ class Transformer(object):
                 item.html = result.context
             item.result = result
             results.items.append(item)
-            pass
         return results
 
 
 class Item(object):
-    """Represents a transformed item result
-    """
+    """Represents a transformed item result."""
     def __str__(self):
-        return "<transformer.Item %s>" % repr(self)
+        return '<transformer.Item %s>' % repr(self)
