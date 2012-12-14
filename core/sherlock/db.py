@@ -67,19 +67,23 @@ def is_file_updated(filepath, check_file_exists=False, update_db=False):
     record by file path then compares the file stats.
     :return: tuple has_changed, db_record
     """
+    has_file_changed = False
+    record = None
+    
     if check_file_exists:
         if not os.path.isfile(filepath):
-            return False
-
-    has_file_changed = False
+            return has_file_changed, record
 
     # get file info
-    file_stats = os.stat(filepath)
+    try:
+        file_stats = os.stat(filepath)
+    except OSError:
+        # file may not exist
+        return has_file_changed, record
     last_mod = time.localtime(file_stats[stat.ST_MTIME])
     last_mod_dt = datetime(*last_mod[:6]) # time_struct -> datetime
 
     # get db record
-    record = None
     query = IndexerMeta.select().where(IndexerMeta.path == filepath)
     if query.exists():
         # get the one record
