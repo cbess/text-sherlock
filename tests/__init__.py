@@ -21,10 +21,22 @@ if hdlr:
     sherlock_logger.addHandler(hdlr)
 
 
+def adjust_test_settings():
+    """Adjusts the settings to support the unit tests"""
+    # include the file suffixes available in the 'text' dir
+    settings.INCLUDE_FILE_SUFFIX = (
+        '.h',
+        '.m',
+        '.c',
+        '.cpp',
+        '.py',
+    )
+
+
 def run_all():
     """Runs all unit tests
     """
+    adjust_test_settings()
     test_indexer.run()
     test_searcher.run()
     #test_transformer.run()
-    pass
