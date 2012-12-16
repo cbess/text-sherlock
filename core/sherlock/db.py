@@ -18,6 +18,7 @@ from datetime import datetime
 from core import peewee
 from core import settings, FULL_INDEXES_PATH
 from core.utils import debug
+from core.sherlock import logger
 
 try:
     import sqlite3
@@ -97,12 +98,17 @@ def is_file_updated(filepath, check_file_exists=False, update_db=False):
             record.save()
     else:
         if update_db:
-            record = IndexerMeta.create(
-                path=filepath,
-                mod_date=last_mod_dt,
-                date_added=datetime.now()
-            )
-        return True, record
+            try:
+                record = IndexerMeta.create(
+                    path=filepath,
+                    mod_date=last_mod_dt,
+                    date_added=datetime.now()
+                )
+                return True, record
+            except sqlite3.IntegrityError, e:
+                # column path may not be unique
+                logger.error('%s - filepath: %s' % (e, filepath))
+                pass
     return has_file_changed, record
 
 
