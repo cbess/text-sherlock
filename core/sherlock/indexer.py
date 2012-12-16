@@ -189,7 +189,7 @@ class Indexer(object):
     def __index_file(self, filepath):
         """Indexes the contents of the file at the specified path."""
         has_file_changed, db_record = self._index.has_file_updated(filepath)
-        if FORCE_INDEX_REBUILD:
+        if FORCE_INDEX_REBUILD and db_record is not None:
             has_file_changed = True
         if not has_file_changed:
             return
