@@ -1,57 +1,80 @@
+# -*- coding: utf-8 -*-
+"""
+Created by Christopher Bess (https://github.com/cbess/text-sherlock)
+Copyright 2013 
+"""
 import os
-
+from app_args import get_options
+config = {}
+try:
+    import yaml
+    # Try to load local settings, which override the above settings.
+    # In local_settings.yml, set the values for any settings you want to override.
+    yaml_path = os.path.join(os.path.dirname(__file__), 'local_settings.yml')
+    if os.path.isfile(yaml_path):
+        # try default path, root directory
+        config = yaml.load(open(yaml_path, 'r'))
+    elif os.path.isfile(get_options().config):
+        yaml_path = get_options().config
+        # try the specified config path
+        config = yaml.load(yaml_path)
+    if config:
+        print 'Loaded Sherlock config from %s' % yaml_path
+except ImportError:
+    print 'No yaml lib: pip install pyyaml'
+    
 # `%(sherlock_dir)s` resolves to the directory where sherlock is installed.
 
 # A value indicating whether the app runs in debug mode.
 # type: boolean
-# default: True (set to False for production or in untrusted environments use)
-DEBUG = True
+# default: True (set to False for production or in untrusted environments)
+DEBUG = config.get('debug', True)
 
 # Should not be changed, this is the absolute path to the directory
-# containing main.py, core/, etc.
+# containing main.py, settings.py, core/, etc.
 # type: string
-# default: os.path.abspath('.')
-ROOT_DIR = os.path.abspath('.')
+# default: os.path.dirname(__file__)
+ROOT_DIR = os.path.dirname(__file__)
 
 # An absolute path to the directory that will store all indexes
 # for the search engine. Must have trailing slash.
 # type: string
 # default: '%(sherlock_dir)s/data/indexes/'
-INDEXES_PATH = '%(sherlock_dir)s/data/indexes/'
+INDEXES_PATH = config.get('indexes_path', '%(sherlock_dir)s/data/indexes/')
 
 # True if the target path will be indexed recursively (includes sub directories).
 # type: boolean
 # default: True
-INDEX_RECURSIVE = True
+INDEX_RECURSIVE = config.get('index_recursive', True)
 
 # An absolute path to the directory path that will store the logs.
 # Set to an empty string to disable logging.
 # type: string
 # default: ''
-LOG_PATH = ''
+LOG_PATH = config.get('log_path', '')
 
 # New line character value, may be '\n' or '\r\n'.
 # type: character|string
 # default: '\n'
-NEW_LINE = '\n'
+NEW_LINE = config.get('new_line', '\n')
 
 # During the indexing all items with the given suffix will be exclude from the
 # index. Only checks filenames, for now.
 # type: tuple
 # default: None
-EXCLUDE_FILE_SUFFIX = None
+EXCLUDE_FILE_SUFFIX = config.get('exclude_file_suffix')
 
 # The opposite of EXCLUDE_FILE_SUFFIX. This **only** includes files that match
 # a given suffix.
 # type: tuple
 # default: None
-INCLUDE_FILE_SUFFIX = None
+INCLUDE_FILE_SUFFIX = config.get('include_file_suffix')
 
 # Number of lines used when displaying the results
 # context per hit. This needs to be one (1) or greater.
 # type: integer
 # default: 1
-NUM_CONTEXT_LINES = 1
+NUM_CONTEXT_LINES = config.get('num_context_lines', 1)
 
 # The absolute path to index when the indexing is performed.
 # This is the index that has the original text to be indexed. This is also used
@@ -59,46 +82,46 @@ NUM_CONTEXT_LINES = 1
 # trailing slash. The user running the app must have read access to the path.
 # type: string
 # default: '%(sherlock_dir)s/tests/text/'
-INDEX_PATH = '%(sherlock_dir)s/tests/text/'
+INDEX_PATH = config.get('index_path', '%(sherlock_dir)s/tests/text/')
 
 # The default index name that is used for an index created within INDEXES_PATH.
 # type: string
 # default: 'main'
-DEFAULT_INDEX_NAME = 'main'
+DEFAULT_INDEX_NAME = config.get('default_index_name', 'main')
 
 # The name of the server type to use as the web server.
 # CherryPy support is built-in, if production: 'cherrypy'.
 # type: string
 # default: None
-SERVER_TYPE = None
+SERVER_TYPE = config.get('server_type')
 
 # The local port to expose the web server.
 # type: integer
 # default: 7777
-SERVER_PORT = 7777
+SERVER_PORT = config.get('server_port', 7777)
 
 # The local address to access the web server (the host name to listen on).
 # Use '0.0.0.0' to make it available externally.
 # type: string
 # default: '127.0.0.1' or 'localhost'
-SERVER_ADDRESS = '127.0.0.1'
+SERVER_ADDRESS = config.get('SERVER_ADDRESS', '127.0.0.1')
 
 # Default number of results per page.
 # type: integer
 # default: 10
-RESULTS_PER_PAGE = 10
+RESULTS_PER_PAGE = config.get('results_per_page', 10)
 
 # Default number of sub results shown in each search result.
 # type: integer
 # default: 3
-MAX_SUB_RESULTS = 3
+MAX_SUB_RESULTS = config.get('max_sub_results', 3)
 
 # Default file indexer and searcher. Available indexers: whoosh and xapian
 # They can be set to different values only if the two backends are compatible
 # with each other.
 # type: string
 # default: 'whoosh'
-DEFAULT_SEARCHER = DEFAULT_INDEXER = 'whoosh'
+DEFAULT_SEARCHER = DEFAULT_INDEXER = config.get('DEFAULT_INDEXER', 'whoosh')
 
 # Allows the indexer to ignore errors produced during file indexing.
 # For example: any unicode or file read errors, it will skip indexing those files.
@@ -112,18 +135,18 @@ IGNORE_INDEXER_ERRORS = not DEBUG
 # the matched term.
 # type: tuple
 # default: ("<span class='match'>", "</span>")
-MATCHED_TERM_WRAP = ("<span class='match'>", "</span>")
+MATCHED_TERM_WRAP = config.get('matched_term_wrap', ("<span class='match'>", "</span>"))
 
 # The banner text displayed in the header of each page.
 # type: string/html
 # default: 'Sherlock Search'
-SITE_BANNER_TEXT = 'Sherlock Search'
+SITE_BANNER_TEXT = config.get('site_banner_text', 'Sherlock Search')
 
 # The site title text (displayed in browser tab or title bar of window).
 # This is appended to each auto-generated page title.
 # type: string
 # default: 'Text Sherlock'
-SITE_TITLE = 'Text Sherlock'
+SITE_TITLE = config.get('site_title', 'Text Sherlock')
 
 # The site banner background color.
 # This banner is shown at the top of each page.
@@ -133,14 +156,13 @@ SITE_TITLE = 'Text Sherlock'
 #   main.css (#top-banner #banner-text)
 # type: string
 # default: black
-SITE_BANNER_COLOR = 'black'
+SITE_BANNER_COLOR = config.get('site_banner_color', 'black')
 
 
 # Customzie the settings per installation
 try:
-    # Try to import local settings, which override the above settings.
-    # In local_settings.py (in this directory), set the values for any settings
-    # you want to override.
+    # use the local_settings.yml instead
     from local_settings import *
+    print '!!!Deprecated local_settings.py file: Use local_settings.yml instead.'
 except ImportError:
     print 'No local_settings.py found. Using all default settings.'
