@@ -6,3 +6,4 @@ data
 .idea
 local_settings.py
 sherlock-meta.cfg
+local_settings.yml

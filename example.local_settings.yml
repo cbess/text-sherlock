@@ -1,0 +1,21 @@
+# settings overrides
+# Make a copy of this file and rename it to `local_settings.yml`
+# online yaml parser: http://yaml-online-parser.appspot.com/
+
+# A value indicating whether the app runs in debug mode.
+# type: boolean
+# default: true (set to false for production or in untrusted environments)
+debug: false
+
+# The opposite of exclude_file_suffix. This **only** includes files that match a given suffix.
+# type: tuple
+# default: None
+include_file_suffix: [
+    '.m',
+    '.c'
+]
+
+# The name of the server type to use as the web server.
+# type: string
+# default: '' or 'cherrypy'
+server_type: 'cherrypy'
