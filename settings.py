@@ -4,22 +4,32 @@ Created by Christopher Bess (https://github.com/cbess/text-sherlock)
 Copyright 2013 
 """
 import os
-from app_args import get_options
+
+# Should not be changed, this is the absolute path to the directory
+# containing main.py, settings.py, core/, etc.
+# type: string
+# default: os.path.dirname(__file__)
+ROOT_DIR = os.path.dirname(__file__)
+
 config = {}
+from app_args import get_options
 try:
     import yaml
-    # Try to load local settings, which override the above settings.
+    # Try to load local settings (given path first, then relative/local), which override the default settings.
     # In local_settings.yml, set the values for any settings you want to override.
-    yaml_path = os.path.join(os.path.dirname(__file__), 'local_settings.yml')
-    if os.path.isfile(yaml_path):
-        # try default path, root directory
-        config = yaml.load(open(yaml_path, 'r'))
-    elif os.path.isfile(get_options().config):
-        yaml_path = get_options().config
+    default_yaml_path = os.path.join(ROOT_DIR, 'local_settings.yml')
+    yaml_path = get_options().config
+    if not os.path.isfile(yaml_path):
+        print 'No config at %s' % yaml_path
+    if yaml_path and os.path.isfile(yaml_path):
         # try the specified config path
-        config = yaml.load(yaml_path)
+        config = yaml.load(open(yaml_path, 'r'))
+    elif os.path.isfile(default_yaml_path):
+        yaml_path = default_yaml_path
+        # try default path, proj/root directory
+        config = yaml.load(open(yaml_path, 'r'))
     if config:
-        print 'Loaded Sherlock config from %s' % yaml_path
+        print 'Loaded Sherlock config settings from %s' % yaml_path
 except ImportError:
     print 'No yaml lib: pip install pyyaml'
     
@@ -29,12 +39,6 @@ except ImportError:
 # type: boolean
 # default: True (set to False for production or in untrusted environments)
 DEBUG = config.get('debug', True)
-
-# Should not be changed, this is the absolute path to the directory
-# containing main.py, settings.py, core/, etc.
-# type: string
-# default: os.path.dirname(__file__)
-ROOT_DIR = os.path.dirname(__file__)
 
 # An absolute path to the directory that will store all indexes
 # for the search engine. Must have trailing slash.
@@ -104,7 +108,7 @@ SERVER_PORT = config.get('server_port', 7777)
 # Use '0.0.0.0' to make it available externally.
 # type: string
 # default: '127.0.0.1' or 'localhost'
-SERVER_ADDRESS = config.get('SERVER_ADDRESS', '127.0.0.1')
+SERVER_ADDRESS = config.get('server_address', '127.0.0.1')
 
 # Default number of results per page.
 # type: integer
@@ -121,7 +125,7 @@ MAX_SUB_RESULTS = config.get('max_sub_results', 3)
 # with each other.
 # type: string
 # default: 'whoosh'
-DEFAULT_SEARCHER = DEFAULT_INDEXER = config.get('DEFAULT_INDEXER', 'whoosh')
+DEFAULT_SEARCHER = DEFAULT_INDEXER = config.get('default_indexer', 'whoosh')
 
 # Allows the indexer to ignore errors produced during file indexing.
 # For example: any unicode or file read errors, it will skip indexing those files.
@@ -159,10 +163,9 @@ SITE_TITLE = config.get('site_title', 'Text Sherlock')
 SITE_BANNER_COLOR = config.get('site_banner_color', 'black')
 
 
-# Customzie the settings per installation
+# Use the local_settings.yml instead, noted at the top of file
 try:
-    # use the local_settings.yml instead
     from local_settings import *
-    print '!!!Deprecated local_settings.py file: Use local_settings.yml instead.'
+    print '!!!Deprecated local_settings.py|pyc file found: Use local_settings.yml instead.'
 except ImportError:
-    print 'No local_settings.py found. Using all default settings.'
+    pass

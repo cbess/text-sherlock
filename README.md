@@ -10,14 +10,14 @@ Instructions:
 1. Extract/place the sherlock source code in the desired (install) directory. This will be where sherlock lives.
 1. Run `sh virtualenv-setup.sh` to setup an isolated environment and download core packages.
 1. Configure settings. The defaults in `settings.py` provide documentation for each setting.
-	- Copy `example.local_settings.py` to `local_settings.py`.
- 	- Override/copy any setting from `settings.py` to `local_settings.py` (change the values as needed).
+	- Copy `example.local_settings.yml` to `local_settings.yml`.
+ 	- Override/copy any setting from `settings.py` to `local_settings.yml` (change the values as needed). All YAML keys/options must be lowercase.
 1. Run `source sherlock_env/bin/activate` to enter the virtual environment.
 1. Run `python main.py --index update` or `--index rebuild` to index the path specified in the settings. Watch indexing output.
 1. Run `python main.py --runserver` to start the web server.
 1. Go to `http://localhost:7777` to access the web interface. Uses the [twitter bootstrap](http://twitter.github.com/bootstrap) for its UI.
 
-You may need to install some packages before a *Ubuntu* installations will run without error.
+You may need to install some packages before a *Ubuntu* installation will run without error.
 
 - Install curl: `sudo apt-get install curl`
 - Install uuid libs: `sudo apt-get install uuid-dev`
@@ -58,7 +58,7 @@ Append to document URL.
 
 settings.py
 
-- Change the `DEFAULT_INDEXER` and `DEFAULT_SEARCHER` values to match the name given to the backend.
+- Change the `default_indexer` and `default_searcher` values to match the name given to the backend.
     - Possbile values:
         - `whoosh` the default, no extra work needed.
         - `xapian` must be installed separately using the included `setup/install-xapian.sh` setup script.
@@ -68,7 +68,7 @@ settings.py
 settings.py
 
 - Text Sherlock has built-in support for [werkzeug](http://werkzeug.pocoo.org/) and [cherrypy](http://www.cherrypy.org/) WSGI compliant servers.
-- Change the `SERVER_TYPE` value to one of the available server types.
+- Change the `server_type` value to one of the available server types.
     - Possible values:
         - `default`, werkzeug web server (default).
         - `cherrypy`, production ready web server.
@@ -83,6 +83,7 @@ settings.py
 * Pygments - [pygments](http://pygments.org/docs/quickstart)
 * peewee - [peewee](https://github.com/coleifer/peewee)
 * Twitter Bootstrap - [twitter bootstrap](http://twitter.github.com/bootstrap)
+* PyYAML - [pyyaml](http://pyyaml.org)
 
 ## Other References
 
@@ -91,6 +92,7 @@ settings.py
 * http://charlesleifer.com/docs/peewee/
 * http://www.cherrypy.org/
 * http://xapian.org/
+* http://pyyaml.org/wiki/PyYAMLDocumentation
 
 ## Project Goals
 
