@@ -15,12 +15,18 @@ config = {}
 from app_args import get_options
 try:
     import yaml
+    
     # Try to load local settings (given path first, then relative/local), which override the default settings.
     # In local_settings.yml, set the values for any settings you want to override.
     default_yaml_path = os.path.join(ROOT_DIR, 'local_settings.yml')
     yaml_path = get_options().config
-    if not os.path.isfile(yaml_path):
-        print 'No config at %s' % yaml_path
+    if not yaml_path or not os.path.isfile(yaml_path):
+        if yaml_path:
+            print 'No config at %s' % yaml_path
+        else:
+            print 'No yaml config'
+        print 'Setup the local_settings.yml config.'
+            
     if yaml_path and os.path.isfile(yaml_path):
         # try the specified config path
         config = yaml.load(open(yaml_path, 'r'))
