@@ -1,6 +1,6 @@
 # Text Sherlock (or Sherlock or TS)
 
-Provides an easy to install and use search engine for text but, mostly for source code. [OpenGrok](http://hub.opensolaris.org/bin/view/Project+opengrok/) requires to much time to install (though it may be worth it for some). Sherlock will give you a much easier setup, a text indexer, and a web app interface for searching.
+Provides an easy to install and use search engine for text but, mostly for source code. [OpenGrok](https://github.com/OpenGrok/OpenGrok) requires to much time to install (though it may be worth it for some). Sherlock will give you a much easier setup, a text indexer, and a web app interface for searching.
 
 ## Basic Setup
 
@@ -82,7 +82,7 @@ settings.py
 * Jinja2 - [jinja2](http://jinja.pocoo.org/docs)
 * Pygments - [pygments](http://pygments.org/docs/quickstart)
 * peewee - [peewee](https://github.com/coleifer/peewee)
-* Twitter Bootstrap - [twitter bootstrap](http://twitter.github.com/bootstrap)
+* Twitter Bootstrap v2.x - [twitter bootstrap](http://getbootstrap.com/2.3.2/)
 * PyYAML - [pyyaml](http://pyyaml.org)
 
 ## Other References
@@ -97,6 +97,6 @@ settings.py
 ## Project Goals
 
 1. Provide an easy to setup and adequate text search engine solution.
-1. Be a respectable alternative to [OpenGrok](http://hub.opensolaris.org/bin/view/Project+opengrok/).
-1. Influence the authors of [OpenGrok](http://hub.opensolaris.org/bin/view/Project+opengrok/) to provide a simpler setup process. 
+1. Be a respectable alternative to [OpenGrok](https://github.com/OpenGrok/OpenGrok).
+1. Influence the authors of [OpenGrok](https://github.com/OpenGrok/OpenGrok) to provide a simpler setup process. 
 	- I successfully setup two installations on CentOS and Ubuntu 11.x and each time it took more than two hours. TS setup takes less than 10 minutes (excluding package download time).
