@@ -1,4 +1,4 @@
-""" 
+"""
 searcher.py
 Created by: Christopher Bess
 Copyright: 2011
@@ -15,7 +15,6 @@ class Searcher(object):
     def __init__(self, indexer):
         SearcherBackend = AVAILABLE_SEARCHERS[DEFAULT_SEARCHER]
         self._searcher = SearcherBackend(indexer)
-        pass
 
     @property
     def indexer(self):
@@ -30,4 +29,3 @@ class Searcher(object):
         """Finds the document at the specified path."""
         log.debug('search for path: %s' % path)
         return self._searcher.find_path(path)
-

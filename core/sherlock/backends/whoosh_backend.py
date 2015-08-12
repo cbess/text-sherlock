@@ -30,10 +30,9 @@ class WhooshIndexer(FileIndexer):
         content=TEXT
     )
     _index = None
-    
+
     def __init__(self, *args, **kwargs):
         super(WhooshIndexer, self).__init__(*args, **kwargs)
-        pass
 
     @property
     def index(self):
@@ -46,15 +45,12 @@ class WhooshIndexer(FileIndexer):
 
     def open_index(self, path, *args, **kwargs):
         self._index = open_dir(path)
-        pass
 
     def create_index(self, path, *args, **kwargs):
         self._index = create_in(path, self.schema)
-        pass
 
     def begin_index_file(self, filepath):
         self._writer = self._index.writer()
-        pass
 
     def index_file(self, filepath, *args, **kwargs):
         assert self._index is not None
@@ -73,7 +69,6 @@ class WhooshIndexer(FileIndexer):
 
     def end_index_file(self, filepath):
         self._writer.commit()
-        pass
 
     def index_exists(self, path):
         return exists_in(path)
@@ -93,7 +88,6 @@ class WhooshIndexer(FileIndexer):
         # It does remove them from the query, but the index info is stored until purged.
         # http://packages.python.org/Whoosh/indexing.html#deleting-documents
         #self.index.commit()
-        pass
 
 ## Searcher
 
@@ -101,7 +95,6 @@ class WhooshSearcher(FileSearcher):
     def __init__(self, indexer):
         super(WhooshSearcher, self).__init__(indexer)
         self._index = indexer.index
-        pass
 
     def find_path(self, path):
         parser = QueryParser('path', self._index.schema)
@@ -156,7 +149,6 @@ class WhooshResults(SearchResults):
         for hit in hits:
             result = WhooshResult(hit, self.searcher.indexer, **hit.fields())
             self.append(result)
-        pass
 
 
 class WhooshResult(SearchResult):
@@ -166,7 +158,6 @@ class WhooshResult(SearchResult):
         # the file path could have matched
         if not self.context:
             self.context = self.path
-        pass
 
 
 # refs:
@@ -185,7 +176,7 @@ class ResultFormatter(highlight.Formatter):
     max_lines = settings.NUM_CONTEXT_LINES # fragment context
     new_line = settings.NEW_LINE
     max_sub_results = settings.MAX_SUB_RESULTS
-    
+
     def format(self, fragments, replace=False):
         lines = []
         for fragment in fragments:

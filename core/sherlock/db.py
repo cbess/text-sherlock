@@ -70,7 +70,7 @@ def is_file_updated(filepath, check_file_exists=False, update_db=False):
     """
     has_file_changed = False
     record = None
-    
+
     if check_file_exists:
         if not os.path.isfile(filepath):
             return has_file_changed, record
@@ -108,12 +108,11 @@ def is_file_updated(filepath, check_file_exists=False, update_db=False):
             except sqlite3.IntegrityError, e:
                 # column path may not be unique
                 logger.error('%s - filepath: %s' % (e, filepath))
-                pass
     return has_file_changed, record
 
 
 def can_update_index(filepath, update_db=True):
-    """Returns True if the target file should be updated or added to the index. 
+    """Returns True if the target file should be updated or added to the index.
     Also, creates a DB entry if it can be updated.
     """
     is_updated, record = is_file_updated(filepath, update_db=update_db)
@@ -128,14 +127,14 @@ def get_file_record(filepath):
 
 
 def file_record_exists(filepath):
-    """Returns True if a record with the specified file path 
+    """Returns True if a record with the specified file path
     exists in the database
     """
     return IndexerMeta.select().where(IndexerMeta.path == filepath).exists()
 
 
 def get_raw_file_record(filepath):
-    """Returns the raw file record, connecting to the database at a 
+    """Returns the raw file record, connecting to the database at a
     lower level (without peewee).
     """
     database = sqlite3.connect(DATABASE_PATH)

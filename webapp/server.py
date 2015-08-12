@@ -50,4 +50,3 @@ def run():
             threaded=SERVER_IS_THREADED,
             processes=SERVER_PROCESSES
         )
-    pass

@@ -37,7 +37,6 @@ class XapianIndexer(FileIndexer):
     def __init__(self, *args, **kwargs):
         super(XapianIndexer, self).__init__(*args, **kwargs)
         self._path = None
-        pass
 
     @property
     def path(self):
@@ -53,19 +52,16 @@ class XapianIndexer(FileIndexer):
             self.index = xapian.WritableDatabase(path, xapian.DB_OPEN)
         else:
             self.index = xapian.Database(path)
-        pass
 
     def create_index(self, path, *args, **kwargs):
         self._path = path
         self.index = xapian.WritableDatabase(path, xapian.DB_CREATE_OR_OVERWRITE)
-        pass
 
     def begin_index_file(self, filepath):
         # Initialize indexer
         self.indexer = xapian.TermGenerator()
         # Set word stemmer to English
         self.indexer.set_stemmer(xapian.Stem('english'))
-        pass
 
     def index_file(self, filepath, *args, **kwargs):
         # index file content
@@ -85,11 +81,9 @@ class XapianIndexer(FileIndexer):
             self.index.replace_document(doc_id, document)
         else:
             self.index.add_document(document)
-        pass
 
     def end_index_file(self, filepath):
         self.index.flush()
-        pass
 
     def index_exists(self, path):
         return os.path.isdir(path)
@@ -108,7 +102,6 @@ class XapianIndexer(FileIndexer):
                     pass
                 record.delete_instance()
                 logger.debug('removed indexed file: %s' % record)
-        pass
 
 
 ## Searcher
@@ -119,7 +112,6 @@ class XapianSearcher(FileSearcher):
         self._index = indexer.index
         self.parser = None
         self.query = None
-        pass
 
     def find_path(self, path):
         return self._search(path, limit=1, isPath=True)
@@ -160,8 +152,6 @@ class XapianResults(SearchResults):
                 self.searcher
             )
             self.append(result)
-            pass
-        pass
 
 
 class XapianResult(SearchResult):
@@ -179,15 +169,13 @@ class XapianResult(SearchResult):
             'filename' : match.document.get_value(XapianIndexer.DOC_VALUE_FILENAME)
         }
         super(XapianResult, self).__init__(match, None, **kwargs)
-        pass
 
     def process_hit(self, hit):
         self.context = self._hit_context(hit)
         # the file path could have matched
         if not self.context:
             self.context = self.path
-        pass
-    
+
     def _hit_context(self, hit):
         qparser = self._searcher.parser
         query = self._searcher.query

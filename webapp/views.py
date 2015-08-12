@@ -40,7 +40,6 @@ def add_default_response(response):
     response['site_title'] = core_settings.SITE_TITLE
     response['site_banner_color'] = core_settings.SITE_BANNER_COLOR
     response['last_indexed'] = SherlockMeta.get('last_indexed') or 'Never'
-    pass
     
 
 @app.route('/')
@@ -52,7 +51,7 @@ def index():
     }
     add_default_response(response)
     return render_template('index.html', **response)
-    
+
 
 @app.route('/search', methods=['POST', 'GET'])
 def search():
@@ -67,7 +66,7 @@ def search():
     pagenum = int(form.get('p', 1))
     app.logger.debug('page %d, searching for: %s' % (pagenum, search_text))
     results = results_from_search_text(search_text, pagenum)
-    
+
     # build response
     response = {
         'title' : search_text or 'Search',
