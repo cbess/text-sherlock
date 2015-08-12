@@ -138,10 +138,10 @@ class Indexer(object):
         """Indexes the contents of the directory at the specified path."""
         log.debug('Checking directory: %s' % dpath)
         # sanity checks
-        if not isinstance(settings.EXCLUDE_FILE_SUFFIX, (tuple, type(None))):
+        if not isinstance(settings.EXCLUDE_FILE_SUFFIX, (tuple, list, type(None))):
             raise Exception("settings.EXCLUDE_FILE_SUFFIX must be a tuple or None, found: %s" %
                             type(settings.EXCLUDE_FILE_SUFFIX))
-        if not isinstance(settings.INCLUDE_FILE_SUFFIX, (tuple, type(None))):
+        if not isinstance(settings.INCLUDE_FILE_SUFFIX, (tuple, list, type(None))):
             raise Exception("settings.INCLUDE_FILE_SUFFIX must be a tuple or None, found: %s" %
                             type(settings.INCLUDE_FILE_SUFFIX))
         # nested, reused code block
@@ -149,7 +149,7 @@ class Indexer(object):
             """Returns True if the item with the specified name can be indexed."""
             can_index = True
             # ignore hidden files
-            if name.startswith("."):
+            if name.startswith('.'):
                 return False
             # ignore excluded files
             if settings.EXCLUDE_FILE_SUFFIX:

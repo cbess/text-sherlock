@@ -14,12 +14,11 @@ try:
 except ImportError:
     from pdb import set_trace
     debug = set_trace
-    pass
 
 
 def read_file(path, encoding='utf-8'):
     """Reads the file at the target path."""
-    with codecs.open(path, "r", encoding=encoding) as f:
+    with codecs.open(path, 'r', encoding=encoding) as f:
         try:
             contents = f.read()
         except UnicodeDecodeError, e:
@@ -52,7 +51,8 @@ def fragment_text(token, text):
     max_lines = settings.NUM_CONTEXT_LINES
     new_line = settings.NEW_LINE
     assert max_lines > 0
-    if (not isinstance(settings.MATCHED_TERM_WRAP, tuple)
+    if (not isinstance(settings.MATCHED_TERM_WRAP, (tuple, list))
+        # must have start and end tag elements/indexes
         or len(settings.MATCHED_TERM_WRAP) != 2):
         raise Exception(
             'Invalid matched term wrap. Please set MATCHED_TERM_WRAP setting.')
@@ -66,7 +66,7 @@ def fragment_text(token, text):
         of the search result context
         """
         token_text = text[token.startchar:token.endchar]
-        return "[ts[[%s]]ts]" % token_text
+        return '[ts[[%s]]ts]' % token_text
     # get text with formatted token
     text = u''.join((bText, format_token(token, text), eText))
     # get the position up to the previous new line

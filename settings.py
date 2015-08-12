@@ -19,7 +19,8 @@ try:
     # Try to load local settings (given path first, then relative/local), which override the default settings.
     # In local_settings.yml, set the values for any settings you want to override.
     default_yaml_path = os.path.join(ROOT_DIR, 'local_settings.yml')
-    yaml_path = get_options().config
+    yaml_path = get_options().config or default_yaml_path
+
     if not yaml_path or not os.path.isfile(yaml_path):
         if yaml_path:
             print 'No config at %s' % yaml_path
@@ -27,13 +28,10 @@ try:
             print 'No yaml config'
         print 'Setup the local_settings.yml config.'
             
+    # try to load the config
     if yaml_path and os.path.isfile(yaml_path):
-        # try the specified config path
         config = yaml.load(open(yaml_path, 'r'))
-    elif os.path.isfile(default_yaml_path):
-        yaml_path = default_yaml_path
-        # try default path, proj/root directory
-        config = yaml.load(open(yaml_path, 'r'))
+        
     if config:
         print 'Loaded Sherlock config settings from %s' % yaml_path
 except ImportError:
