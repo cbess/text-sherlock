@@ -29,7 +29,7 @@ def get_indexer(name=settings.DEFAULT_INDEX_NAME, rebuild_index=FORCE_INDEX_REBU
 
 
 def index_path(path, name=settings.DEFAULT_INDEX_NAME):
-    """Indexes the files at the given path and places then in
+    """Indexes the files at the given path and places them in
     the specified index.
     :param path: The absolute path to the directory or file to index.
     :param name: The name of the index to add the documents from the
@@ -38,6 +38,8 @@ def index_path(path, name=settings.DEFAULT_INDEX_NAME):
     # index a file for the search
     idxr = get_indexer(name)
     idxr.index_text(path)
+    # if not rebuilding the index, then cleanup orphaned files that
+    # were previously indexed
     if not FORCE_INDEX_REBUILD:
         idxr.clean_index()
 
@@ -49,7 +51,10 @@ class Indexer(object):
             rebuild_index = True
         }
         """
-        IndexerBackend = backends.AVAILABLE_INDEXERS[settings.DEFAULT_INDEXER]
+        IndexerBackend = backends.AVAILABLE_INDEXERS.get(settings.DEFAULT_INDEXER)
+        if IndexerBackend is None:
+            raise Exception('No available indexer for: %s' % settings.DEFAULT_INDEXER)
+
         self._index = IndexerBackend(name)
         # path of the index directory
         self._path = None
