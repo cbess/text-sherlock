@@ -6,14 +6,14 @@
 @private
     NSDate *lastModifiedDate;
 }
-@property(copy, readwrite) NSString *value;
-@property(retain) IBOutlet NSTextField *textField;
+@property (nonatomic, copy) NSString *value;
+@property (nonatomic, strong) IBOutlet NSTextField *textField;
 @end
 
 // MyClass.m
 // Class extension to declare private property
 @interface MyClass ()
-@property(retain) NSDate *lastModifiedDate;
+@property (nonatomic, strong) NSDate *lastModifiedDate;
 @end
 
 @implementation MyClass

@@ -14,12 +14,10 @@ class TestSearcher(testcase.BaseTestCase):
     def setUp(self):
         """ Called before each test """
         testcase.BaseTestCase.setUp(self)
-        pass
-        
+
     def tearDown(self):
         """ Called after each test """
-        pass
-        
+
     def test_simple_search(self):
         """Tests simple search logic
         """
@@ -29,12 +27,11 @@ class TestSearcher(testcase.BaseTestCase):
         idxr.index_text(path)
         # test values
         self.assertTrue(idxr.doc_count() == 1, 'bad doc count, expected 1 but, found %d' % idxr.doc_count())
-        
+
         idx = idxr.get_index()
         # find something in the file
         results = idx.search('key')
         self.assertTrue(len(results) == 1, 'wrong hit count, expected 1 but, found %d' % len(results))
-        pass
 
     def test_search(self):
         """Tests searching against more than one document
@@ -52,9 +49,7 @@ class TestSearcher(testcase.BaseTestCase):
         # search by path
         results = idx.search_path(os.path.join(path, 'objc_example.m'))
         self.assertTrue(len(results) == 1, 'wrong number of results for the path search, expected 1, but found %d' % len(results))
-        pass
 
 
 def run():
     testcase.run_all(TestSearcher)
-    pass

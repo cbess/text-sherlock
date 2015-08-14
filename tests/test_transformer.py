@@ -15,12 +15,10 @@ class TestTransformer(testcase.BaseTestCase):
     def setUp(self):
         """ Called before each test """
         testcase.BaseTestCase.setUp(self)
-        pass
-        
+
     def tearDown(self):
         """ Called after each test """
-        pass
-        
+
     def _test_html_transform(self):
         """Tests the HTML transform operation
         """
@@ -40,9 +38,7 @@ class TestTransformer(testcase.BaseTestCase):
         html = items[0].html
         # debug()
         self.assertTrue(len(html) > 0, 'no HTML returned')
-        pass
 
 
 def run():
     testcase.run_all(TestTransformer)
-    pass

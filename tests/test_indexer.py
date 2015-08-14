@@ -13,11 +13,9 @@ class TestIndexer(testcase.BaseTestCase):
     def setUp(self):
         """ Called before each test """
         testcase.BaseTestCase.setUp(self)
-        pass
 
     def tearDown(self):
         """ Called after each test """
-        pass
 
     def test_indexer_creation(self):
         """Test indexer creation logic
@@ -28,8 +26,7 @@ class TestIndexer(testcase.BaseTestCase):
         idx = indexer.get_indexer(name='test', rebuild_index=True)
         # test values
         self.assertFalse(idx is None, 'unable to create an indexer')
-        pass
-        
+
     def test_index_file(self):
         """Tests file indexing logic
         """
@@ -38,8 +35,7 @@ class TestIndexer(testcase.BaseTestCase):
         idx.index_text(path)
         # test values
         self.assertTrue(idx.doc_count() == 1, 'bad doc count')
-        pass
-        
+
     def test_index_directory(self):
         """Tests directory content indexing logic
         """
@@ -48,9 +44,7 @@ class TestIndexer(testcase.BaseTestCase):
         idx.index_text(path)
         # test values
         self.assertTrue(idx.doc_count() == 7, 'bad doc count, expected 7 but, indexed %d' % idx.doc_count())
-        pass
 
 
 def run():
     testcase.run_all(TestIndexer)
-    pass
