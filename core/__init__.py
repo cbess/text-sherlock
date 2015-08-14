@@ -26,6 +26,7 @@ import utils
 class SherlockMeta:
     """Represents the sherlock meta data that is stored."""
     config = ConfigParser.RawConfigParser()
+    config_file_path = os.path.join(settings.ROOT_DIR, 'sherlock-meta.cfg')
 
     @classmethod
     def set(cls, key, value):
@@ -33,15 +34,14 @@ class SherlockMeta:
         if not cls.config.has_section('main'):
             cls.config.add_section('main')
         cls.config.set('main', key, value)
-        config_file_path = os.path.join(settings.ROOT_DIR, 'sherlock-meta.cfg')
         # write config
-        with open(config_file_path, 'wb') as configfile:
+        with open(cls.config_file_path, 'wb') as configfile:
             cls.config.write(configfile)
 
     @classmethod
     def get(cls, key):
         """Returns the meta value for the target key."""
-        cls.config.read(os.path.join(settings.ROOT_DIR, 'sherlock-meta.cfg'))
+        cls.config.read(cls.config_file_path)
         if cls.config.has_section('main'):
             return cls.config.get('main', key)
         return None
@@ -67,7 +67,7 @@ def get_version_info(module):
         'pygments': lambda: pygments.__version__,
         'flask': lambda: flask.__version__,
         'sherlock': sherlock_ver,
-        }.get(module, lambda: '0.0')()
+    }.get(module, lambda: '0.0')()
 
 
 # determine actual index name
