@@ -65,7 +65,6 @@ class WhooshIndexer(FileIndexer):
             content=contents + path
         )
         self._writer.update_document(**doc)
-        pass
 
     def end_index_file(self, filepath):
         self._writer.commit()

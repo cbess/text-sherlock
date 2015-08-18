@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-""" 
+"""
 transformer.py
 Created by: Christopher Bess
 Copyright: 2011
@@ -51,7 +51,7 @@ class Transformer(object):
             except ValueError:
                 pass
         return result
-        
+
     def html(self, result=None):
         """Transform the internal or specified result object to HTML."""
         if not result:
@@ -70,14 +70,14 @@ class Transformer(object):
         lexer = get_lexer_for_filename(filename)
         formatter = HtmlFormatter(
             linenos='table',
-            cssclass="source",
+            cssclass='source',
             lineanchors='line',
             anchorlinenos=True,
             **kwargs
-            )
+        )
         html = highlight(text, lexer, formatter)
         return html
-        
+
     def transform_results(self, results, type='html'):
         """Returns a sequence of syntax hightlighted items.
 
