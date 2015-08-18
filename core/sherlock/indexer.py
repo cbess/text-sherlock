@@ -100,7 +100,7 @@ class Indexer(object):
     def open(self, index_path, **kwargs):
         """Creates or opens an index at the specified path."""
         if not os.path.isdir(index_path):
-            msg = "Directory `%s` is not a valid index directory." % index_path
+            msg = 'Directory `%s` is not a valid index directory.' % index_path
             log.warning(msg)
             raise Exception(msg)
         # create the dir, if needed
@@ -144,10 +144,10 @@ class Indexer(object):
         log.debug('Checking directory: %s' % dpath)
         # sanity checks
         if not isinstance(settings.EXCLUDE_FILE_SUFFIX, (tuple, list, type(None))):
-            raise Exception("settings.EXCLUDE_FILE_SUFFIX must be a tuple or None, found: %s" %
+            raise Exception('settings.EXCLUDE_FILE_SUFFIX must be a tuple or None, found: %s' %
                             type(settings.EXCLUDE_FILE_SUFFIX))
         if not isinstance(settings.INCLUDE_FILE_SUFFIX, (tuple, list, type(None))):
-            raise Exception("settings.INCLUDE_FILE_SUFFIX must be a tuple or None, found: %s" %
+            raise Exception('settings.INCLUDE_FILE_SUFFIX must be a tuple or None, found: %s' %
                             type(settings.INCLUDE_FILE_SUFFIX))
         # nested, reused code block
         def check_name(name):
