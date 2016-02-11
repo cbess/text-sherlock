@@ -12,11 +12,12 @@ import sys
 sherlock_logger = logging.getLogger('core.sherlock')
 sherlock_logger.setLevel(logging.DEBUG)
 filename = 'sherlock.tests.log.txt'
-hdlr = None
+
 if settings.LOG_PATH:
-    hdlr = logging.FileHandler(os.path.join(settings.LOG_PATH, filename, __name__))
+    hdlr = logging.FileHandler(os.path.join(settings.LOG_PATH, filename))
 else:
     hdlr = logging.StreamHandler(sys.__stdout__)
+
 if hdlr:
     sherlock_logger.addHandler(hdlr)
 

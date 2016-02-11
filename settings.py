@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created by Christopher Bess (https://github.com/cbess/text-sherlock)
-Copyright 2013 
+Copyright 2013
 """
 import os
 
@@ -15,7 +15,7 @@ config = {}
 from app_args import get_options
 try:
     import yaml
-    
+
     # Try to load local settings (given path first, then relative/local), which override the default settings.
     # In local_settings.yml, set the values for any settings you want to override.
     default_yaml_path = os.path.join(ROOT_DIR, 'local_settings.yml')
@@ -27,16 +27,16 @@ try:
         else:
             print 'No yaml config'
         print 'Setup the local_settings.yml config.'
-            
+
     # try to load the config
     if yaml_path and os.path.isfile(yaml_path):
         config = yaml.load(open(yaml_path, 'r'))
-        
+
     if config:
         print 'Loaded Sherlock config settings from %s' % yaml_path
 except ImportError:
     print 'No yaml lib: pip install pyyaml'
-    
+
 # `%(sherlock_dir)s` resolves to the directory where sherlock is installed.
 
 # A value indicating whether the app runs in debug mode.
@@ -172,4 +172,5 @@ try:
     from local_settings import *
     print '!!!Deprecated local_settings.py|pyc file found: Use local_settings.yml instead.'
 except ImportError:
+    # ignore import error, because it's deprecated
     pass
