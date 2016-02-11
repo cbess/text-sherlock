@@ -27,7 +27,7 @@ def show_version():
     print 'Pygments: v' + get_version_info('pygments')
     print '  Whoosh: v' + get_version_info('whoosh')
     print 'CherryPy: v' + get_version_info('cherrypy')
-    
+
 
 def show_stats():
     # backend stats
@@ -42,8 +42,11 @@ def show_stats():
 
 
 def run_server():
+    if settings.LOG_PATH:
+        print 'Log path: %s' % settings.LOG_PATH
     print 'Backend: %s' % settings.DEFAULT_SEARCHER
     print 'Server: %s' % settings.SERVER_TYPE
+    print 'Listening on: %s:%d' % (settings.SERVER_ADDRESS, settings.SERVER_PORT)
     # launch web server
     server.run()
 

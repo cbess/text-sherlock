@@ -1,7 +1,4 @@
 # setup test env
-import test_indexer
-import test_searcher
-import test_transformer
 import logging
 import os
 import settings
@@ -24,7 +21,7 @@ if hdlr:
 
 def adjust_test_settings():
     """Adjusts the settings to support the unit tests"""
-    # include the file suffixes available in the 'text' dir
+    # include the file suffixes available in the '/tests/text' dir
     settings.INCLUDE_FILE_SUFFIX = (
         '.h',
         '.m',
@@ -37,6 +34,12 @@ def adjust_test_settings():
 def run_all():
     """Runs all unit tests
     """
+    import test_indexer
+    import test_searcher
+    import test_transformer
+
+    print 'Logging to "%s"' % (settings.LOG_PATH if settings.LOG_PATH else 'stdout')
+
     adjust_test_settings()
     test_indexer.run()
     test_searcher.run()
