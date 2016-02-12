@@ -34,7 +34,7 @@ Includes:
 - Main controller script 
 	- Run `main.py -h` for more information.
 - End-to-end interface
-	- Indexing and searching text (source code). Built-in support for [whoosh](http://packages.python.org/Whoosh) or [xapian](http://xapian.org/).
+	- Indexing and searching text (source code). Built-in support for [whoosh](http://packages.python.org/Whoosh) (fast searching) or [xapian](http://xapian.org/) (much faster searching).
 	    - Easily extend indexing or searching via custom backends.
 	- Front end web app served using [werkzeug](http://werkzeug.pocoo.org/) or [cherrypy](http://www.cherrypy.org/).
 	    - `werkzeug` is for development to small traffic.
@@ -96,7 +96,7 @@ settings.py
 
 ## Project Goals
 
-1. Provide an easy to setup and adequate text search engine solution.
+1. Provide an easy to setup, fast, and adequate text search engine solution.
 1. Be a respectable alternative to [OpenGrok](https://github.com/OpenGrok/OpenGrok).
 1. Influence the authors of [OpenGrok](https://github.com/OpenGrok/OpenGrok) to provide a simpler setup process. 
 	- I successfully setup two installations on CentOS and Ubuntu 11.x and each time it took more than two hours. TS setup takes less than 10 minutes (excluding package download time).
