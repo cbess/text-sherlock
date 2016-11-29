@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import division
 
 import cgi
 import codecs
@@ -132,11 +133,11 @@ def datetime_to_phrase(date_time):
     years, months, xdays = None, None, None
     plural = lambda x: 's' if x != 1 else ''
     if days >= 365:
-        years = int(days / 365)
+        years = days // 365
         datelets.append('%d year%s' % (years, plural(years)))
         days = days % 365
     if days >= 30 and days < 365:
-        months = int(days / 30)
+        months = days // 30
         datelets.append('%d month%s' % (months, plural(months)))
         days = days % 30
     if not years and days > 0 and days < 30:

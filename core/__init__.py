@@ -14,19 +14,24 @@ __all__ = [
 from cherrypy import wsgiserver as cherrypy_wsgiserver
 import flask
 import os
+import io
 import peewee
 import pygments
 import sys
 import whoosh
 
-import ConfigParser
+try:
+    import configparser
+except ImportError:
+    # python2
+    import ConfigParser as configparser
 import settings
 from . import utils
 
 
-class SherlockMeta:
+class SherlockMeta(object):
     """Represents the sherlock meta data that is stored."""
-    config = ConfigParser.RawConfigParser()
+    config = configparser.RawConfigParser()
     config_file_path = os.path.join(settings.ROOT_DIR, 'sherlock-meta.cfg')
 
     @classmethod
@@ -36,7 +41,7 @@ class SherlockMeta:
             cls.config.add_section('main')
         cls.config.set('main', key, value)
         # write config
-        with open(cls.config_file_path, 'wb') as configfile:
+        with io.open(cls.config_file_path, 'wb') as configfile:
             cls.config.write(configfile)
 
     @classmethod

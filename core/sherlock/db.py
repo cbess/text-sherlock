@@ -43,7 +43,7 @@ app_database, DATABASE_PATH = create_db()
 
 
 class BaseModel(peewee.Model):
-    class Meta:
+    class Meta(object):
         database = app_database
 
 

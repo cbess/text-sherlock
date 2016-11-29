@@ -1,12 +1,16 @@
 from core import LONG_DATE_FORMAT, SHORT_DATE_FORMAT
 from core.utils import datetime_to_phrase
 from datetime import datetime
-import urllib
+try:
+    from urllib.parse import quote_plus
+except ImportError:
+    # python 2
+    from urllib import quote_plus
 
 
 def register_filters(app):
     """Registers jinja2 template filters"""
-    
+
     @app.template_filter('dt_format')
     def dt_format_filter(value, format=LONG_DATE_FORMAT):
         """Returns a string of the value formated as a date string
@@ -30,7 +34,7 @@ def register_filters(app):
             # make datetime
             value = datetime.strptime(value, SHORT_DATE_FORMAT)
         return datetime_to_phrase(value)
-    
+
 
     @app.template_filter('urlencode')
     def urlencode_filter(value):
@@ -38,4 +42,4 @@ def register_filters(app):
         """
         if not value:
             return ''
-        return urllib.quote_plus(value, '/')
+        return quote_plus(value, '/')
