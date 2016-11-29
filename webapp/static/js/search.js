@@ -17,6 +17,9 @@ var TSSearch = {
     }
 };
 
-$(function() {
-    TSSearch.onPageLoad();
-});
+if (document.readyState === "complete" ||
+    (document.readyState !== "loading" && !document.documentElement.doScroll)) {
+  TSSearch.onPageLoad();
+} else {
+  document.addEventListener("DOMContentLoaded", TSSearch.onPageLoad);
+}
