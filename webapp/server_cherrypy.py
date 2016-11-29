@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 # Cherrypy server add-on
 # Install: pip install cherrypy
 # refs:
@@ -7,7 +8,7 @@
 # http://flask.pocoo.org/snippets/24/
 # http://docs.cherrypy.org/dev/refman/wsgiserver/init.html
 from core import cherrypy_wsgiserver
-from server import app
+from .server import app
 from core import settings as core_settings
 
 # setup cherrypy server

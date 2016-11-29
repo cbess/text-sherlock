@@ -6,6 +6,7 @@ indexer.py
 Created by Christopher Bess
 Copyright 2011
 """
+from __future__ import absolute_import
 
 import os
 import settings
@@ -13,7 +14,7 @@ import shutil
 from core import FULL_INDEXES_PATH, FORCE_INDEX_REBUILD
 from core.sherlock import logger as log
 from core.sherlock import searcher
-import backends
+from . import backends
 from core.utils import debug
 
 

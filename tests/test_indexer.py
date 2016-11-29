@@ -3,9 +3,10 @@
 """
 test_indexer.py
 """
+from __future__ import absolute_import
 
 import os
-import testcase
+from . import testcase
 from core.sherlock import indexer
 
 

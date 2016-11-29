@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 # refs: http://flask.pocoo.org/docs/quickstart/#redirects-and-errors
 
+from __future__ import absolute_import
+
 import os
-from server import app
+from .server import app
 from flask import render_template, request, abort, Response
 from core.sherlock import indexer, searcher, transformer, db
 from core import settings as core_settings, FULL_INDEX_PATH
 from core import SherlockMeta
 from core.utils import debug, read_file
-from template_filters import register_filters
+from .template_filters import register_filters
 
 # register template filters
 register_filters(app)
@@ -24,7 +26,7 @@ def results_from_search_text(text, pagenum=1, isPath=False, type=None):
     else:
         try:
             results = idx.search(text, pagenum, core_settings.RESULTS_PER_PAGE)
-        except ValueError, e:
+        except ValueError as e:
             # This assumes the value error resulted from an page count issue
             app.logger.error('Out of page bounds: %s' % e)
             return []
@@ -40,7 +42,7 @@ def add_default_response(response):
     response['site_title'] = core_settings.SITE_TITLE
     response['site_banner_color'] = core_settings.SITE_BANNER_COLOR
     response['last_indexed'] = SherlockMeta.get('last_indexed') or 'Never'
-    
+
 
 @app.route('/')
 def index():

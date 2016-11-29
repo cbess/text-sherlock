@@ -10,6 +10,7 @@ https://github.com/coleifer/peewee/blob/master/README.rst
 http://charlesleifer.com/blog/peewee-a-lightweight-python-orm/
 http://charlesleifer.com/docs/flask-peewee/
 """
+from __future__ import print_function
 
 import os
 import stat  # index constants for os.stat()
@@ -29,7 +30,7 @@ except ImportError:
 def create_db(path=FULL_INDEXES_PATH, index=settings.DEFAULT_INDEX_NAME):
     try:
         os.makedirs(path)
-    except OSError, e:
+    except OSError as e:
         if os.path.exists(path):
             pass  # The directory already existed.
         else:  # The directory couldn't be created.
@@ -105,7 +106,7 @@ def is_file_updated(filepath, check_file_exists=False, update_db=False):
                     date_added=datetime.now()
                 )
                 return True, record
-            except sqlite3.IntegrityError, e:
+            except sqlite3.IntegrityError as e:
                 # column path may not be unique
                 logger.error('%s - filepath: %s' % (e, filepath))
     return has_file_changed, record
@@ -146,12 +147,12 @@ def get_raw_file_record(filepath):
         SELECT * FROM indexermeta WHERE path = ? LIMIT 1
         """, (filepath,))
         # get the record data
-        col_data = records.next()
+        col_data = next(records)
         for idx, data in enumerate(col_data):
             col = records.description[idx][0] # column name
             record[col] = col_data[idx] # column value
-    except Exception, e:
-        print 'Raw sql error: %s' % e
+    except Exception as e:
+        print('Raw sql error: %s' % e)
         return record
     # close the connection
     cursor.close()

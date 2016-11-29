@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import absolute_import
 
 # import packages here to help support the two available setups
 __all__ = [
@@ -20,7 +21,7 @@ import whoosh
 
 import ConfigParser
 import settings
-import utils
+from . import utils
 
 
 class SherlockMeta:
@@ -58,7 +59,7 @@ def get_version_info(module):
         return cherrypy.__version__
 
     def sherlock_ver():
-        import sherlock
+        from . import sherlock
         return sherlock.__version__
 
     return {

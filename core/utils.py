@@ -21,7 +21,7 @@ def read_file(path, encoding='utf-8'):
     with codecs.open(path, 'r', encoding=encoding) as f:
         try:
             contents = f.read()
-        except UnicodeDecodeError, e:
+        except UnicodeDecodeError as e:
             # re-raise with more information
             raise Exception('%s: %s' % (e, path))
     return contents
@@ -34,7 +34,7 @@ def safe_read_file(path, ignore_errors=settings.IGNORE_INDEXER_ERRORS,
     try:
         contents = read_file(path, encoding=encoding)
         return contents
-    except Exception, e:
+    except Exception as e:
         log.error('Skipped file: %s' % path)
         if not ignore_errors:
             raise e

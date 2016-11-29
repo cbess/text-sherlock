@@ -4,9 +4,10 @@
 test_transformer.py
 Created by Christopher Bess
 """
+from __future__ import absolute_import
 
 import os
-import testcase
+from . import testcase
 from core.sherlock import indexer, searcher, transformer
 from core.utils import debug
 

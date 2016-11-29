@@ -10,6 +10,8 @@ http://xapian.org/docs/apidoc/html/annotated.html
 https://github.com/notanumber/xapian-haystack/blob/master/xapian_backend.py
 http://invisibleroads.com/tutorials/xapian-search-pylons.html#filter-documents-by-number-using-value
 """
+from __future__ import absolute_import
+
 __author__ = 'C. Bess'
 
 import re
@@ -18,7 +20,7 @@ import xapian
 from core import settings
 from core.sherlock import logger
 from core.utils import debug, safe_read_file, fragment_text, read_file
-from base import FileSearcher, FileIndexer, SearchResult, SearchResults
+from .base import FileSearcher, FileIndexer, SearchResult, SearchResults
 
 
 DEFAULT_SEARCH_FLAGS = (
@@ -158,7 +160,7 @@ class XapianResult(SearchResult):
     max_lines = settings.NUM_CONTEXT_LINES # fragment context
     new_line = settings.NEW_LINE
     max_sub_results = settings.MAX_SUB_RESULTS
-    class Token:
+    class Token(object):
         startchar = 0
         endchar = 0
 
