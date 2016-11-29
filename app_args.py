@@ -24,8 +24,8 @@ def get_app_args():
         (opts, args) = arguments
         return opts
     return arguments
-    
-    
+
+
 def add_app_args():
     """Add app arguments"""
     add_argument('-r', '--runserver', dest='run_server',
@@ -52,6 +52,8 @@ def add_app_args():
                  help=('Indexes the in the path specified by '
                        'settings.INDEX_PATHS. Use `update` or '
                        '`rebuild` to replace the entire index.'))
+
+
 add_app_args()
 
 
