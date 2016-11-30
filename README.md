@@ -31,10 +31,10 @@ Includes:
 	- See `settings.py` for details.
 - Setup script (read contents of script for more information)
 	- Run `virtualenv-setup.sh` to perform an isolated installation.
-- Main controller script 
+- Main controller script
 	- Run `main.py -h` for more information.
 - End-to-end interface
-	- Indexing and searching text (source code). Built-in support for [whoosh](http://packages.python.org/Whoosh) (fast searching) or [xapian](http://xapian.org/) (much faster searching).
+	- Indexing and searching text (source code). Built-in support for [whoosh](https://whoosh.readthedocs.io) (fast searching) or [xapian](http://xapian.org/) (much faster searching).
 	    - Easily extend indexing or searching via custom backends.
 	- Front end web app served using [werkzeug](http://werkzeug.pocoo.org/) or [cherrypy](http://www.cherrypy.org/).
 	    - `werkzeug` is for development to small traffic.
@@ -62,7 +62,7 @@ settings.py
     - Possbile values:
         - `whoosh` the default, no extra work needed.
         - `xapian` must be installed separately using the included `setup/install-xapian.sh` setup script.
-        
+
 ## Using other web servers
 
 settings.py
@@ -77,7 +77,7 @@ settings.py
 
 **Requires Python 2.6 or later.**
 
-* Whoosh - [whoosh](http://packages.python.org/Whoosh/quickstart.html#a-quick-introduction)
+* Whoosh - [whoosh](https://whoosh.readthedocs.io/en/latest/quickstart.html#a-quick-introduction)
 * Flask - [flask](http://flask.pocoo.org)
 * Jinja2 - [jinja2](http://jinja.pocoo.org/docs)
 * Pygments - [pygments](http://pygments.org/docs/quickstart)
@@ -98,5 +98,5 @@ settings.py
 
 1. Provide an easy to setup, fast, and adequate text search engine solution.
 1. Be a respectable alternative to [OpenGrok](https://github.com/OpenGrok/OpenGrok).
-1. Influence the authors of [OpenGrok](https://github.com/OpenGrok/OpenGrok) to provide a simpler setup process. 
+1. Influence the authors of [OpenGrok](https://github.com/OpenGrok/OpenGrok) to provide a simpler setup process.
 	- I successfully setup two installations on CentOS and Ubuntu 11.x and each time it took more than two hours. TS setup takes less than 10 minutes (excluding package download time).

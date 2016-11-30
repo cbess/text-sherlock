@@ -5,8 +5,8 @@ Created by Christopher Bess
 Copyright 2011
 
 refs:
-http://packages.python.org/Whoosh/quickstart.html
-http://packages.python.org/Whoosh/indexing.html
+https://whoosh.readthedocs.io/en/latest/quickstart.html
+https://whoosh.readthedocs.io/en/latest/indexing.html
 """
 __author__ = 'C. Bess'
 
@@ -161,7 +161,7 @@ class WhooshResult(SearchResult):
 
 # refs:
 # https://bitbucket.org/mchaput/whoosh/src/4470a8812c9e/src/whoosh/highlight.py
-# http://packages.python.org/Whoosh/api/highlight.html?highlight=hit#manual-highlighting
+# http://whoosh.readthedocs.io/en/latest/api/highlight.html#manual-highlighting
 class ResultFragmenter(highlight.Fragmenter):
     def fragment_tokens(self, text, all_tokens):
         tokens = []
