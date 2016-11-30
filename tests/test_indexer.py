@@ -47,4 +47,4 @@ class TestIndexer(testcase.BaseTestCase):
 
 
 def run():
-    testcase.run_all(TestIndexer)
+    return testcase.run_all(TestIndexer)

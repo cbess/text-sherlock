@@ -41,4 +41,4 @@ class TestTransformer(testcase.BaseTestCase):
 
 
 def run():
-    testcase.run_all(TestTransformer)
+    return testcase.run_all(TestTransformer)

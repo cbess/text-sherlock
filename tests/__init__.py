@@ -34,6 +34,7 @@ def adjust_test_settings():
 def run_all():
     """Runs all unit tests
     """
+    from operator import methodcaller
     import test_indexer
     import test_searcher
     import test_transformer
@@ -41,6 +42,8 @@ def run_all():
     print 'Logging to "%s"' % (settings.LOG_PATH if settings.LOG_PATH else 'stdout')
 
     adjust_test_settings()
-    test_indexer.run()
-    test_searcher.run()
-    #test_transformer.run()
+    test_results = []
+    test_results.append(test_indexer.run())
+    test_results.append(test_searcher.run())
+    # test_results.append(test_transformer.run())
+    return all(map(methodcaller('wasSuccessful'), test_results))
