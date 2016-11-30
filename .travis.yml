@@ -29,9 +29,17 @@ addons:
 
 install:
   - pip install -r setup/requirements.txt
-  - pip install sphinx
+  - pip install sphinx flake8
   - "if [[ $XAPIAN == 'true' ]]; then CXX=g++-4.8 ./setup/install-xapian.sh; fi"
   - "if [[ $XAPIAN == 'true' ]]; then echo 'default_indexer: \'xapian\'' > local_settings.yml; fi"
+
+after_script:
+  # E266 - `##` used in comments
+  # E501 - line length
+  # E402 - import order
+  # F401,F403,F405 - imports in `__init__.py` and subsequent use, star imports where imported names can not be detected
+  # ...and the default ignores
+  - flake8 . --ignore=E121,E123,E126,E226,E24,E266,E402,E501,E704,F401,F403,F405,W503,W504 --exclude=example.py
 
 script:
   - python main.py --test
