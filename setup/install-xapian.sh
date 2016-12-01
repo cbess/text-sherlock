@@ -14,7 +14,7 @@ cd ..
 
 echo "Installing xapian python bindings"
 # bindings
-curl -o xapian-bindings.tar.gz http://oligarchy.co.uk/xapian/1.2.7/xapian-bindings-1.2.7.tar.gz
+curl -o xapian-bindings.tar.gz https://oligarchy.co.uk/xapian/1.2.7/xapian-bindings-1.2.7.tar.gz
 tar -xvzf xapian-bindings.tar.gz
 cd xapian-bindings*/
 ./configure --with-python --disable-debug --disable-dependency-tracking --without-csharp --without-tcl --without-php
