@@ -78,7 +78,9 @@ def run():
     # determine app action
     if options.run_tests:
         import tests
-        tests.run_all()
+        test_result = tests.run_all()
+        if not test_result:
+            sys.exit('Tests failed.')
     elif options.show_version:
         show_version()
     elif options.show_stats:

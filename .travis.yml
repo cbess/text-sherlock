@@ -1,0 +1,10 @@
+language: python
+
+python:
+  - "2.7"
+
+install:
+  - pip install -r setup/requirements.txt
+
+script:
+  - python main.py --test

@@ -52,4 +52,4 @@ class TestSearcher(testcase.BaseTestCase):
 
 
 def run():
-    testcase.run_all(TestSearcher)
+    return testcase.run_all(TestSearcher)

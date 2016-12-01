@@ -19,7 +19,7 @@ def run_all(testCase):
     """
     suite = unittest.TestLoader().loadTestsFromTestCase(testCase)
     runner = unittest.TextTestRunner(verbosity=2)
-    runner.run(suite)
+    return runner.run(suite)
 
 
 class BaseTestCase(unittest.TestCase):
