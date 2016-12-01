@@ -34,6 +34,21 @@ class TestSearcher(testcase.BaseTestCase):
         results = idx.search('key')
         self.assertTrue(len(results) == 1, 'wrong hit count, expected 1 but, found %d' % len(results))
 
+    def test_simple_unicode_search(self):
+        """Tests simple search logic using a unicode string
+        """
+        # index a file for the search
+        path = os.path.join(self.test_dir, 'text/example.py')
+        idxr = indexer.get_indexer(name='test', rebuild_index=True)
+        idxr.index_text(path)
+        # test values
+        self.assertTrue(idxr.doc_count() == 1, 'bad doc count, expected 1 but, found %d' % idxr.doc_count())
+
+        idx = idxr.get_index()
+        # find some unicode in the file
+        results = idx.search(u'©opyright')
+        self.assertTrue(len(results) == 1, 'wrong hit count, expected 1 but, found %d' % len(results))
+
     def test_search(self):
         """Tests searching against more than one document
         """
