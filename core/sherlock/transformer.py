@@ -11,6 +11,7 @@ https://bitbucket.org/birkenfeld/pygments-main/src/72d5ec2c3be6/pygments/formatt
 """
 
 import pygments
+import six
 from core.utils import debug
 from pygments import highlight
 from pygments.lexers import get_lexer_for_filename
@@ -33,7 +34,7 @@ class Transformer(object):
         if not lines:
             return []
         # convert string into lines, if needed
-        if isinstance(lines, (str, unicode)):
+        if isinstance(lines, six.string_types):
             lines = lines.split(',')
         result = []
         for part in lines:

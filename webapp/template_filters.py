@@ -1,3 +1,4 @@
+import six
 from core import LONG_DATE_FORMAT, SHORT_DATE_FORMAT
 from core.utils import datetime_to_phrase
 from datetime import datetime
@@ -18,7 +19,7 @@ def register_filters(app):
         """
         if not value:
             return ''
-        if isinstance(value, (str, unicode)):
+        if isinstance(value, six.string_types):
             # make datetime
             value = datetime.strptime(value, '%Y-%m-%d %H:%M:%S')
         return value.strftime(format)
@@ -30,7 +31,7 @@ def register_filters(app):
         """
         if not value:
             return ''
-        if isinstance(value, (str, unicode)):
+        if isinstance(value, six.string_types):
             # make datetime
             value = datetime.strptime(value, SHORT_DATE_FORMAT)
         return datetime_to_phrase(value)

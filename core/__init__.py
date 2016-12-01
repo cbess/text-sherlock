@@ -12,9 +12,9 @@ __all__ = [
 ]
 
 from cherrypy import wsgiserver as cherrypy_wsgiserver
+import codecs
 import flask
 import os
-import io
 import peewee
 import pygments
 import sys
@@ -41,7 +41,7 @@ class SherlockMeta(object):
             cls.config.add_section('main')
         cls.config.set('main', key, value)
         # write config
-        with io.open(cls.config_file_path, 'wb') as configfile:
+        with codecs.open(cls.config_file_path, 'w', encoding='utf-8') as configfile:
             cls.config.write(configfile)
 
     @classmethod

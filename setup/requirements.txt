@@ -7,3 +7,4 @@ flask-peewee<=0.6.2
 peewee<=2.0.5
 path.py
 pyyaml
+six
