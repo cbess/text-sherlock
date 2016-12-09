@@ -21,13 +21,7 @@ from core import settings
 from core.sherlock import logger
 from core.utils import debug, safe_read_file, fragment_text, read_file
 from .base import FileSearcher, FileIndexer, SearchResult, SearchResults
-
-# see http://www.diveintopython3.net/porting-code-to-python-3-with-2to3.html#unicode
-try:
-    uni = unicode
-except NameError:
-    uni = str
-
+import six
 
 ## Indexer
 
@@ -69,7 +63,7 @@ class WhooshIndexer(FileIndexer):
         path = uni(filepath)
         # build doc
         doc = dict(
-            filename=uni(os.path.basename(filepath)),
+            filename=six.u(os.path.basename(filepath)),
             path=path,
             content=contents + path
         )
@@ -106,12 +100,12 @@ class WhooshSearcher(FileSearcher):
 
     def find_path(self, path):
         parser = QueryParser('path', self._index.schema)
-        query = parser.parse(uni(path))
+        query = parser.parse(six.u(path))
         return self._search(query, limit=1)
 
     def find_text(self, text, pagenum=1, limit=10):
         parser = QueryParser('content', self._index.schema)
-        query = parser.parse(uni(text))
+        query = parser.parse(six.u(text))
         return self._search(query, pagenum, limit)
 
     def _search(self, squery, pagenum=1, limit=10):
