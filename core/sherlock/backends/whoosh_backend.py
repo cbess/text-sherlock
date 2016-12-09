@@ -13,6 +13,7 @@ from __future__ import absolute_import
 __author__ = 'C. Bess'
 
 import os
+import six
 from whoosh.index import create_in, open_dir, exists_in
 from whoosh.fields import *
 from whoosh.qparser import QueryParser
@@ -21,7 +22,6 @@ from core import settings
 from core.sherlock import logger
 from core.utils import debug, safe_read_file, fragment_text, read_file
 from .base import FileSearcher, FileIndexer, SearchResult, SearchResults
-import six
 
 ## Indexer
 
