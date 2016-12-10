@@ -6,6 +6,7 @@ Copyright 2013
 from __future__ import print_function
 
 import os
+import six
 
 # Should not be changed, this is the absolute path to the directory
 # containing main.py, settings.py, core/, etc.
@@ -50,7 +51,7 @@ DEBUG = config.get('debug', True)
 # for the search engine. Must have trailing slash.
 # type: string
 # default: '%(sherlock_dir)s/data/indexes/'
-INDEXES_PATH = config.get('indexes_path', '%(sherlock_dir)s/data/indexes/')
+INDEXES_PATH = config.get('indexes_path', six.u('%(sherlock_dir)s/data/indexes/'))
 
 # True if the target path will be indexed recursively (includes sub directories).
 # type: boolean
@@ -92,7 +93,7 @@ NUM_CONTEXT_LINES = config.get('num_context_lines', 1)
 # trailing slash. The user running the app must have read access to the path.
 # type: string
 # default: '%(sherlock_dir)s/tests/text/'
-INDEX_PATH = config.get('index_path', '%(sherlock_dir)s/tests/text/')
+INDEX_PATH = config.get('index_path', six.u('%(sherlock_dir)s/tests/text/'))
 
 # The default index name that is used for an index created within INDEXES_PATH.
 # type: string
