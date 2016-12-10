@@ -13,7 +13,6 @@ from __future__ import absolute_import
 __author__ = 'C. Bess'
 
 import os
-import six
 from whoosh.index import create_in, open_dir, exists_in
 from whoosh.fields import *
 from whoosh.qparser import QueryParser
@@ -60,10 +59,10 @@ class WhooshIndexer(FileIndexer):
         contents = safe_read_file(filepath)
         if contents is None:
             return
-        path = uni(filepath)
+        path = filepath
         # build doc
         doc = dict(
-            filename=six.u(os.path.basename(filepath)),
+            filename=os.path.basename(filepath),
             path=path,
             content=contents + path
         )
@@ -100,12 +99,12 @@ class WhooshSearcher(FileSearcher):
 
     def find_path(self, path):
         parser = QueryParser('path', self._index.schema)
-        query = parser.parse(six.u(path))
+        query = parser.parse(path)
         return self._search(query, limit=1)
 
     def find_text(self, text, pagenum=1, limit=10):
         parser = QueryParser('content', self._index.schema)
-        query = parser.parse(six.u(text))
+        query = parser.parse(text)
         return self._search(query, pagenum, limit)
 
     def _search(self, squery, pagenum=1, limit=10):

@@ -7,6 +7,7 @@ Created by Christopher Bess
 from __future__ import absolute_import
 
 import os
+import six
 from . import testcase
 from core.sherlock import indexer, searcher, transformer
 from core.utils import debug
@@ -24,12 +25,12 @@ class TestTransformer(testcase.BaseTestCase):
         """Tests the HTML transform operation
         """
         # index a file for the search
-        path = os.path.join(self.test_dir, 'text/objc_example.m')
+        path = os.path.join(self.test_dir, six.u('text/objc_example.m'))
         idxr = indexer.get_indexer(name='test', rebuild_index=True)
         idxr.index_text(path)
         idx = idxr.get_index()
         # find something in the file
-        results = idx.search('nsstring')
+        results = idx.search(six.u('nsstring'))
         self.assertTrue(len(results) == 1, 'bad results count')
         result = results[0]
         # transform the results
