@@ -25,7 +25,7 @@ from base import FileSearcher, FileIndexer, SearchResult, SearchResults
 class WhooshIndexer(FileIndexer):
     # Text index schema
     schema = Schema(
-        filename=TEXT(stored=True),
+        filename=TEXT(stored=True, spelling=True),
         path=ID(stored=True, unique=True),
         content=TEXT
     )
@@ -104,6 +104,11 @@ class WhooshSearcher(FileSearcher):
         parser = QueryParser('content', self._index.schema)
         query = parser.parse(unicode(text))
         return self._search(query, pagenum, limit)
+
+    def find_suggestions(self, text, limit=3):
+        with self._index.index.searcher() as searcher:
+            corrector = searcher.corrector('content')
+            return [word for word in corrector.suggest(text, limit=limit) if word != text]
 
     def _search(self, squery, pagenum=1, limit=10):
         assert self._index is not None

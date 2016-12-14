@@ -50,6 +50,19 @@ class TestSearcher(testcase.BaseTestCase):
         results = idx.search_path(os.path.join(path, 'objc_example.m'))
         self.assertTrue(len(results) == 1, 'wrong number of results for the path search, expected 1, but found %d' % len(results))
 
+    def test_suggestions(self):
+        """Test suggestion logic"""
+        idxr = indexer.get_indexer(name='test', rebuild_index=True)
+        path = os.path.join(self.test_dir, 'text')
+        idxr.index_text(path)
+        # get suggestion
+        idx = idxr.get_index()
+        search_text = 'copy'
+        result = idx.suggestions(search_text)
+        self.assertTrue(result, 'no suggestions returned')
+        self.assertIn('hope', result, 'suggestion not matching')
+        self.assertNotIn(search_text, result, 'original query should not be included')
+
 
 def run():
     return testcase.run_all(TestSearcher)

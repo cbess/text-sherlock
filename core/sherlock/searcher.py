@@ -29,3 +29,7 @@ class Searcher(object):
         """Finds the document at the specified path."""
         log.debug('search for path: %s' % path)
         return self._searcher.find_path(path)
+
+    def find_suggestions(self, text, limit):
+        """Finds term suggestions by searching the internal index."""
+        return self._searcher.find_suggestions(text, limit)
