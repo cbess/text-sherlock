@@ -3,8 +3,8 @@
 
 echo "Installing xapian"
 # xapian support
-curl -o xapian.tar.gz https://oligarchy.co.uk/xapian/1.2.7/xapian-core-1.2.7.tar.gz
-tar -xvzf xapian.tar.gz
+curl -o xapian.tar.xz https://oligarchy.co.uk/xapian/1.4.2/xapian-core-1.4.2.tar.xz
+tar -xvzf xapian.tar.xz
 cd xapian*/
 ./configure --disable-dependency-tracking --disable-assertions
 make
@@ -14,8 +14,8 @@ cd ..
 
 echo "Installing xapian python bindings"
 # bindings
-curl -o xapian-bindings.tar.gz https://oligarchy.co.uk/xapian/1.2.7/xapian-bindings-1.2.7.tar.gz
-tar -xvzf xapian-bindings.tar.gz
+curl -o xapian-bindings.tar.xz https://oligarchy.co.uk/xapian/1.4.2/xapian-bindings-1.4.2.tar.xz
+tar -xvzf xapian-bindings.tar.xz
 cd xapian-bindings*/
 ./configure --with-python --disable-debug --disable-dependency-tracking --without-csharp --without-tcl --without-php
 make
