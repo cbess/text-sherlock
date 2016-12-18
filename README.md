@@ -89,7 +89,7 @@ settings.py
 
 * http://twitter.github.com/bootstrap/examples/container-app.html
 * http://pygments.org/
-* http://charlesleifer.com/docs/peewee/
+* http://docs.peewee-orm.com/
 * http://www.cherrypy.org/
 * http://xapian.org/
 * http://pyyaml.org/wiki/PyYAMLDocumentation
