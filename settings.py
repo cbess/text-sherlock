@@ -48,7 +48,7 @@ DEBUG = config.get('debug', True)
 # for the search engine. Must have trailing slash.
 # type: string
 # default: '%(sherlock_dir)s/data/indexes/'
-INDEXES_PATH = config.get('indexes_path', '%(sherlock_dir)s/data/indexes/')
+INDEXES_PATH = config.get('indexes_path', '%s/data/indexes/' % ROOT_DIR)
 
 # True if the target path will be indexed recursively (includes sub directories).
 # type: boolean

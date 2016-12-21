@@ -11,7 +11,7 @@ Copyright 2012
 from app_args import get_options
 from webapp import server
 from core.sherlock import indexer, backends, db
-from core import FORCE_INDEX_REBUILD, utils, get_version_info, \
+from core import FORCE_INDEX_REBUILD, get_version_info, \
     SherlockMeta, SHORT_DATE_FORMAT
 import settings
 import os
@@ -52,7 +52,7 @@ def run_server():
 
 
 def reindex():
-    path = utils.resolve_path(settings.INDEX_PATH)
+    path = settings.INDEX_PATH
     # check path
     if not path.endswith('/'):
         raise Exception('INDEX_PATH must end with a trailing slash. %s' % path)

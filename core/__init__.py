@@ -80,8 +80,8 @@ if '--index' in sys.argv and 'rebuild' in sys.argv:
     force_rebuild = True
 
 # build the full path
-FULL_INDEX_PATH = utils.resolve_path(settings.INDEX_PATH)
-FULL_INDEXES_PATH = utils.resolve_path(settings.INDEXES_PATH)
+FULL_INDEX_PATH = settings.INDEX_PATH
+FULL_INDEXES_PATH = settings.INDEXES_PATH
 
 # force index rebuilding
 FORCE_INDEX_REBUILD = force_rebuild
