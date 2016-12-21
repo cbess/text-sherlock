@@ -48,7 +48,7 @@ DEBUG = config.get('debug', True)
 # for the search engine. Must have trailing slash.
 # type: string
 # default: '%(sherlock_dir)s/data/indexes/'
-INDEXES_PATH = config.get('indexes_path', '%s/data/indexes/' % ROOT_DIR)
+INDEXES_PATH = config.get('indexes_path', '%(sherlock_dir)s/data/indexes/' % {'sherlock_dir': ROOT_DIR})
 
 # True if the target path will be indexed recursively (includes sub directories).
 # type: boolean
@@ -88,9 +88,11 @@ NUM_CONTEXT_LINES = config.get('num_context_lines', 1)
 # This is the index that has the original text to be indexed. This is also used
 # when displaying the actual document from the search results. Must have
 # trailing slash. The user running the app must have read access to the path.
-# type: string
+# type: string | tuple
 # default: '%(sherlock_dir)s/tests/text/'
-INDEX_PATH = config.get('index_path', '%(sherlock_dir)s/tests/text/')
+INDEX_PATH = config.get('index_path', '%(sherlock_dir)s/tests/text/' % {'sherlock_dir': ROOT_DIR})
+if isinstance(INDEX_PATH, (str, unicode)):
+    INDEX_PATH = (INDEX_PATH,)
 
 # The default index name that is used for an index created within INDEXES_PATH.
 # type: string

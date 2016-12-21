@@ -52,13 +52,14 @@ def run_server():
 
 
 def reindex():
-    path = settings.INDEX_PATH
-    # check path
-    if not path.endswith('/'):
-        raise Exception('INDEX_PATH must end with a trailing slash. %s' % path)
-    if not os.path.exists(path):
-        raise Exception('Check INDEX_PATH. Does it exist? %s' % path)
-    print 'Indexing path: %s' % path
+    paths = settings.INDEX_PATH
+    # check paths
+    for path in paths:
+        if not path.endswith('/'):
+            raise Exception('INDEX_PATH must end with a trailing slash. %s' % path)
+        if not os.path.exists(path):
+            raise Exception('Check INDEX_PATH. Does it exist? %s' % path)
+    print 'Indexing paths: %s' % paths
     if FORCE_INDEX_REBUILD:
         wait_time = 5 # seconds to wait/pause until rebuilding index
         print 'Reindexing everything!'
@@ -66,7 +67,8 @@ def reindex():
         import time
         time.sleep(wait_time)
     print 'Indexing started.'
-    indexer.index_path(path)
+    for path in paths:
+        indexer.index_path(path)
     show_stats()
     print 'Indexing done.'
     # record indexed time

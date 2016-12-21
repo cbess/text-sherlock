@@ -186,7 +186,10 @@ class SearchResult(object):
         self.context = ''
         self.path = kwargs.get('path')
         self.filename = kwargs.get('filename')
-        self.index_path = self.path.replace(FULL_INDEX_PATH, '')
+        self.index_path = self.path
+        for path in FULL_INDEX_PATH:
+            if self.index_path.startswith(path):
+                self.index_path = self.index_path.replace(path, '')
         try:
             self.process_hit(hit)
         except IOError, e:
