@@ -12,9 +12,10 @@ https://bitbucket.org/birkenfeld/pygments-main/src/72d5ec2c3be6/pygments/formatt
 
 import pygments
 import six
-from core.utils import debug
+from core.sherlock import logger
 from pygments import highlight
-from pygments.lexers import get_lexer_for_filename
+from pygments.util import ClassNotFound
+from pygments.lexers import get_lexer_for_filename, get_lexer_by_name
 from pygments.formatters import HtmlFormatter
 
 
@@ -68,7 +69,11 @@ class Transformer(object):
         hl_lines = kwargs.get('highlight_lines', '')
         kwargs['hl_lines'] = self.get_lines(hl_lines)
         # get html syntax
-        lexer = get_lexer_for_filename(filename)
+        try:
+            lexer = get_lexer_for_filename(filename)
+        except ClassNotFound as e:
+            logger.warn('Could not find lexer for filename=[%s], error=[%s]', filename, e)
+            lexer = get_lexer_by_name('text')
         formatter = HtmlFormatter(
             linenos='table',
             cssclass='source',

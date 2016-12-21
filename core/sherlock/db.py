@@ -8,7 +8,7 @@ Copyright 2011
 refs:
 https://github.com/coleifer/peewee/blob/master/README.rst
 http://charlesleifer.com/blog/peewee-a-lightweight-python-orm/
-http://charlesleifer.com/docs/flask-peewee/
+http://docs.peewee-orm.com/projects/flask-peewee/
 """
 from __future__ import print_function
 
