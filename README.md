@@ -9,9 +9,9 @@ Instructions:
 1. Download [sherlock](https://github.com/cbess/text-sherlock) source from [GitHub](https://github.com/cbess/text-sherlock).
 1. Extract/place the sherlock source code in the desired (install) directory. This will be where sherlock lives.
 1. Run `sh virtualenv-setup.sh` to setup an isolated environment and download core packages.
-1. Configure settings. The defaults in `settings.py` provide documentation for each setting.
-	- Copy `example.local_settings.yml` to `local_settings.yml`.
- 	- Override/copy any setting from `settings.py` to `local_settings.yml` (change the values as needed). All YAML keys/options must be lowercase.
+1. Configure settings. The defaults in [`settings.py`](settings.py) provide documentation for each setting.
+	- Copy [`example.local_settings.yml`](example.local_settings.yml) to `local_settings.yml`.
+	- Override/copy any setting from [`settings.py`](settings.py) to `local_settings.yml` (change the values as needed). All YAML keys/options must be lowercase.
 1. Run `source sherlock_env/bin/activate` to enter the virtual environment.
 1. Run `python main.py --index update` or `--index rebuild` to index the path specified in the settings. Watch indexing output.
 1. Run `python main.py --runserver` to start the web server.
@@ -28,9 +28,9 @@ You may need to install some packages before a *Ubuntu* installation will run wi
 Includes:
 
 - Settings/Configuration
-	- See `settings.py` for details.
+	- See [`settings.py`](settings.py) for details.
 - Setup script (read contents of script for more information)
-	- Run `virtualenv-setup.sh` to perform an isolated installation.
+	- Run [`virtualenv-setup.sh`](setup/virtualenv-setup.sh) to perform an isolated installation.
 - Main controller script
 	- Run `main.py -h` for more information.
 - End-to-end interface
@@ -56,18 +56,19 @@ Append to document URL.
 
 ## Using other backends
 
-settings.py
+In [`settings.py`](settings.py):
 
 - Change the `default_indexer` and `default_searcher` values to match the name given to the backend.
     - Possbile values:
         - `whoosh` the default, no extra work needed.
-        - `xapian` must be installed separately using the included `setup/install-xapian.sh` setup script.
+        - `xapian` must be installed separately using the included [`setup/install-xapian.sh`](setup/install-xapian.sh) setup script.
 
 ## Using other web servers
 
-settings.py
+Text Sherlock has built-in support for [werkzeug](http://werkzeug.pocoo.org/) and [cherrypy](http://www.cherrypy.org/) WSGI compliant servers.
 
-- Text Sherlock has built-in support for [werkzeug](http://werkzeug.pocoo.org/) and [cherrypy](http://www.cherrypy.org/) WSGI compliant servers.
+In [`settings.py`](settings.py):
+
 - Change the `server_type` value to one of the available server types.
     - Possible values:
         - `default`, werkzeug web server (default).
