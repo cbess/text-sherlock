@@ -90,9 +90,9 @@ NUM_CONTEXT_LINES = config.get('num_context_lines', 1)
 # trailing slash. The user running the app must have read access to the path.
 # type: string | tuple
 # default: '%(sherlock_dir)s/tests/text/'
-INDEX_PATH = config.get('index_path', '%(sherlock_dir)s/tests/text/' % {'sherlock_dir': ROOT_DIR})
-if isinstance(INDEX_PATH, (str, unicode)):
-    INDEX_PATH = (INDEX_PATH,)
+INDEX_PATHS = config.get('index_path', '%(sherlock_dir)s/tests/text/' % {'sherlock_dir': ROOT_DIR})
+if isinstance(INDEX_PATHS, (str, unicode)):
+    INDEX_PATHS = (INDEX_PATHS,)
 
 # The default index name that is used for an index created within INDEXES_PATH.
 # type: string

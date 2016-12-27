@@ -9,7 +9,7 @@ Copyright: 2011
 
 
 from core import settings
-from core import FULL_INDEX_PATH
+from core import FULL_INDEX_PATHS
 from core.sherlock import db
 from core.sherlock import logger
 
@@ -187,7 +187,7 @@ class SearchResult(object):
         self.path = kwargs.get('path')
         self.filename = kwargs.get('filename')
         self.index_path = self.path
-        for path in FULL_INDEX_PATH:
+        for path in FULL_INDEX_PATHS:
             if self.index_path.startswith(path):
                 self.index_path = self.index_path.replace(path, '')
         try:
