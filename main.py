@@ -14,6 +14,7 @@ from core.sherlock import indexer, backends, db
 from core import FORCE_INDEX_REBUILD, utils, get_version_info, \
     SherlockMeta, SHORT_DATE_FORMAT
 import settings
+import logging
 import os
 import sys
 from datetime import datetime
@@ -74,6 +75,8 @@ def reindex():
 
 
 def run():
+    if settings.DEBUG:
+        logging.basicConfig(format='%(asctime)s %(levelname)s - %(message)s', level=logging.DEBUG)
     options = get_options()
     # determine app action
     if options.run_tests:
