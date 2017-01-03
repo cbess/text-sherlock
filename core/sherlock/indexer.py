@@ -61,7 +61,7 @@ def _get_indexer_with_cleanup(name=settings.DEFAULT_INDEX_NAME, rebuild_index=FO
     :param rebuild_index: True to rebuild the index on open/create. Default is False.
     """
     # get the indexer for use
-    idxr = get_indexer(name)
+    idxr = get_indexer(name=name, rebuild_index=rebuild_index, **kwargs)
     yield idxr
     # if not rebuilding the index, then cleanup orphaned files that
     # were previously indexed
