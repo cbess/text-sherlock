@@ -67,8 +67,7 @@ def reindex():
         import time
         time.sleep(wait_time)
     print 'Indexing started.'
-    for path in paths:
-        indexer.index_path(path)
+    indexer.index_paths(paths)
     show_stats()
     print 'Indexing done.'
     # record indexed time

@@ -7,6 +7,7 @@ Created by Christopher Bess
 Copyright 2011
 """
 
+import contextlib
 import os
 import settings
 import shutil
@@ -28,6 +29,19 @@ def get_indexer(name=settings.DEFAULT_INDEX_NAME, rebuild_index=FORCE_INDEX_REBU
     return idxr
 
 
+def index_paths(paths, name=settings.DEFAULT_INDEX_NAME):
+    """Indexes the files at the given paths and places them in
+    the specified index.
+    :param paths: The absolute paths to the directories or files to index.
+    :param name: The name of the index to add the documents from the
+    target paths to.
+    """
+    # index files for the search
+    with _get_indexer_with_cleanup(name) as idxr:
+        for path in paths:
+            idxr.index_text(path)
+
+
 def index_path(path, name=settings.DEFAULT_INDEX_NAME):
     """Indexes the files at the given path and places them in
     the specified index.
@@ -36,8 +50,19 @@ def index_path(path, name=settings.DEFAULT_INDEX_NAME):
     target path to.
     """
     # index a file for the search
+    with _get_indexer_with_cleanup(name) as idxr:
+        idxr.index_text(path)
+
+
+@contextlib.contextmanager
+def _get_indexer_with_cleanup(name=settings.DEFAULT_INDEX_NAME, rebuild_index=FORCE_INDEX_REBUILD, **kwargs):
+    """Prepare an indexer for use and remove orphaned files if necessary.
+
+    :param rebuild_index: True to rebuild the index on open/create. Default is False.
+    """
+    # get the indexer for use
     idxr = get_indexer(name)
-    idxr.index_text(path)
+    yield idxr
     # if not rebuilding the index, then cleanup orphaned files that
     # were previously indexed
     if not FORCE_INDEX_REBUILD:
