@@ -4,9 +4,9 @@
 test_indexer.py
 """
 from __future__ import absolute_import
+from __future__ import unicode_literals
 
 import os
-import six
 from . import testcase
 from core.sherlock import indexer
 
@@ -32,7 +32,7 @@ class TestIndexer(testcase.BaseTestCase):
     def test_index_file(self):
         """Tests file indexing logic
         """
-        path = os.path.join(self.test_dir, six.u('text/objc_example.m'))
+        path = os.path.join(self.test_dir, 'text/objc_example.m')
         idx = indexer.get_indexer(name='test', rebuild_index=True)
         idx.index_text(path)
         # test values
@@ -41,7 +41,7 @@ class TestIndexer(testcase.BaseTestCase):
     def test_index_directory(self):
         """Tests directory content indexing logic
         """
-        path = os.path.join(self.test_dir, six.u('text'))
+        path = os.path.join(self.test_dir, 'text')
         idx = indexer.get_indexer(name='test', rebuild_index=True)
         idx.index_text(path)
         # test values

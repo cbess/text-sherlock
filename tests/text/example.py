@@ -11,4 +11,4 @@ def zap():
     """docstring"""
 
 def code():
-    """©opyright"""
+    u"""©opyright"""

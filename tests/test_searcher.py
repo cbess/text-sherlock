@@ -4,9 +4,9 @@
 test_searcher.py
 """
 from __future__ import absolute_import
+from __future__ import unicode_literals
 
 import os
-import six
 from . import testcase
 from core.sherlock import indexer, searcher
 from core.utils import debug
@@ -24,7 +24,7 @@ class TestSearcher(testcase.BaseTestCase):
         """Tests simple search logic
         """
         # index a file for the search
-        path = os.path.join(self.test_dir, six.u('text/objc_example.m'))
+        path = os.path.join(self.test_dir, 'text/objc_example.m')
         idxr = indexer.get_indexer(name='test', rebuild_index=True)
         idxr.index_text(path)
         # test values
@@ -32,14 +32,14 @@ class TestSearcher(testcase.BaseTestCase):
 
         idx = idxr.get_index()
         # find something in the file
-        results = idx.search(six.u('key'))
+        results = idx.search('key')
         self.assertTrue(len(results) == 1, 'wrong hit count, expected 1 but, found %d' % len(results))
 
     def test_simple_unicode_search(self):
         """Tests simple search logic using a unicode string
         """
         # index a file for the search
-        path = os.path.join(self.test_dir, six.u('text/example.py'))
+        path = os.path.join(self.test_dir, 'text/example.py')
         idxr = indexer.get_indexer(name='test', rebuild_index=True)
         idxr.index_text(path)
         # test values
@@ -47,7 +47,7 @@ class TestSearcher(testcase.BaseTestCase):
 
         idx = idxr.get_index()
         # find some unicode in the file
-        results = idx.search(six.u('©opyright'))
+        results = idx.search('©opyright')
         self.assertTrue(len(results) == 1, 'wrong hit count, expected 1 but, found %d' % len(results))
 
     def test_search(self):
@@ -55,16 +55,16 @@ class TestSearcher(testcase.BaseTestCase):
         """
         # index directory
         idxr = indexer.get_indexer(name='test', rebuild_index=True)
-        path = os.path.join(self.test_dir, six.u('text'))
+        path = os.path.join(self.test_dir, 'text')
         idxr.index_text(path)
         self.assertTrue(idxr.doc_count() == 7, "Bad document index count, expected 7 but, indexed %d" % idxr.doc_count())
         # search
         idx = idxr.get_index()
-        search_text = six.u('value')
+        search_text = 'value'
         results = idx.search(search_text)
         self.assertTrue(len(results) > 1, 'not enough results from the search, expected more than 1, but found %d' % len(results))
         # search by path
-        results = idx.search_path(os.path.join(path, six.u('objc_example.m')))
+        results = idx.search_path(os.path.join(path, 'objc_example.m'))
         self.assertTrue(len(results) == 1, 'wrong number of results for the path search, expected 1, but found %d' % len(results))
 
     def test_suggestions(self):
