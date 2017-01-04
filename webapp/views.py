@@ -7,7 +7,7 @@ import os
 from .server import app
 from flask import render_template, request, abort, Response
 from core.sherlock import indexer, searcher, transformer, db
-from core import settings as core_settings, FULL_INDEX_PATH
+from core import settings as core_settings
 from core import SherlockMeta
 from core.utils import debug, read_file
 from .template_filters import register_filters
@@ -33,6 +33,11 @@ def results_from_search_text(text, pagenum=1, isPath=False, type=None):
     # transform the results
     trns = transformer.Transformer()
     return trns.transform_results(results, type)
+
+
+def suggestion_from_search_text(text):
+    idx = indexer.get_indexer(writable=False).get_index()
+    return idx.suggestions(text)
 
 
 def add_default_response(response):
@@ -68,12 +73,14 @@ def search():
     pagenum = int(form.get('p', 1))
     app.logger.debug('page %d, searching for: %s' % (pagenum, search_text))
     results = results_from_search_text(search_text, pagenum)
+    suggestions = suggestion_from_search_text(search_text)
 
     # build response
     response = {
         'title' : search_text or 'Search',
         'html_css_class' : 'search',
         'search_text' : search_text,
+        'suggestions' : suggestions,
         'results' : results.items,
         'total_count' : results.total_count,
         'page' : {
@@ -92,14 +99,10 @@ def document():
     """Handles document display requests
     """
     http_status = 200
-    root_dir = FULL_INDEX_PATH
     full_path = request.args.get('path')
     is_raw = (request.args.get('raw') == 'true')
     # allow `lines` or `hl` to highlight the target lines
     hl_str = request.args.get('lines') or request.args.get('hl', '')
-    # if the full path wasn't appended, then append it (assumes path exist in default index path)
-    if root_dir not in full_path:
-        full_path = os.path.join(root_dir, full_path)
     search_text = request.args.get('q')
     pagenum = request.args.get('p')
 

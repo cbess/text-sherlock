@@ -28,7 +28,8 @@ DEFAULT_SEARCH_FLAGS = (
     xapian.QueryParser.FLAG_PHRASE |
     xapian.QueryParser.FLAG_LOVEHATE |
     xapian.QueryParser.FLAG_BOOLEAN_ANY_CASE |
-    xapian.QueryParser.FLAG_WILDCARD
+    xapian.QueryParser.FLAG_WILDCARD |
+    xapian.QueryParser.FLAG_SPELLING_CORRECTION
 )
 
 ## Indexer
@@ -64,6 +65,8 @@ class XapianIndexer(FileIndexer):
         self.indexer = xapian.TermGenerator()
         # Set word stemmer to English
         self.indexer.set_stemmer(xapian.Stem('english'))
+        self.indexer.set_database(self.index)
+        self.indexer.set_flags(xapian.TermGenerator.FLAG_SPELLING)
 
     def index_file(self, filepath, *args, **kwargs):
         # index file content
@@ -121,16 +124,13 @@ class XapianSearcher(FileSearcher):
     def find_text(self, text, pagenum=1, limit=10):
         return self._search(text, pagenum, limit)
 
+    def find_suggestions(self, text, limit=1):
+        self._parse_query(text)
+        suggestion = self.parser.get_corrected_query_string()
+        return [suggestion] if suggestion != text else []
+
     def _search(self, text, pagenum=1, limit=10, isPath=False):
-        database = self._index.index
-        # Start an enquire session.
-        enquire = xapian.Enquire(database)
-        # Parse the query string to produce a Xapian::Query object.
-        self.parser = xapian.QueryParser()
-        self.parser.set_stemmer(xapian.Stem("english"))
-        self.parser.set_database(database)
-        self.parser.set_stemming_strategy(xapian.QueryParser.STEM_SOME)
-        self.query = self.parser.parse_query(text, DEFAULT_SEARCH_FLAGS)
+        self._parse_query(text)
         # find using the parsed query
         enquire.set_query(self.query)
         offset = pagenum * limit - limit
@@ -144,6 +144,17 @@ class XapianSearcher(FileSearcher):
             limit=limit
         )
         return results
+
+    def _parse_query(self, text):
+        database = self._index.index
+        # Start an enquire session.
+        enquire = xapian.Enquire(database)
+        # Parse the query string to produce a Xapian::Query object.
+        self.parser = xapian.QueryParser()
+        self.parser.set_stemmer(xapian.Stem("english"))
+        self.parser.set_database(database)
+        self.parser.set_stemming_strategy(xapian.QueryParser.STEM_SOME)
+        self.query = self.parser.parse_query(text, DEFAULT_SEARCH_FLAGS)
 
 
 class XapianResults(SearchResults):
