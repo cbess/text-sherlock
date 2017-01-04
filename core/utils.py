@@ -101,11 +101,6 @@ def fragment_text(token, text):
     return token_text[:777]
 
 
-def resolve_path(path):
-    """Returns the resolved path based on sherlock path variables."""
-    return path % { 'sherlock_dir' : settings.ROOT_DIR }
-
-
 def datetime_to_phrase(date_time):
     """Converts a python datetime object to the format "X days, Y hours ago"
 

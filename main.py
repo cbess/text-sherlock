@@ -11,7 +11,7 @@ Copyright 2012
 from app_args import get_options
 from webapp import server
 from core.sherlock import indexer, backends, db
-from core import FORCE_INDEX_REBUILD, utils, get_version_info, \
+from core import FORCE_INDEX_REBUILD, get_version_info, \
     SherlockMeta, SHORT_DATE_FORMAT
 import settings
 import logging
@@ -53,13 +53,14 @@ def run_server():
 
 
 def reindex():
-    path = utils.resolve_path(settings.INDEX_PATH)
-    # check path
-    if not path.endswith('/'):
-        raise Exception('INDEX_PATH must end with a trailing slash. %s' % path)
-    if not os.path.exists(path):
-        raise Exception('Check INDEX_PATH. Does it exist? %s' % path)
-    print 'Indexing path: %s' % path
+    paths = settings.INDEX_PATHS
+    # check paths
+    for path in paths:
+        if not path.endswith('/'):
+            raise Exception('INDEX_PATHS must end with a trailing slash. %s' % path)
+        if not os.path.exists(path):
+            raise Exception('Check INDEX_PATHS. Does it exist? %s' % path)
+    print 'Indexing paths: %s' % paths
     if FORCE_INDEX_REBUILD:
         wait_time = 5 # seconds to wait/pause until rebuilding index
         print 'Reindexing everything!'
@@ -67,7 +68,7 @@ def reindex():
         import time
         time.sleep(wait_time)
     print 'Indexing started.'
-    indexer.index_path(path)
+    indexer.index_paths(paths)
     show_stats()
     print 'Indexing done.'
     # record indexed time

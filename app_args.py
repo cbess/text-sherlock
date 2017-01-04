@@ -50,7 +50,7 @@ def add_app_args():
     add_argument('--index', dest='reindex',
                  action='store',
                  help=('Indexes the in the path specified by '
-                       'settings.INDEX_PATH. Use `update` or '
+                       'settings.INDEX_PATHS. Use `update` or '
                        '`rebuild` to replace the entire index.'))
 add_app_args()
 

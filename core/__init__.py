@@ -7,7 +7,7 @@ __all__ = [
     'cherrypy_wsgiserver', 'flaskext',
     # settings
     'FULL_INDEXES_PATH', 'FORCE_INDEX_REBUILD',
-    'FULL_INDEX_PATH'
+    'FULL_INDEX_PATHS'
 ]
 
 from cherrypy import wsgiserver as cherrypy_wsgiserver
@@ -80,8 +80,8 @@ if '--index' in sys.argv and 'rebuild' in sys.argv:
     force_rebuild = True
 
 # build the full path
-FULL_INDEX_PATH = utils.resolve_path(settings.INDEX_PATH)
-FULL_INDEXES_PATH = utils.resolve_path(settings.INDEXES_PATH)
+FULL_INDEX_PATHS = settings.INDEX_PATHS
+FULL_INDEXES_PATH = settings.INDEXES_PATH
 
 # force index rebuilding
 FORCE_INDEX_REBUILD = force_rebuild
