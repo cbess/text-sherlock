@@ -33,6 +33,11 @@ def results_from_search_text(text, pagenum=1, isPath=False, type=None):
     return trns.transform_results(results, type)
 
 
+def suggestion_from_search_text(text):
+    idx = indexer.get_indexer(writable=False).get_index()
+    return idx.suggestions(text)
+
+
 def add_default_response(response):
     """Adds the default response parameters to the response.
     """
@@ -40,7 +45,7 @@ def add_default_response(response):
     response['site_title'] = core_settings.SITE_TITLE
     response['site_banner_color'] = core_settings.SITE_BANNER_COLOR
     response['last_indexed'] = SherlockMeta.get('last_indexed') or 'Never'
-    
+
 
 @app.route('/')
 def index():
@@ -66,12 +71,14 @@ def search():
     pagenum = int(form.get('p', 1))
     app.logger.debug('page %d, searching for: %s' % (pagenum, search_text))
     results = results_from_search_text(search_text, pagenum)
+    suggestions = suggestion_from_search_text(search_text)
 
     # build response
     response = {
         'title' : search_text or 'Search',
         'html_css_class' : 'search',
         'search_text' : search_text,
+        'suggestions' : suggestions,
         'results' : results.items,
         'total_count' : results.total_count,
         'page' : {

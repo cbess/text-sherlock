@@ -32,6 +32,16 @@
                class="btn primary"
                id="submit" />
         <a href='/' class="clear-btn">clear</a>
+        {% if suggestions %}
+        <p>Did you mean:
+          {% for option in suggestions %}
+          <a href='/search?q={{ option | urlencode }}'>{{ option }}</a>
+            {% if not loop.last %}
+            or
+            {% endif %}
+          {% endfor %}
+        </p>
+        {% endif %}
     </div>
 
     {% if search_text %}
