@@ -139,10 +139,13 @@ class XapianSearcher(FileSearcher):
         self._parse_query(text)
         suggestion = self.parser.get_corrected_query_string()
         suggestion = _ensure_str(suggestion)
-        return [suggestion] if suggestion != text else []
+        return [suggestion] if suggestion != text and len(suggestion) != 0 else []
 
     def _search(self, text, pagenum=1, limit=10, isPath=False):
         self._parse_query(text)
+        # Start an enquire session.
+        database = self._index.index
+        enquire = xapian.Enquire(database)
         # find using the parsed query
         enquire.set_query(self.query)
         offset = pagenum * limit - limit
@@ -159,8 +162,6 @@ class XapianSearcher(FileSearcher):
 
     def _parse_query(self, text):
         database = self._index.index
-        # Start an enquire session.
-        enquire = xapian.Enquire(database)
         # Parse the query string to produce a Xapian::Query object.
         self.parser = xapian.QueryParser()
         self.parser.set_stemmer(xapian.Stem("english"))

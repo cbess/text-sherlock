@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-""" 
+"""
 base.py
 Created by: Christopher Bess
 Copyright: 2011
@@ -78,7 +78,7 @@ class FileIndexer(object):
         """Returns all indexed file documents."""
         return db.IndexerMeta.select()
 
-    
+
 ## Searcher Base Classes
 
 class FileSearcher(object):
@@ -101,6 +101,14 @@ class FileSearcher(object):
         """Returns the search result for the target path."""
         raise NotImplementedError
 
+    def find_suggestions(self, text, limit=3):
+        """Returns the suggestion results for the given user text input.
+
+        :param text: The user text input.
+        :param limit: The max number of results to return as the suggestions.
+        """
+        raise NotImplementedError
+
     @property
     def indexer(self):
         return self._indexer
@@ -119,7 +127,7 @@ class SearchResults(list):
     total_count = 0
     # the current page number that will be displayed, -1 to indicate that it has not been set
     pagenum = -1
-    
+
     def __init__(self, searcher, hits, **kwargs):
         """Initializes this Results instance.
 
@@ -171,7 +179,7 @@ class SearchResult(object):
     filename = None
     # the path within the index path. The full file path without the index path prepended.
     index_path = None
-    
+
     def __init__(self, hit, indexer, **kwargs):
         """Initializes this Result instance.
 
@@ -203,7 +211,7 @@ class SearchResult(object):
         processing operation should populate the default class properties.
         """
         raise NotImplementedError
-        
+
     def append_line(self, lines, text):
-        """Appends the text to the target lines."""        
+        """Appends the text to the target lines."""
         lines.append("<div class='line'>%s</div>\n" % text.strip())
