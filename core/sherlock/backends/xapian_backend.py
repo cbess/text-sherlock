@@ -34,13 +34,9 @@ DEFAULT_SEARCH_FLAGS = (
 )
 
 
-# xapian bindings have differently between python 2 and python 3
-if six.PY2:
-    def _ensure_str(value):
-        return value
-else:
-    def _ensure_str(value):
-        return value.decode('utf-8')
+# xapian bindings behave differently between python 2 and python 3
+def _ensure_str(value):
+    return value if six.PY2 else value.decode('utf-8')
 
 
 ## Indexer

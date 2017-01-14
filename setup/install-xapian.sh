@@ -1,25 +1,33 @@
 # Install xapian support
-# works best with virtualenv
+# expects a virtualenv
 
-echo "Installing xapian"
+if [ -z "$VIRTUAL_ENV" ]
+then
+    echo "Must be in a virtualenv..."
+    echo "Execute:"
+    echo "\$ source sherlock_env/bin/activate"
+    exit
+fi
+
+VERSION=1.4.2 # or 1.2.24
+
+echo "Installing xapian core"
 # xapian support
-curl -o xapian.tar.xz https://oligarchy.co.uk/xapian/1.4.2/xapian-core-1.4.2.tar.xz
-tar -xvzf xapian.tar.xz
-cd xapian*/
-./configure --disable-dependency-tracking --disable-assertions
-make
-sudo make install
+curl -o xapian.tar.xz https://oligarchy.co.uk/xapian/$VERSION/xapian-core-$VERSION.tar.xz
+tar -xzf xapian.tar.xz
+cd xapian-core*/
+./configure --prefix=$VIRTUAL_ENV --disable-dependency-tracking --disable-assertions
+make && make install
 
 cd ..
 
 echo "Installing xapian python bindings"
 # bindings
-curl -o xapian-bindings.tar.xz https://oligarchy.co.uk/xapian/1.4.2/xapian-bindings-1.4.2.tar.xz
-tar -xvzf xapian-bindings.tar.xz
+curl -o xapian-bindings.tar.xz https://oligarchy.co.uk/xapian/$VERSION/xapian-bindings-$VERSION.tar.xz
+tar -xzf xapian-bindings.tar.xz
 cd xapian-bindings*/
-./configure --with-python --disable-debug --disable-dependency-tracking --without-csharp --without-tcl --without-php
-make
-sudo make install
+./configure --prefix=$VIRTUAL_ENV --with-python --disable-dependency-tracking
+make && make install
 
 cd ..
 
