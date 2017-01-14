@@ -8,9 +8,8 @@ refs:
 https://whoosh.readthedocs.io/en/latest/quickstart.html
 https://whoosh.readthedocs.io/en/latest/indexing.html
 """
-from __future__ import absolute_import
 
-__author__ = 'C. Bess'
+from __future__ import absolute_import
 
 import os
 from whoosh.index import create_in, open_dir, exists_in
@@ -21,6 +20,8 @@ from core import settings
 from core.sherlock import logger
 from core.utils import debug, safe_read_file, fragment_text, read_file
 from .base import FileSearcher, FileIndexer, SearchResult, SearchResults
+
+__author__ = 'C. Bess'
 
 ## Indexer
 

@@ -3,6 +3,7 @@
 Created by Christopher Bess (https://github.com/cbess/text-sherlock)
 Copyright 2013
 """
+
 from __future__ import print_function
 from __future__ import unicode_literals
 

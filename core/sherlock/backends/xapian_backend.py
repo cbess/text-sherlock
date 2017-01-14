@@ -10,6 +10,7 @@ http://xapian.org/docs/apidoc/html/annotated.html
 https://github.com/notanumber/xapian-haystack/blob/master/xapian_backend.py
 http://invisibleroads.com/tutorials/xapian-search-pylons.html#filter-documents-by-number-using-value
 """
+
 from __future__ import absolute_import
 
 __author__ = 'C. Bess'

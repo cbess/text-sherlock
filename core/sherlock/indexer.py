@@ -6,6 +6,7 @@ indexer.py
 Created by Christopher Bess
 Copyright 2011
 """
+
 from __future__ import absolute_import
 
 import contextlib
