@@ -9,3 +9,6 @@ def baz():
 
 def zap():
     """docstring"""
+
+def code():
+    u"""©opyright"""

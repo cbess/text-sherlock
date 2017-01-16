@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 # http://werkzeug.pocoo.org/docs/serving/#werkzeug.serving.run_simple
 from core import flask
 from core import settings as core_settings
@@ -6,7 +7,7 @@ import webapp.settings
 app = flask.Flask('webapp')
 app.config.from_object('webapp.settings')
 
-import views
+from . import views
 
 # The number of processes to spawn for the server.
 # You can only have one or the other; multi-threaded or multi-process.
@@ -36,7 +37,7 @@ def run():
     server_type = core_settings.SERVER_TYPE
     if server_type == 'cherrypy':
         # near-production level server (small to medium traffic)
-        import server_cherrypy
+        from . import server_cherrypy
         server_cherrypy.run()
     else: # default server (flask/werkzeug)
         if SERVER_PROCESSES > 1 and SERVER_IS_THREADED:

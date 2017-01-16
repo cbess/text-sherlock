@@ -200,7 +200,7 @@ class SearchResult(object):
                 self.index_path = self.index_path.replace(path, '')
         try:
             self.process_hit(hit)
-        except IOError, e:
+        except IOError as e:
             logger.warning('IOError while processing hit: %s:%s', self.path, e)
 
     def process_hit(self, hit):

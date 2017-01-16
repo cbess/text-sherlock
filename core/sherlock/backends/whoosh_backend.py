@@ -8,7 +8,8 @@ refs:
 https://whoosh.readthedocs.io/en/latest/quickstart.html
 https://whoosh.readthedocs.io/en/latest/indexing.html
 """
-__author__ = 'C. Bess'
+
+from __future__ import absolute_import
 
 import os
 from whoosh.index import create_in, open_dir, exists_in
@@ -18,7 +19,9 @@ from whoosh import highlight
 from core import settings
 from core.sherlock import logger
 from core.utils import debug, safe_read_file, fragment_text, read_file
-from base import FileSearcher, FileIndexer, SearchResult, SearchResults
+from .base import FileSearcher, FileIndexer, SearchResult, SearchResults
+
+__author__ = 'C. Bess'
 
 ## Indexer
 
@@ -57,10 +60,10 @@ class WhooshIndexer(FileIndexer):
         contents = safe_read_file(filepath)
         if contents is None:
             return
-        path = unicode(filepath)
+        path = filepath
         # build doc
         doc = dict(
-            filename=unicode(os.path.basename(filepath)),
+            filename=os.path.basename(filepath),
             path=path,
             content=contents + path
         )
@@ -97,12 +100,12 @@ class WhooshSearcher(FileSearcher):
 
     def find_path(self, path):
         parser = QueryParser('path', self._index.schema)
-        query = parser.parse(unicode(path))
+        query = parser.parse(path)
         return self._search(query, limit=1)
 
     def find_text(self, text, pagenum=1, limit=10):
         parser = QueryParser('content', self._index.schema)
-        query = parser.parse(unicode(text))
+        query = parser.parse(text)
         return self._search(query, pagenum, limit)
 
     def find_suggestions(self, text, limit=3):

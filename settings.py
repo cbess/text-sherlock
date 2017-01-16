@@ -3,7 +3,12 @@
 Created by Christopher Bess (https://github.com/cbess/text-sherlock)
 Copyright 2013
 """
+
+from __future__ import print_function
+from __future__ import unicode_literals
+
 import os
+import six
 
 # Should not be changed, this is the absolute path to the directory
 # containing main.py, settings.py, core/, etc.
@@ -23,19 +28,19 @@ try:
 
     if not yaml_path or not os.path.isfile(yaml_path):
         if yaml_path:
-            print 'No config at %s' % yaml_path
+            print('No config at %s' % yaml_path)
         else:
-            print 'No yaml config'
-        print 'Setup the local_settings.yml config.'
+            print('No yaml config')
+        print('Setup the local_settings.yml config.')
 
     # try to load the config
     if yaml_path and os.path.isfile(yaml_path):
         config = yaml.load(open(yaml_path, 'r'))
 
     if config:
-        print 'Loaded Sherlock config settings from %s' % yaml_path
+        print('Loaded Sherlock config settings from %s' % yaml_path)
 except ImportError:
-    print 'No yaml lib: pip install pyyaml'
+    print('No yaml lib: pip install pyyaml')
 
 # `%(sherlock_dir)s` resolves to the directory where sherlock is installed.
 
@@ -91,7 +96,7 @@ NUM_CONTEXT_LINES = config.get('num_context_lines', 1)
 # type: string | tuple
 # default: '%(sherlock_dir)s/tests/text/'
 INDEX_PATHS = config.get('index_path', '%(sherlock_dir)s/tests/text/' % {'sherlock_dir': ROOT_DIR})
-if isinstance(INDEX_PATHS, (str, unicode)):
+if isinstance(INDEX_PATHS, six.string_types):
     INDEX_PATHS = (INDEX_PATHS,)
 
 # The default index name that is used for an index created within INDEXES_PATH.
@@ -172,7 +177,7 @@ SITE_BANNER_COLOR = config.get('site_banner_color', 'black')
 # Use the local_settings.yml instead, noted at the top of file
 try:
     from local_settings import *
-    print '!!!Deprecated local_settings.py|pyc file found: Use local_settings.yml instead.'
+    print('!!!Deprecated local_settings.py|pyc file found: Use local_settings.yml instead.')
 except ImportError:
     # ignore import error, because it's deprecated
     pass

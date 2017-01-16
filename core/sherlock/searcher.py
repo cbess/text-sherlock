@@ -4,10 +4,12 @@ Created by: Christopher Bess
 Copyright: 2011
 """
 
+from __future__ import absolute_import
+
 from whoosh.qparser import QueryParser
 from core.sherlock import logger as log
 from settings import DEFAULT_SEARCHER
-from backends import AVAILABLE_SEARCHERS
+from .backends import AVAILABLE_SEARCHERS
 from datetime import datetime
 
 

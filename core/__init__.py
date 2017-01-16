@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import absolute_import
+
 # import packages here to help support the two available setups
 __all__ = [
     'whoosh', 'flask',
@@ -11,6 +13,7 @@ __all__ = [
 ]
 
 from cherrypy import wsgiserver as cherrypy_wsgiserver
+import codecs
 import flask
 import os
 import peewee
@@ -18,14 +21,18 @@ import pygments
 import sys
 import whoosh
 
-import ConfigParser
+try:
+    import configparser
+except ImportError:
+    # python2
+    import ConfigParser as configparser
 import settings
-import utils
+from . import utils
 
 
-class SherlockMeta:
+class SherlockMeta(object):
     """Represents the sherlock meta data that is stored."""
-    config = ConfigParser.RawConfigParser()
+    config = configparser.RawConfigParser()
     config_file_path = os.path.join(settings.ROOT_DIR, 'sherlock-meta.cfg')
 
     @classmethod
@@ -35,7 +42,7 @@ class SherlockMeta:
             cls.config.add_section('main')
         cls.config.set('main', key, value)
         # write config
-        with open(cls.config_file_path, 'wb') as configfile:
+        with codecs.open(cls.config_file_path, 'w', encoding='utf-8') as configfile:
             cls.config.write(configfile)
 
     @classmethod
@@ -58,7 +65,7 @@ def get_version_info(module):
         return cherrypy.__version__
 
     def sherlock_ver():
-        import sherlock
+        from . import sherlock
         return sherlock.__version__
 
     return {

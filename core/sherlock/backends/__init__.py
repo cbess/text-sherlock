@@ -7,10 +7,12 @@ Created by Christopher Bess
 Copyright 2011
 """
 
+from __future__ import print_function
+from __future__ import absolute_import
+
+from . import whoosh_backend
+
 __author__ = 'C. Bess'
-
-
-import whoosh_backend
 
 
 # Lists the indexer classes that can handle indexing operations
@@ -25,11 +27,11 @@ AVAILABLE_SEARCHERS = {
 
 
 try:
-    import xapian_backend
+    from . import xapian_backend
     AVAILABLE_INDEXERS['xapian'] = xapian_backend.XapianIndexer
     AVAILABLE_SEARCHERS['xapian'] = xapian_backend.XapianSearcher
 except ImportError:
-    print 'Xapian backend support unavailable'
+    print('Xapian backend support unavailable')
 
 
 # for stats output

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from __future__ import division
 
 import cgi
 import codecs
@@ -21,7 +22,7 @@ def read_file(path, encoding='utf-8'):
     with codecs.open(path, 'r', encoding=encoding) as f:
         try:
             contents = f.read()
-        except UnicodeDecodeError, e:
+        except UnicodeDecodeError as e:
             # re-raise with more information
             raise Exception('%s: %s' % (e, path))
     return contents
@@ -34,7 +35,7 @@ def safe_read_file(path, ignore_errors=settings.IGNORE_INDEXER_ERRORS,
     try:
         contents = read_file(path, encoding=encoding)
         return contents
-    except Exception, e:
+    except Exception as e:
         log.error('Skipped file: %s' % path)
         if not ignore_errors:
             raise e
@@ -127,11 +128,11 @@ def datetime_to_phrase(date_time):
     years, months, xdays = None, None, None
     plural = lambda x: 's' if x != 1 else ''
     if days >= 365:
-        years = int(days / 365)
+        years = days // 365
         datelets.append('%d year%s' % (years, plural(years)))
         days = days % 365
     if days >= 30 and days < 365:
-        months = int(days / 30)
+        months = days // 30
         datelets.append('%d month%s' % (months, plural(months)))
         days = days % 30
     if not years and days > 0 and days < 30:
