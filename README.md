@@ -1,6 +1,6 @@
 # Text Sherlock (or Sherlock or TS)
 
-Provides a fast, easy to install and use search engine for text but, mostly for source code. [OpenGrok](https://github.com/OpenGrok/OpenGrok) requires to much time to install (though it may be worth it for some). Sherlock will give you a much easier setup, a text indexer, and a web app interface for searching.
+Provides a fast, easy to install and use search engine for text but, mostly for source code. [OpenGrok](https://github.com/OpenGrok/OpenGrok) requires too much time to install (though it may be worth it for some). Sherlock will give you a much easier setup, a text indexer, and a web app interface for searching.
 
 ## Basic Setup
 
@@ -59,7 +59,7 @@ Append to document URL.
 In [`settings.py`](settings.py):
 
 - Change the `default_indexer` and `default_searcher` values to match the name given to the backend.
-    - Possbile values:
+    - Possible values:
         - `whoosh` the default, no extra work needed.
         - `xapian` must be installed separately using the included [`setup/install-xapian.sh`](setup/install-xapian.sh) setup script.
 
@@ -76,7 +76,7 @@ In [`settings.py`](settings.py):
 
 ## Core packages
 
-**Requires Python 2.6 or later.**
+**Requires Python 2.6/3+**
 
 * Whoosh - [whoosh](https://whoosh.readthedocs.io/en/latest/quickstart.html#a-quick-introduction)
 * Flask - [flask](http://flask.pocoo.org)
@@ -101,7 +101,6 @@ In [`settings.py`](settings.py):
 1. Be a respectable alternative to [OpenGrok](https://github.com/OpenGrok/OpenGrok).
 1. Influence the authors of [OpenGrok](https://github.com/OpenGrok/OpenGrok) to provide a simpler setup process.
 	- I successfully setup two installations on CentOS and Ubuntu 11.x and each time it took more than two hours. TS setup takes less than 10 minutes (excluding package download time).
-
 
 ## Contributors
 
