@@ -101,3 +101,9 @@ In [`settings.py`](settings.py):
 1. Be a respectable alternative to [OpenGrok](https://github.com/OpenGrok/OpenGrok).
 1. Influence the authors of [OpenGrok](https://github.com/OpenGrok/OpenGrok) to provide a simpler setup process.
 	- I successfully setup two installations on CentOS and Ubuntu 11.x and each time it took more than two hours. TS setup takes less than 10 minutes (excluding package download time).
+
+
+## Contributors
+
+- [Christopher Bess](https://github.com/cbess)
+- [Raphael Boidol](https://github.com/boidolr)
