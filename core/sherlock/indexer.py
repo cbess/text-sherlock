@@ -9,7 +9,6 @@ Copyright 2011
 
 from __future__ import absolute_import
 
-import contextlib
 import os
 import settings
 import shutil
@@ -44,9 +43,13 @@ def index_paths(paths, name=settings.DEFAULT_INDEX_NAME):
     target paths to.
     """
     # index files for the search
-    with _get_indexer_with_cleanup(name) as idxr:
-        for path in paths:
-            idxr.index_text(_ensure_unicode(path))
+    idxr = get_indexer(name=name)
+    for path in paths:
+        idxr.index_text(_ensure_unicode(path))
+    # if not rebuilding the index, then cleanup orphaned files that
+    # were previously indexed
+    if not FORCE_INDEX_REBUILD:
+        idxr.clean_index()
 
 
 def index_path(path, name=settings.DEFAULT_INDEX_NAME):
@@ -57,19 +60,8 @@ def index_path(path, name=settings.DEFAULT_INDEX_NAME):
     target path to.
     """
     # index a file for the search
-    with _get_indexer_with_cleanup(name) as idxr:
-        idxr.index_text(_ensure_unicode(path))
-
-
-@contextlib.contextmanager
-def _get_indexer_with_cleanup(name=settings.DEFAULT_INDEX_NAME, rebuild_index=FORCE_INDEX_REBUILD, **kwargs):
-    """Prepare an indexer for use and remove orphaned files if necessary.
-
-    :param rebuild_index: True to rebuild the index on open/create. Default is False.
-    """
-    # get the indexer for use
-    idxr = get_indexer(name=name, rebuild_index=rebuild_index, **kwargs)
-    yield idxr
+    idxr = get_indexer(name=name)
+    idxr.index_text(_ensure_unicode(path))
     # if not rebuilding the index, then cleanup orphaned files that
     # were previously indexed
     if not FORCE_INDEX_REBUILD:
@@ -181,6 +173,9 @@ class Indexer(object):
         if not isinstance(settings.INCLUDE_FILE_SUFFIX, (tuple, list, type(None))):
             raise Exception('settings.INCLUDE_FILE_SUFFIX must be a tuple or None, found: %s' %
                             type(settings.INCLUDE_FILE_SUFFIX))
+        if not os.listdir(dpath):
+            raise Exception('Directory to index is empty: %s - aborting run!' % dpath)
+
         # nested, reused code block
         def check_name(name):
             """Returns True if the item with the specified name can be indexed."""
