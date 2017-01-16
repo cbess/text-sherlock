@@ -107,3 +107,4 @@ In [`settings.py`](settings.py):
 
 - [Christopher Bess](https://github.com/cbess)
 - [Raphael Boidol](https://github.com/boidolr)
+- [And others](https://github.com/cbess/text-sherlock/contributors)...
