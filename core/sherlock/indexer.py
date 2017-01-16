@@ -209,10 +209,8 @@ class Indexer(object):
         else:
             # traverse the given path
             for dirpath, dirnames, filenames in os.walk(dpath):
-                dirname = os.path.basename(dirpath)
                 # ignore hidden dirs
-                if dirname.startswith('.'):
-                    continue
+                dirnames[:] = [d for d in dirnames if not d.startswith('.')]
                 for name in filter(check_name, filenames):
                     path = os.path.join(dirpath, name)
                     self.__index_file(path)
