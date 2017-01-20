@@ -74,10 +74,10 @@ class TestSearcher(testcase.BaseTestCase):
         idxr.index_text(path)
         # get suggestion
         idx = idxr.get_index()
-        search_text = 'copy'
+        search_text = 'var'
         result = idx.suggestions(search_text)
         self.assertTrue(result, 'no suggestions returned')
-        self.assertIn('hope', result, 'suggestion not matching')
+        self.assertIn('val', result, 'suggestion not matching')
         self.assertNotIn(search_text, result, 'original query should not be included')
 
 
