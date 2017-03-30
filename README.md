@@ -8,14 +8,14 @@ Instructions:
 
 1. Download [sherlock](https://github.com/cbess/text-sherlock) source from [GitHub](https://github.com/cbess/text-sherlock).
 1. Extract/place the sherlock source code in the desired (install) directory. This will be where sherlock lives.
-1. Run `sh virtualenv-setup.sh` to setup an isolated environment and download core packages.
+1. Run `sh setup/virtualenv-setup.sh` to setup an isolated environment and download core packages.
 1. Configure settings. The defaults in [`settings.py`](settings.py) provide documentation for each setting.
 	- Copy [`example.local_settings.yml`](example.local_settings.yml) to `local_settings.yml`.
 	- Override/copy any setting from [`settings.py`](settings.py) to `local_settings.yml` (change the values as needed). All YAML keys/options must be lowercase.
 1. Run `source sherlock_env/bin/activate` to enter the virtual environment.
 1. Run `python main.py --index update` or `--index rebuild` to index the path specified in the settings. Watch indexing output.
 1. Run `python main.py --runserver` to start the web server.
-1. Go to `http://localhost:7777` to access the web interface. Uses the [twitter bootstrap](http://twitter.github.com/bootstrap) for its UI.
+1. Go to `http://localhost:7777` to access the web interface. Uses the [twitter bootstrap](http://getbootstrap.com/) for its UI.
 
 You may need to install some packages before a *Ubuntu* installation will run without error.
 
