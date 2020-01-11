@@ -10,21 +10,17 @@ https://github.com/coleifer/peewee/blob/master/README.rst
 http://charlesleifer.com/blog/peewee-a-lightweight-python-orm/
 http://docs.peewee-orm.com/projects/flask-peewee/
 """
-from __future__ import print_function
+
 
 import os
 import stat  # index constants for os.stat()
 import time
+import sqlite3
 from datetime import datetime
 from core import peewee
 from core import settings, FULL_INDEXES_PATH
 from core.utils import debug
 from core.sherlock import logger
-
-try:
-    import sqlite3
-except ImportError:
-    from pysqlite2 import dbapi2 as sqlite3
 
 
 def create_db(path=FULL_INDEXES_PATH, index=settings.DEFAULT_INDEX_NAME):

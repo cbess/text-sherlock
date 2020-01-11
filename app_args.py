@@ -2,16 +2,10 @@
 
 __all__ = ['get_options']
 
-try:
-    # optparse is deprecated, but I wanted broader compatibility
-    from optparse import OptionParser
-    parser = OptionParser(description=__doc__)
-    add_argument = parser.add_option
-except ImportError:
-    # this is here to help any future upgrades
-    from argparse import ArgumentParser
-    parser = ArgumentParser(description=__doc__)
-    add_argument = parser.add_argument
+
+from argparse import ArgumentParser
+parser = ArgumentParser(description=__doc__)
+add_argument = parser.add_argument
 
 
 def get_app_args():

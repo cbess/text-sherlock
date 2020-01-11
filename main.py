@@ -8,7 +8,6 @@ Created by Christopher Bess (https://github.com/cbess/text-sherlock)
 Copyright 2012
 """
 
-from __future__ import print_function
 
 from app_args import get_options
 from webapp import server

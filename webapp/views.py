@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # refs: http://flask.pocoo.org/docs/quickstart/#redirects-and-errors
 
-from __future__ import absolute_import
 
 import os
 from .server import app

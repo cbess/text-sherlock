@@ -4,7 +4,7 @@ Created by: Christopher Bess
 Copyright: 2011
 
 refs:
-http://docs.python.org/2/library/logging.html
+http://docs.python.org/3/library/logging.html
 """
 __version__ = '0.7.3'
 

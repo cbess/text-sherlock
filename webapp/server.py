@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 # http://werkzeug.pocoo.org/docs/serving/#werkzeug.serving.run_simple
 from core import flask
 from core import settings as core_settings

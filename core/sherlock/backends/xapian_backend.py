@@ -11,13 +11,11 @@ https://github.com/notanumber/xapian-haystack/blob/master/xapian_backend.py
 http://invisibleroads.com/tutorials/xapian-search-pylons.html#filter-documents-by-number-using-value
 """
 
-from __future__ import absolute_import
 
 __author__ = 'C. Bess'
 
 import re
 import os
-import six
 import xapian
 from core import settings
 from core.sherlock import logger
@@ -33,11 +31,6 @@ DEFAULT_SEARCH_FLAGS = (
     xapian.QueryParser.FLAG_WILDCARD |
     xapian.QueryParser.FLAG_SPELLING_CORRECTION
 )
-
-
-# xapian bindings behave differently between python 2 and python 3
-def _ensure_str(value):
-    return value if six.PY2 else value.decode('utf-8')
 
 
 ## Indexer
@@ -135,7 +128,7 @@ class XapianSearcher(FileSearcher):
     def find_suggestions(self, text, limit=1):
         self._parse_query(text)
         suggestion = self.parser.get_corrected_query_string()
-        suggestion = _ensure_str(suggestion)
+        suggestion = suggestion.decode('utf-8')
         return [suggestion] if suggestion != text and len(suggestion) != 0 else []
 
     def _search(self, text, pagenum=1, limit=10, isPath=False):
@@ -188,8 +181,8 @@ class XapianResult(SearchResult):
     def __init__(self, match, searcher):
         self._searcher = searcher
         kwargs = {
-            'path' : _ensure_str(match.document.get_value(XapianIndexer.DOC_VALUE_FILEPATH)),
-            'filename' : _ensure_str(match.document.get_value(XapianIndexer.DOC_VALUE_FILENAME))
+            'path' : match.document.get_value(XapianIndexer.DOC_VALUE_FILEPATH).decode('utf-8'),
+            'filename' : match.document.get_value(XapianIndexer.DOC_VALUE_FILENAME).decode('utf-8')
         }
         super(XapianResult, self).__init__(match, None, **kwargs)
 
@@ -212,7 +205,7 @@ class XapianResult(SearchResult):
             if not documentWords:
                 continue
             # Prepare regular expression using matching document words
-            searchExpression = r'|'.join(_ensure_str(word) for word in documentWords)
+            searchExpression = r'|'.join(word.decode('utf-8') for word in documentWords)
             pattern = re.compile(searchExpression, re.IGNORECASE)
             for match in pattern.finditer(contents):
                 token = self.Token()

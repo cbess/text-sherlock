@@ -7,7 +7,6 @@ Created by Christopher Bess
 Copyright 2011
 """
 
-from __future__ import absolute_import
 
 import contextlib
 import os
@@ -18,11 +17,6 @@ from core.sherlock import logger as log
 from core.sherlock import searcher
 from . import backends
 from core.utils import debug
-
-try:
-    _ensure_unicode = unicode
-except NameError:
-    _ensure_unicode = str
 
 
 def get_indexer(name=settings.DEFAULT_INDEX_NAME, rebuild_index=FORCE_INDEX_REBUILD, **kwargs):
@@ -46,7 +40,7 @@ def index_paths(paths, name=settings.DEFAULT_INDEX_NAME):
     # index files for the search
     with _get_indexer_with_cleanup(name) as idxr:
         for path in paths:
-            idxr.index_text(_ensure_unicode(path))
+            idxr.index_text(unicode(path))
 
 
 def index_path(path, name=settings.DEFAULT_INDEX_NAME):
@@ -58,7 +52,7 @@ def index_path(path, name=settings.DEFAULT_INDEX_NAME):
     """
     # index a file for the search
     with _get_indexer_with_cleanup(name) as idxr:
-        idxr.index_text(_ensure_unicode(path))
+        idxr.index_text(unicode(path))
 
 
 @contextlib.contextmanager

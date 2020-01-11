@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 # Cherrypy server add-on
 # Install: pip install cherrypy
 # refs:
