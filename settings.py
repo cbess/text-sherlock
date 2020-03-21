@@ -101,7 +101,7 @@ if isinstance(INDEX_PATHS, str):
 DEFAULT_INDEX_NAME = config.get('default_index_name', 'main')
 
 # The name of the server type to use as the web server.
-# CherryPy support is built-in, if production: 'cherrypy'.
+# Cheroot support is built-in, if production: 'cheroot'.
 # type: string
 # default: None
 SERVER_TYPE = config.get('server_type')
@@ -168,12 +168,3 @@ SITE_TITLE = config.get('site_title', 'Text Sherlock')
 # type: string
 # default: black
 SITE_BANNER_COLOR = config.get('site_banner_color', 'black')
-
-
-# Use the local_settings.yml instead, noted at the top of file
-try:
-    from local_settings import *
-    print('!!!Deprecated local_settings.py|pyc file found: Use local_settings.yml instead.')
-except ImportError:
-    # ignore import error, because it's deprecated
-    pass

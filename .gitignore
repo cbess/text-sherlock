@@ -7,3 +7,4 @@ data
 local_settings.py
 sherlock-meta.cfg
 local_settings.yml
+.vscode/settings.json

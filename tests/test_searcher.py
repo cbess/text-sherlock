@@ -76,7 +76,7 @@ class TestSearcher(testcase.BaseTestCase):
         search_text = 'var'
         result = idx.suggestions(search_text)
         self.assertTrue(result, 'no suggestions returned')
-        self.assertIn('val', result, 'suggestion not matching')
+        self.assertIn('char', result, 'suggestion not matching')
         self.assertNotIn(search_text, result, 'original query should not be included')
 
 

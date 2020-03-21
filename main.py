@@ -28,7 +28,7 @@ def show_version():
     print('   Flask: v' + get_version_info('flask'))
     print('Pygments: v' + get_version_info('pygments'))
     print('  Whoosh: v' + get_version_info('whoosh'))
-    print('CherryPy: v' + get_version_info('cherrypy'))
+    print(' Cheroot: v' + get_version_info('cheroot'))
 
 
 def show_stats():
@@ -47,8 +47,8 @@ def run_server():
     if settings.LOG_PATH:
         print('Log path: %s' % settings.LOG_PATH)
     print('Backend: %s' % settings.DEFAULT_SEARCHER)
-    print('Server: %s' % settings.SERVER_TYPE)
-    print('Listening on: %s:%d' % (settings.SERVER_ADDRESS, settings.SERVER_PORT))
+    print('Server: %s' % (settings.SERVER_TYPE or 'development'))
+    print('Listening on: {}:{}'.format(settings.SERVER_ADDRESS, settings.SERVER_PORT))
     # launch web server
     server.run()
 
@@ -65,7 +65,7 @@ def reindex():
     if FORCE_INDEX_REBUILD:
         wait_time = 5  # seconds to wait/pause until rebuilding index
         print('Reindexing everything!')
-        print('Waiting %ss for interrupt...' % wait_time)
+        print('Waiting {}s for interrupt...'.format(wait_time))
         import time
         time.sleep(wait_time)
     print('Indexing started.')
