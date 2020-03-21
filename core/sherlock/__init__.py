@@ -1,4 +1,4 @@
-""" 
+"""
 __init__.py
 Created by: Christopher Bess
 Copyright: 2011

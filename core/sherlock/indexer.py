@@ -181,6 +181,7 @@ class Indexer(object):
         if not isinstance(settings.INCLUDE_FILE_SUFFIX, (tuple, list, type(None))):
             raise Exception('settings.INCLUDE_FILE_SUFFIX must be a tuple or None, found: %s' %
                             type(settings.INCLUDE_FILE_SUFFIX))
+
         # nested, reused code block
         def check_name(name):
             """Returns True if the item with the specified name can be indexed."""
@@ -201,6 +202,7 @@ class Indexer(object):
                     if name.endswith(suffix):
                         return True
             return can_index
+
         # perform item indexing
         if not self._is_recursive:
             # just check the files in the target directory
