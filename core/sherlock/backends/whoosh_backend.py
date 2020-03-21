@@ -24,6 +24,7 @@ __author__ = 'C. Bess'
 
 ## Indexer
 
+
 class WhooshIndexer(FileIndexer):
     # Text index schema
     schema = Schema(
@@ -88,7 +89,8 @@ class WhooshIndexer(FileIndexer):
         # must find a way to 'purge' deleted documents.
         # It does remove them from the query, but the index info is stored until purged.
         # http://packages.python.org/Whoosh/indexing.html#deleting-documents
-        #self.index.commit()
+        # self.index.commit()
+
 
 ## Searcher
 
@@ -179,7 +181,7 @@ class ResultFragmenter(highlight.Fragmenter):
 
 
 class ResultFormatter(highlight.Formatter):
-    max_lines = settings.NUM_CONTEXT_LINES # fragment context
+    max_lines = settings.NUM_CONTEXT_LINES  # fragment context
     new_line = settings.NEW_LINE
     max_sub_results = settings.MAX_SUB_RESULTS
 

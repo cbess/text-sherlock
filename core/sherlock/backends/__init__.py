@@ -15,12 +15,12 @@ __author__ = 'C. Bess'
 
 # Lists the indexer classes that can handle indexing operations
 AVAILABLE_INDEXERS = {
-    'whoosh' : whoosh_backend.WhooshIndexer
+    'whoosh': whoosh_backend.WhooshIndexer
 }
 
 # Lists the searcher classes that can handle search operations
 AVAILABLE_SEARCHERS = {
-    'whoosh' : whoosh_backend.WhooshSearcher
+    'whoosh': whoosh_backend.WhooshSearcher
 }
 
 
@@ -35,6 +35,7 @@ except ImportError:
 # for stats output
 def searcher_names(separator=', '):
     return separator.join(AVAILABLE_SEARCHERS.keys())
+
 
 def indexer_names(separator=', '):
     return separator.join(AVAILABLE_INDEXERS.keys())

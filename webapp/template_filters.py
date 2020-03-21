@@ -19,7 +19,6 @@ def register_filters(app):
             value = datetime.strptime(value, '%Y-%m-%d %H:%M:%S')
         return value.strftime(format)
 
-
     @app.template_filter('dt_ago')
     def dt_ago_filter(value):
         """Returns the datetime as a phrase
@@ -30,7 +29,6 @@ def register_filters(app):
             # make datetime
             value = datetime.strptime(value, SHORT_DATE_FORMAT)
         return datetime_to_phrase(value)
-
 
     @app.template_filter('urlencode')
     def urlencode_filter(value):

@@ -53,7 +53,7 @@ def index():
     """Handles index requests
     """
     response = {
-        "title" : u"Welcome"
+        "title": u"Welcome"
     }
     add_default_response(response)
     return render_template('index.html', **response)
@@ -76,17 +76,17 @@ def search():
 
     # build response
     response = {
-        'title' : search_text or 'Search',
-        'html_css_class' : 'search',
-        'search_text' : search_text,
-        'suggestions' : suggestions,
-        'results' : results.items,
-        'total_count' : results.total_count,
-        'page' : {
-            'current' : pagenum,
-            'previous' : results.prev_pagenum,
-            'next' : results.next_pagenum,
-            'count' : len(results)
+        'title': search_text or 'Search',
+        'html_css_class': 'search',
+        'search_text': search_text,
+        'suggestions': suggestions,
+        'results': results.items,
+        'total_count': results.total_count,
+        'page': {
+            'current': pagenum,
+            'previous': results.prev_pagenum,
+            'next': results.next_pagenum,
+            'count': len(results)
         }
     }
     add_default_response(response)
@@ -134,14 +134,14 @@ def document():
 
     # build response
     response = {
-        "title" : doc.result.filename,
-        'html_css_class' : 'document',
-        'doc' : doc,
-        'contents' : doc_html,
-        'search_text' : search_text,
-        'page_number' : pagenum,
-        'last_modified' : db_record.get('mod_date'),
-        'http_status' : http_status
+        "title": doc.result.filename,
+        'html_css_class': 'document',
+        'doc': doc,
+        'contents': doc_html,
+        'search_text': search_text,
+        'page_number': pagenum,
+        'last_modified': db_record.get('mod_date'),
+        'http_status': http_status
     }
     add_default_response(response)
     return render_template('document.html', **response), http_status
