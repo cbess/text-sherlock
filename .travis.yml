@@ -2,19 +2,21 @@ language: python
 
 cache: pip
 
-matrix:
-    - os: linux
-      python: '3.3'
-    - os: linux
-      python: '3.5'
-    - os: linux
-      python: '3.7'
-    - os: linux
-      python: '3.5'
-      env: XAPIAN='true';
-    - os: linux
-      python: '3.7'
-      env: XAPIAN='true';
+python:
+  - '3.5'
+  - '3.6'
+  - '3.7'
+
+env:
+  - XAPIAN='true'
+  - XAPIAN='false'
+
+jobs:
+  exclude:
+    - python: '3.5'
+      env: XAPIAN='true'
+    - python: '3.6'
+      env: XAPIAN='true'
 
 addons:
   apt:
@@ -28,7 +30,7 @@ addons:
 
 install:
   - pip install -r setup/requirements.txt
-  - pip install sphinx flake8
+  - pip install 'sphinx<2' flake8
   - "if [[ $XAPIAN == 'true' ]]; then CXX=g++-4.8 ./setup/install-xapian.sh; fi"
   - "if [[ $XAPIAN == 'true' ]]; then echo 'default_indexer: \'xapian\'' > local_settings.yml; fi"
 
