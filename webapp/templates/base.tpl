@@ -6,8 +6,7 @@
         <link rel="stylesheet" href="/static/css/bootstrap.min.css">
         <link rel="stylesheet" href="/static/css/background-gradients.css">
         <link rel="stylesheet" href="/static/css/main.css" type="text/css" charset="utf-8">
-        <script src='/static/js/jquery.min.js'></script>
-        
+
         {% block header %}
         {% endblock %}
     </head>
@@ -17,7 +16,7 @@
             <!-- Start custom banner HTML here -->
             <span id='banner-text'>{{ site_banner_text }}</span>
             <!-- End custom banner HTML here -->
-            
+
             {% if doc %}
             <form action="/search" method="GET">
                 <div>
