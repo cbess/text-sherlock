@@ -4,8 +4,7 @@
 test_transformer.py
 Created by Christopher Bess
 """
-from __future__ import absolute_import
-from __future__ import unicode_literals
+
 
 import os
 from . import testcase

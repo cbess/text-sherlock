@@ -9,7 +9,6 @@ https://whoosh.readthedocs.io/en/latest/quickstart.html
 https://whoosh.readthedocs.io/en/latest/indexing.html
 """
 
-from __future__ import absolute_import
 
 import os
 from whoosh.index import create_in, open_dir, exists_in

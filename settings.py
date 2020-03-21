@@ -4,11 +4,7 @@ Created by Christopher Bess (https://github.com/cbess/text-sherlock)
 Copyright 2013
 """
 
-from __future__ import print_function
-from __future__ import unicode_literals
-
 import os
-import six
 
 # Should not be changed, this is the absolute path to the directory
 # containing main.py, settings.py, core/, etc.
@@ -96,7 +92,7 @@ NUM_CONTEXT_LINES = config.get('num_context_lines', 1)
 # type: string | tuple
 # default: '%(sherlock_dir)s/tests/text/'
 INDEX_PATHS = config.get('index_path', '%(sherlock_dir)s/tests/text/' % {'sherlock_dir': ROOT_DIR})
-if isinstance(INDEX_PATHS, six.string_types):
+if isinstance(INDEX_PATHS, str):
     INDEX_PATHS = (INDEX_PATHS,)
 
 # The default index name that is used for an index created within INDEXES_PATH.

@@ -7,7 +7,6 @@ Created by Christopher Bess
 Copyright 2011
 """
 
-from __future__ import absolute_import
 
 import os
 import settings
@@ -17,11 +16,6 @@ from core.sherlock import logger as log
 from core.sherlock import searcher
 from . import backends
 from core.utils import debug
-
-try:
-    _ensure_unicode = unicode
-except NameError:
-    _ensure_unicode = str
 
 
 def get_indexer(name=settings.DEFAULT_INDEX_NAME, rebuild_index=FORCE_INDEX_REBUILD, **kwargs):
@@ -43,13 +37,9 @@ def index_paths(paths, name=settings.DEFAULT_INDEX_NAME):
     target paths to.
     """
     # index files for the search
-    idxr = get_indexer(name=name)
-    for path in paths:
-        idxr.index_text(_ensure_unicode(path))
-    # if not rebuilding the index, then cleanup orphaned files that
-    # were previously indexed
-    if not FORCE_INDEX_REBUILD:
-        idxr.clean_index()
+    with _get_indexer_with_cleanup(name) as idxr:
+        for path in paths:
+            idxr.index_text(unicode(path))
 
 
 def index_path(path, name=settings.DEFAULT_INDEX_NAME):
@@ -60,8 +50,20 @@ def index_path(path, name=settings.DEFAULT_INDEX_NAME):
     target path to.
     """
     # index a file for the search
-    idxr = get_indexer(name=name)
-    idxr.index_text(_ensure_unicode(path))
+    with _get_indexer_with_cleanup(name) as idxr:
+        idxr.index_text(unicode(path))
+
+
+@contextlib.contextmanager
+def _get_indexer_with_cleanup(name=settings.DEFAULT_INDEX_NAME, rebuild_index=FORCE_INDEX_REBUILD, **kwargs):
+    """Prepare an indexer for use and remove orphaned files if necessary.
+
+    :param rebuild_index: True to rebuild the index on open/create. Default is False.
+    """
+    # get the indexer for use
+    idxr = get_indexer(name=name, rebuild_index=rebuild_index, **kwargs)
+    yield idxr
+    
     # if not rebuilding the index, then cleanup orphaned files that
     # were previously indexed
     if not FORCE_INDEX_REBUILD:
