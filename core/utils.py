@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from __future__ import division
 
 import cgi
 import codecs
@@ -53,14 +52,15 @@ def fragment_text(token, text):
     new_line = settings.NEW_LINE
     assert max_lines > 0
     if (not isinstance(settings.MATCHED_TERM_WRAP, (tuple, list))
-        # must have start and end tag elements/indexes
-        or len(settings.MATCHED_TERM_WRAP) != 2):
+            # must have start and end tag elements/indexes
+            or len(settings.MATCHED_TERM_WRAP) != 2):
         raise Exception(
             'Invalid matched term wrap. Please set MATCHED_TERM_WRAP setting.')
     nl = new_line
     # add the formatted token
     bText = text[:token.startchar]
     eText = text[token.endchar:]
+
     # encapsulate some code
     def format_token(token, text):
         """Returns the formatted token text that is inserted as apart
@@ -124,9 +124,11 @@ def datetime_to_phrase(date_time):
         hours, minutes = delta.split(':')[0:2]
         days = 0
     days, hours, minutes = int(days), int(hours), int(minutes)
-    datelets =[]
+    datelets = []
     years, months, xdays = None, None, None
-    plural = lambda x: 's' if x != 1 else ''
+
+    def plural(x):
+        return 's' if x != 1 else ''
     if days >= 365:
         years = days // 365
         datelets.append('%d year%s' % (years, plural(years)))

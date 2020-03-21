@@ -10,21 +10,17 @@ https://github.com/coleifer/peewee/blob/master/README.rst
 http://charlesleifer.com/blog/peewee-a-lightweight-python-orm/
 http://docs.peewee-orm.com/projects/flask-peewee/
 """
-from __future__ import print_function
+
 
 import os
 import stat  # index constants for os.stat()
 import time
+import sqlite3
 from datetime import datetime
 from core import peewee
 from core import settings, FULL_INDEXES_PATH
 from core.utils import debug
 from core.sherlock import logger
-
-try:
-    import sqlite3
-except ImportError:
-    from pysqlite2 import dbapi2 as sqlite3
 
 
 def create_db(path=FULL_INDEXES_PATH, index=settings.DEFAULT_INDEX_NAME):
@@ -34,10 +30,11 @@ def create_db(path=FULL_INDEXES_PATH, index=settings.DEFAULT_INDEX_NAME):
         if os.path.exists(path):
             pass  # The directory already existed.
         else:  # The directory couldn't be created.
-             raise e
+            raise e
     db_path = os.path.join(path, '%s-index.db' % index)
     db = peewee.SqliteDatabase(db_path)
     return db, db_path
+
 
 app_database, DATABASE_PATH = create_db()
 
@@ -58,6 +55,7 @@ class IndexerMeta(BaseModel):
 
     def __unicode__(self):
         return u'<IndexerMeta: %d:%s>' % (self.id, self.path)
+
 
 IndexerMeta.create_table(fail_silently=True)
 
@@ -83,7 +81,7 @@ def is_file_updated(filepath, check_file_exists=False, update_db=False):
         # file may not exist
         return has_file_changed, record
     last_mod = time.localtime(file_stats[stat.ST_MTIME])
-    last_mod_dt = datetime(*last_mod[:6]) # time_struct -> datetime
+    last_mod_dt = datetime(*last_mod[:6])  # time_struct -> datetime
 
     # get db record
     query = IndexerMeta.select().where(IndexerMeta.path == filepath)
@@ -142,15 +140,15 @@ def get_raw_file_record(filepath):
     cursor = database.cursor()
     # get the results
     try:
-        record = { }
+        record = {}
         records = cursor.execute("""
         SELECT * FROM indexermeta WHERE path = ? LIMIT 1
         """, (filepath,))
         # get the record data
         col_data = next(records)
         for idx, data in enumerate(col_data):
-            col = records.description[idx][0] # column name
-            record[col] = col_data[idx] # column value
+            col = records.description[idx][0]  # column name
+            record[col] = col_data[idx]        # column value
     except Exception as e:
         print('Raw sql error: %s' % e)
         return record
@@ -162,11 +160,11 @@ def get_raw_file_record(filepath):
 
 def register_database_handlers(app):
     def connect_db():
-       app_database.connect()
+        app_database.connect()
 
     def close_db(resp):
-       app_database.close()
-       return resp
+        app_database.close()
+        return resp
 
     app.before_request(connect_db)
     app.after_request(close_db)

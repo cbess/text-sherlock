@@ -12,7 +12,7 @@ then
     exit
 fi
 
-VERSION=1.4.2 # or 1.2.24
+VERSION=1.4.8 # or 1.2.24
 
 echo "Installing xapian core"
 # xapian support

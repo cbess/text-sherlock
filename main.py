@@ -8,7 +8,6 @@ Created by Christopher Bess (https://github.com/cbess/text-sherlock)
 Copyright 2012
 """
 
-from __future__ import print_function
 
 from app_args import get_options
 from webapp import server
@@ -64,7 +63,7 @@ def reindex():
             raise Exception('Check INDEX_PATHS. Does it exist? %s' % path)
     print('Indexing paths: %s' % paths)
     if FORCE_INDEX_REBUILD:
-        wait_time = 5 # seconds to wait/pause until rebuilding index
+        wait_time = 5  # seconds to wait/pause until rebuilding index
         print('Reindexing everything!')
         print('Waiting %ss for interrupt...' % wait_time)
         import time

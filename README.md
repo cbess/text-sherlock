@@ -76,7 +76,7 @@ In [`settings.py`](settings.py):
 
 ## Core packages
 
-**Requires Python 2.6/3+**
+**Requires Python 3.3+**
 
 * Whoosh - [whoosh](https://whoosh.readthedocs.io/en/latest/quickstart.html#a-quick-introduction)
 * Flask - [flask](http://flask.pocoo.org)

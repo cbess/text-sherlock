@@ -7,9 +7,7 @@ Created by Christopher Bess
 Copyright 2011
 """
 
-from __future__ import absolute_import
 
-import contextlib
 import os
 import settings
 import shutil
@@ -18,11 +16,6 @@ from core.sherlock import logger as log
 from core.sherlock import searcher
 from . import backends
 from core.utils import debug
-
-try:
-    _ensure_unicode = unicode
-except NameError:
-    _ensure_unicode = str
 
 
 def get_indexer(name=settings.DEFAULT_INDEX_NAME, rebuild_index=FORCE_INDEX_REBUILD, **kwargs):
@@ -46,7 +39,7 @@ def index_paths(paths, name=settings.DEFAULT_INDEX_NAME):
     # index files for the search
     with _get_indexer_with_cleanup(name) as idxr:
         for path in paths:
-            idxr.index_text(_ensure_unicode(path))
+            idxr.index_text(unicode(path))
 
 
 def index_path(path, name=settings.DEFAULT_INDEX_NAME):
@@ -58,7 +51,7 @@ def index_path(path, name=settings.DEFAULT_INDEX_NAME):
     """
     # index a file for the search
     with _get_indexer_with_cleanup(name) as idxr:
-        idxr.index_text(_ensure_unicode(path))
+        idxr.index_text(unicode(path))
 
 
 @contextlib.contextmanager
@@ -70,6 +63,7 @@ def _get_indexer_with_cleanup(name=settings.DEFAULT_INDEX_NAME, rebuild_index=FO
     # get the indexer for use
     idxr = get_indexer(name=name, rebuild_index=rebuild_index, **kwargs)
     yield idxr
+    
     # if not rebuilding the index, then cleanup orphaned files that
     # were previously indexed
     if not FORCE_INDEX_REBUILD:
@@ -181,47 +175,43 @@ class Indexer(object):
         if not isinstance(settings.INCLUDE_FILE_SUFFIX, (tuple, list, type(None))):
             raise Exception('settings.INCLUDE_FILE_SUFFIX must be a tuple or None, found: %s' %
                             type(settings.INCLUDE_FILE_SUFFIX))
+        if not os.listdir(dpath):
+            raise Exception('Directory to index is empty: %s' % dpath)
+
         # nested, reused code block
         def check_name(name):
             """Returns True if the item with the specified name can be indexed."""
-            can_index = True
             # ignore hidden files
             if name.startswith('.'):
                 return False
+            can_index = True
             # ignore excluded files
             if settings.EXCLUDE_FILE_SUFFIX:
-                for suffix in settings.EXCLUDE_FILE_SUFFIX:
-                    can_index = True
-                    if name.endswith(suffix):
-                        return False
+                can_index = True
+                if any(filter(name.endswith, settings.EXCLUDE_FILE_SUFFIX)):
+                    return False
             # ignore files that do not have the given suffixes
             if settings.INCLUDE_FILE_SUFFIX:
-                for suffix in settings.INCLUDE_FILE_SUFFIX:
-                    can_index = False
-                    if name.endswith(suffix):
-                        return True
+                can_index = False
+                if any(filter(name.endswith, settings.INCLUDE_FILE_SUFFIX)):
+                    return True
             return can_index
+
         # perform item indexing
         if not self._is_recursive:
             # just check the files in the target directory
             items = os.listdir(dpath)
-            for item in items:
-                if not check_name(item):
-                    continue
+            for item in filter(check_name, items):
                 path = os.path.join(dpath, item)
                 self.__index_file(path)
         else:
             # traverse the given path
             for dirpath, dirnames, filenames in os.walk(dpath):
-                dirname = os.path.basename(dirpath)
                 # ignore hidden dirs
-                if dirname.startswith('.'):
-                    continue
-                for name in filenames:
-                    can_index = check_name(name)
-                    if can_index:
-                        path = os.path.join(dirpath, name)
-                        self.__index_file(path)
+                dirnames[:] = [d for d in dirnames if not d.startswith('.')]
+                for name in filter(check_name, filenames):
+                    path = os.path.join(dirpath, name)
+                    self.__index_file(path)
 
     def __index_file(self, filepath):
         """Indexes the contents of the file at the specified path."""

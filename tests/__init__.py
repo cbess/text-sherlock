@@ -1,5 +1,3 @@
-from __future__ import print_function
-from __future__ import absolute_import
 # setup test env
 import logging
 import os
@@ -48,6 +46,6 @@ def run_all():
         test_indexer.run(),
         test_searcher.run(),
         # no HTML transform support added to results, yet
-        #test_transformer.run(),
+        # test_transformer.run(),
     ]
     return all(map(methodcaller('wasSuccessful'), test_results))

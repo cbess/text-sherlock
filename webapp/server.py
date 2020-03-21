@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 # http://werkzeug.pocoo.org/docs/serving/#werkzeug.serving.run_simple
 from core import flask
 from core import settings as core_settings
@@ -39,7 +38,7 @@ def run():
         # near-production level server (small to medium traffic)
         from . import server_cherrypy
         server_cherrypy.run()
-    else: # default server (flask/werkzeug)
+    else:  # default server (flask/werkzeug)
         if SERVER_PROCESSES > 1 and SERVER_IS_THREADED:
             raise Exception('Choose either multi-threaded or multi-process')
         # dev or low traffic

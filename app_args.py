@@ -2,16 +2,10 @@
 
 __all__ = ['get_options']
 
-try:
-    # optparse is deprecated, but I wanted broader compatibility
-    from optparse import OptionParser
-    parser = OptionParser(description=__doc__)
-    add_argument = parser.add_option
-except ImportError:
-    # this is here to help any future upgrades
-    from argparse import ArgumentParser
-    parser = ArgumentParser(description=__doc__)
-    add_argument = parser.add_argument
+
+from argparse import ArgumentParser
+parser = ArgumentParser(description=__doc__)
+add_argument = parser.add_argument
 
 
 def get_app_args():
@@ -24,8 +18,8 @@ def get_app_args():
         (opts, args) = arguments
         return opts
     return arguments
-    
-    
+
+
 def add_app_args():
     """Add app arguments"""
     add_argument('-r', '--runserver', dest='run_server',
@@ -52,6 +46,8 @@ def add_app_args():
                  help=('Indexes the in the path specified by '
                        'settings.INDEX_PATHS. Use `update` or '
                        '`rebuild` to replace the entire index.'))
+
+
 add_app_args()
 
 

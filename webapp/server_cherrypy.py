@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 # Cherrypy server add-on
 # Install: pip install cherrypy
 # refs:
@@ -12,13 +11,14 @@ from .server import app
 from core import settings as core_settings
 
 # setup cherrypy server
-dispatcher = cherrypy_wsgiserver.WSGIPathInfoDispatcher({ '/' : app })
+dispatcher = cherrypy_wsgiserver.WSGIPathInfoDispatcher({'/': app})
 server = cherrypy_wsgiserver.CherryPyWSGIServer(
-    (core_settings.SERVER_ADDRESS, core_settings.SERVER_PORT), 
+    (core_settings.SERVER_ADDRESS, core_settings.SERVER_PORT),
     dispatcher,
     server_name='text.sherlock',
-    numthreads=10 # default: 10
+    numthreads=10  # default: 10
 )
+
 
 def run():
     """ Run the cherrypy server """
@@ -27,6 +27,6 @@ def run():
     except KeyboardInterrupt:
         server.stop()
 
-      
+
 if __name__ == '__main__':
     run()

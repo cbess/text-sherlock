@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from __future__ import absolute_import
 
 # import packages here to help support the two available setups
 __all__ = [
@@ -13,6 +12,7 @@ __all__ = [
 ]
 
 from cherrypy import wsgiserver as cherrypy_wsgiserver
+import configparser
 import codecs
 import flask
 import os
@@ -21,11 +21,6 @@ import pygments
 import sys
 import whoosh
 
-try:
-    import configparser
-except ImportError:
-    # python2
-    import ConfigParser as configparser
 import settings
 from . import utils
 

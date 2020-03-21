@@ -4,8 +4,7 @@
 test_transformer.py
 Created by Christopher Bess
 """
-from __future__ import absolute_import
-from __future__ import unicode_literals
+
 
 import os
 from . import testcase
@@ -32,7 +31,6 @@ class TestTransformer(testcase.BaseTestCase):
         # find something in the file
         results = idx.search('nsstring')
         self.assertTrue(len(results) == 1, 'bad results count')
-        result = results[0]
         # transform the results
         trns = transformer.Transformer()
         items = trns.transform_results(results)
