@@ -18,5 +18,5 @@ include_file_suffix: [
 
 # The name of the server type to use as the web server.
 # type: string
-# default: '' or 'cherrypy'
-server_type: 'cherrypy'
+# default: '' or 'cheroot'
+server_type: 'cheroot'

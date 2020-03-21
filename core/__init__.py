@@ -11,7 +11,7 @@ __all__ = [
     'FULL_INDEX_PATHS'
 ]
 
-from cherrypy import wsgiserver as cherrypy_wsgiserver
+from cheroot.wsgi import Server as WSGIServer, PathInfoDispatcher as WSGIPathInfoDispatcher
 import configparser
 import codecs
 import flask
@@ -55,16 +55,16 @@ def get_version_info(module):
     """
     module = module.lower()
 
-    def cherrypy_ver():
-        import cherrypy
-        return cherrypy.__version__
+    def cheroot_ver():
+        import cheroot
+        return cheroot.__version__
 
     def sherlock_ver():
         from . import sherlock
         return sherlock.__version__
 
     return {
-        'cherrypy': cherrypy_ver,
+        'cheroot': cheroot_ver,
         'whoosh': whoosh.versionstring,
         'pygments': lambda: pygments.__version__,
         'flask': lambda: flask.__version__,

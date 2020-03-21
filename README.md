@@ -11,7 +11,7 @@ Instructions:
 1. Run `sh setup/virtualenv-setup.sh` to setup an isolated environment and download core packages.
 1. Configure settings. The defaults in [`settings.py`](settings.py) provide documentation for each setting.
 	- Copy [`example.local_settings.yml`](example.local_settings.yml) to `local_settings.yml`.
-	- Override/copy any setting from [`settings.py`](settings.py) to `local_settings.yml` (change the values as needed). All YAML keys/options must be lowercase.
+	- Override/copy any setting from [`settings.py`](settings.py) to `local_settings.yml` (change the values as needed). All YAML keys/options **must** be lowercase.
 1. Run `source sherlock_env/bin/activate` to enter the virtual environment.
 1. Run `python main.py --index update` or `--index rebuild` to index the path specified in the settings. Watch indexing output.
 1. Run `python main.py --runserver` to start the web server.
@@ -36,9 +36,9 @@ Includes:
 - End-to-end interface
 	- Indexing and searching text (source code). Built-in support for [whoosh](https://whoosh.readthedocs.io) (fast searching) or [xapian](http://xapian.org/) (much faster searching).
 	    - Easily extend indexing or searching via custom backends.
-	- Front end web app served using [werkzeug](http://werkzeug.pocoo.org/) or [cherrypy](http://www.cherrypy.org/).
+	- Front end web app served using [werkzeug](http://werkzeug.pocoo.org/) or [cheroot](https://cheroot.cherrypy.org).
 	    - `werkzeug` is for development to small traffic.
-	    - `cherrypy` is a high-speed, production ready, thread pooled, generic HTTP server.
+	    - `cheroot` is the high-performance, pure-Python HTTP server used by [CherryPy](https://www.cherrypy.org).
 	- Settings and configuration using [Python](http://python.org).
 
 ### Web Interface
@@ -65,18 +65,18 @@ In [`settings.py`](settings.py):
 
 ## Using other web servers
 
-Text Sherlock has built-in support for [werkzeug](http://werkzeug.pocoo.org/) and [cherrypy](http://www.cherrypy.org/) WSGI compliant servers.
+Text Sherlock has built-in support for [werkzeug](http://werkzeug.pocoo.org/) and [cheroot](https://cheroot.cherrypy.org) WSGI compliant servers.
 
 In [`settings.py`](settings.py):
 
 - Change the `server_type` value to one of the available server types.
     - Possible values:
         - `default`, werkzeug web server (default).
-        - `cherrypy`, production ready web server.
+        - `cheroot`, production ready web server.
 
 ## Core packages
 
-**Requires Python 3.3+**
+**Requires Python 3.5+**
 
 * Whoosh - [whoosh](https://whoosh.readthedocs.io/en/latest/quickstart.html#a-quick-introduction)
 * Flask - [flask](http://flask.pocoo.org)
@@ -91,7 +91,7 @@ In [`settings.py`](settings.py):
 * http://twitter.github.com/bootstrap/examples/container-app.html
 * http://pygments.org/
 * http://docs.peewee-orm.com/
-* http://www.cherrypy.org/
+* https://cheroot.cherrypy.org/
 * http://xapian.org/
 * http://pyyaml.org/wiki/PyYAMLDocumentation
 

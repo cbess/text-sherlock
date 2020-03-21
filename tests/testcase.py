@@ -26,7 +26,7 @@ class BaseTestCase(unittest.TestCase):
     """ The base class for all Sherlock test cases """
 
     def setUp(self):
-        self.test_dir = '%s/tests' % settings.ROOT_DIR
+        self.test_dir = os.path.join(settings.ROOT_DIR, 'tests')
         settings.DEFAULT_INDEX_NAME = 'test'
 
     def get_test_string(self):
@@ -37,4 +37,4 @@ class BaseTestCase(unittest.TestCase):
 
         @return: a string of the current time
         """
-        return "current time tuple: %s" % time.localtime()
+        return 'current time tuple: %s' % time.localtime()
