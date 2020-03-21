@@ -174,7 +174,7 @@ class Indexer(object):
             raise Exception('settings.INCLUDE_FILE_SUFFIX must be a tuple or None, found: %s' %
                             type(settings.INCLUDE_FILE_SUFFIX))
         if not os.listdir(dpath):
-            raise Exception('Directory to index is empty: %s - aborting run!' % dpath)
+            raise Exception('Directory to index is empty: %s' % dpath)
 
         # nested, reused code block
         def check_name(name):
@@ -194,6 +194,7 @@ class Indexer(object):
                 if any(filter(name.endswith, settings.INCLUDE_FILE_SUFFIX)):
                     return True
             return can_index
+
         # perform item indexing
         if not self._is_recursive:
             # just check the files in the target directory

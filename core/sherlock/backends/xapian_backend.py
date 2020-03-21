@@ -13,8 +13,6 @@ http://invisibleroads.com/tutorials/xapian-search-pylons.html#filter-documents-b
 
 from __future__ import absolute_import
 
-__author__ = 'C. Bess'
-
 import re
 import os
 import six
@@ -24,6 +22,7 @@ from core.sherlock import logger
 from core.utils import debug, safe_read_file, fragment_text, read_file
 from .base import FileSearcher, FileIndexer, SearchResult, SearchResults
 
+__author__ = 'C. Bess'
 
 DEFAULT_SEARCH_FLAGS = (
     xapian.QueryParser.FLAG_BOOLEAN |
@@ -45,6 +44,7 @@ def _ensure_str(value):
 class XapianIndexer(FileIndexer):
     DOC_VALUE_FILENAME = 0
     DOC_VALUE_FILEPATH = 1
+
     def __init__(self, *args, **kwargs):
         super(XapianIndexer, self).__init__(*args, **kwargs)
         self._path = None
@@ -178,9 +178,10 @@ class XapianResults(SearchResults):
 
 
 class XapianResult(SearchResult):
-    max_lines = settings.NUM_CONTEXT_LINES # fragment context
+    max_lines = settings.NUM_CONTEXT_LINES  # fragment context
     new_line = settings.NEW_LINE
     max_sub_results = settings.MAX_SUB_RESULTS
+
     class Token(object):
         startchar = 0
         endchar = 0
@@ -188,8 +189,8 @@ class XapianResult(SearchResult):
     def __init__(self, match, searcher):
         self._searcher = searcher
         kwargs = {
-            'path' : _ensure_str(match.document.get_value(XapianIndexer.DOC_VALUE_FILEPATH)),
-            'filename' : _ensure_str(match.document.get_value(XapianIndexer.DOC_VALUE_FILENAME))
+            'path': _ensure_str(match.document.get_value(XapianIndexer.DOC_VALUE_FILEPATH)),
+            'filename': _ensure_str(match.document.get_value(XapianIndexer.DOC_VALUE_FILENAME))
         }
         super(XapianResult, self).__init__(match, None, **kwargs)
 
