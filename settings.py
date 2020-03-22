@@ -31,7 +31,7 @@ try:
 
     # try to load the config
     if yaml_path and os.path.isfile(yaml_path):
-        config = yaml.load(open(yaml_path, 'r'))
+        config = yaml.load(open(yaml_path, 'r'), Loader=yaml.SafeLoader)
 
     if config:
         print('Loaded Sherlock config settings from %s' % yaml_path)
