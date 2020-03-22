@@ -1,5 +1,5 @@
+<!doctype html>
 <html class="{{ html_css_class }}">
-
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
         <title>{% block title %}{{ title }}{% endblock %} - {{ site_title }}</title>
@@ -42,8 +42,8 @@
         {% endblock %}
         </div>
 <!--
-    For His glory (Hebrews 1, Colossians 1, Genesis 1).
-    Copyright 2011 Christopher Bess
+    Soli Deo gloria (Hebrews 1, Colossians 1, Genesis 1).
+    Copyright 2020 Christopher Bess
 -->
     </body>
 </html>
