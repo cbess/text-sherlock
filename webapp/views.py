@@ -4,7 +4,8 @@
 
 import os
 from .server import app
-from flask import render_template, request, abort, Response
+from flask import render_template, request, abort, \
+    Response, send_from_directory
 from core.sherlock import indexer, searcher, transformer, db
 from core import settings as core_settings
 from core import SherlockMeta
@@ -145,3 +146,10 @@ def document():
     }
     add_default_response(response)
     return render_template('document.html', **response), http_status
+
+
+@app.route('/favicon.ico')
+def favicon():
+    # resolve favicon request
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')

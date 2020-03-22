@@ -4,8 +4,7 @@
 
 var TSSearch = {
     // handles search page loading
-    onPageLoad: function()
-    {
+    onPageLoad: function() {
         $('.result').click(function() {
             // show the corresponding document
             var url = $(this).find('.filename a').attr('href');

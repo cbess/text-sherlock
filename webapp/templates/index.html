@@ -1,76 +1,68 @@
 {% extends "base.tpl" %}
 
 {% block header %}
-<script src='/static/js/search.js'></script>
+<script src="/static/js/zepto.min.js"></script>
+<script src="/static/js/search.js"></script>
 {% endblock %}
 
 {% block content %}
-<form action="/search" method="GET">
+<form action="/search" method="GET" class="form-inline">
     <div>
-        <!--<label for="text">Text</label>-->
-        <input type="text"
-               class="field"
+        <input type="search"
+               class="form-control form-control-lg search"
                name="q"
                autocomplete="off"
                autocorrect="off"
                value="{{ search_text }}"
                placeholder="Search text"
                id="text" />
-    </div>
-
-    <!--<div>
-        <label for="path">Path</label>
-        <input type="text"
-               class="field"
-               name="path"
-               value="{{ path }}"
-               id="path">
-    </div>-->
-    <div>
-        <input type="submit"
-               value="Search"
-               class="btn primary"
-               id="submit" />
-        <a href='/' class="clear-btn">clear</a>
-        {% if suggestions %}
-        <p>Did you mean:
-          {% for option in suggestions %}
-          <a href='/search?q={{ option | urlencode }}'>{{ option }}</a>
-            {% if not loop.last %}
-            or
-            {% endif %}
-          {% endfor %}
-        </p>
-        {% endif %}
-    </div>
-
-    {% if search_text %}
-    <h4>Page <em>{{ page.current }}</em> of <em>{{ total_count }}</em> Results</h4>
-    {% endif %}
-
-    {% include "pagination.tpl" %}
-
-    <div id="results">
-        {% if results %}
-        {% for item in results %}
-        <div class='result' data-src="{{ item.result.index_path }}">
-            <div class="filename">
-                <a href='/document?path={{ item.result.path|urlencode }}&q={{ search_text }}&p={{ page.current }}'>/{{ item.result.index_path }}</a>
-            </div>
-            <div class="syntax">
-                <pre>{{ item.html|safe|trim }}</pre>
-            </div>
-        </div>
-        {% endfor %}
-        {% elif page %}
-        Your search - {{ search_text }} - did not match any documents{% if page.current > 1 %} for page {{ page.current }}{% endif %}.
-        {% endif %}
+        <button type="submit"
+               class="btn btn-primary"
+               id="submit">Search</button>
     </div>
 </form>
 
+<div>
+    {% if suggestions %}
+    <p>Did you mean:
+        {% for option in suggestions %}
+        <a href="/search?q={{ option | urlencode }}">{{ option }}</a>
+        {% if not loop.last %}
+        or
+        {% endif %}
+        {% endfor %}
+    </p>
+    {% endif %}
+</div>
+
+{% if search_text %}
+<h5>Page <em>{{ page.current }}</em> of <em>{{ total_count }}</em> Results</h5>
+{% endif %}
+
 {% include "pagination.tpl" %}
 
-<div id='last-indexed'>
+<div id="results">
+    {% if results %}
+    {% for item in results %}
+    <div class="result card mb-2" data-src="{{ item.result.index_path }}">
+        <div class="card-body">
+            <div class="card-title">
+                <a href="/document?path={{ item.result.path|urlencode }}&q={{ search_text }}&p={{ page.current }}">/{{ item.result.index_path }}</a>
+            </div>
+            <div class="syntax">
+                <pre>{{ item.html | safe | trim }}</pre>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% elif page %}
+    Your search - {{ search_text }} - did not match any documents{% if page.current > 1 %} for page {{ page.current }}{% endif %}.
+    {% endif %}
+</div>
+
+{% include "pagination.tpl" %}
+
+<div id="last-indexed">
     Indexes updated {{ last_indexed }}
 </div>
 {% endblock %}

@@ -4,28 +4,14 @@
 .clear {
     clear: both;
 }
-html body {
-    margin: 8px;
-    font-size: 15px;
-    color: black;
-}
 #content {
     width: 850px;
-    margin: 0 auto;
+    margin: 10 auto;
 }
-.document #content {
-    margin: auto;
-    width: auto;
-}
-#content .field {
-    width: 300px;
-    font-size: 19px;
-    padding: 3px;
-    margin: 5px;
+#content .search {
+    width: 500px;
+    font-size: 1.3rem;
     height: auto;
-}
-#content form .primary {
-    width: 100px;
 }
 .error {
     color: #800000;
@@ -36,132 +22,80 @@ a {
 a:link {
     color: blue;
 }
-a:visited {
+.result a:visited {
     color: gray;
 }
 a.clear-btn {
     position: relative;
     top: 2px;
 }
-label {
-    width: auto;
-}
 #last-indexed {
     font-size: small;
     color: #808080;
 }
-/*top banner styles*/
-#top-banner {
-    height: 40px;
-    margin: -8px -8px 7px;
-    box-shadow: 5px 2px 5px #777;
-}
-#top-banner #banner-text {
-    text-transform: uppercase;
-    position: relative;
-    top: 10px;
-    left: 20px;
-    color: silver;
-    font-size: 20px;
-    text-shadow: 0 0 silver, -2px 0 black;
-}
-#top-banner form {
-    float: right;
-    margin: 6px 10px;
-}
-#top-banner form #text {
-    font-size: 16px;
-    height: 24px;
-    padding: 2px;
-}
-#top-banner form #submit {
-    padding: 5px 7px 3px;
-}
-/*Search results styles*/
-#results {
-    margin-top: 5px;
-}
+/* Search results styles */
 .result pre {
-    padding: 15px;
     font-family: Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
     background-color: ghostWhite;
     border: 1px solid #DEDEDE;
-    line-height: 1.5em;
     color: #444;
+    padding: .5em;
 }
 .result:hover pre {
     background-color: white;
-    cursor: pointer;
 }
-.result .filename {
-    margin:  3px;
+.result .card-body {
+    padding: .5rem 1rem;
 }
-.result .line {
-/*    border: 1px solid silver;*/
-    margin: -10px;
-}
-.result .line:hover {
-    background-color: #f0f0ff;
-    border-radius: 3px;
-}
-td.linenos {
-    padding-right: 0;
-    width: 20px;
-}
+/* Document styles */
 .syntax .sourcetable {
     border: none;
 }
 .sourcetable td {
     padding: 0;
 }
-td.code {
-    /*fixes right border issue, next to the line numbers */
-    border: none;
+.document #content {
+    margin: auto;
+    width: auto;
 }
-/*pagination styles*/
-.pagination {
-    margin: 5px 0;
-}
-.pagination a {
-    line-height: 22px;
-}
-.pagination a:hover {
-    background-color: #f8f8ff;
-}
-.pagination a:visited {
-    color: blue;
-}
-/*Document styles*/
 .document #last-mod {
     font-size: small;
     color: #808080;
 }
-/*displays the source code*/
+/* displays the source code */
 div.source pre {
     border: none;
     white-space: pre;
+    margin-left: 10px;
 }
-/*displays the line numbers*/
+/* displays the line numbers */
 td.linenos pre {
     background-color: #d3d3d3;
     color: #fff;
     border-right: none;
+    padding: 0 10px;
 }
 td.linenos pre a {
     color: white;
 }
 td.linenos pre a:hover {
     text-decoration: none;
-    color: #000000;
+    color: #000;
 }
-/*matched term in each search result*/
+td.code {
+    margin-left: 5px;
+    /* fixes right border issue, next to the line numbers */
+    border: none;
+}
+/* matched term in each search result */
 .result .match {
-    /*Google code search style*/
+    /* Google code search style */
     /*font-weight: bold;*/
     /*padding: 2px;*/
 
-    /*Github search style*/
+    /* Github search style */
     border-radius: 3px;
     font-style: italic;
     background-color: #ffff99;
+    font-weight: bold;
 }

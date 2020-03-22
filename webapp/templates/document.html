@@ -10,13 +10,11 @@
         
     {% if http_status == 200 %}
     <p>
-        <a href='{{ request.url }}&raw=true' class="btn small">raw</a>
+        <a href="{{ request.url }}&raw=true" class="btn small">raw</a>
     </p>
     {% endif %}
         
-    <div class="syntax">
-    {{ contents|safe }}
-    </div>
+    <pre class="syntax">{{ contents | safe }}</pre>
 
-    <div id='last-mod'>File last modified on {{ last_modified|dt_format }}</div>
+    <div id="last-mod">File last modified on {{ last_modified|dt_format }}</div>
 {% endblock %}

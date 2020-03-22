@@ -1,25 +1,25 @@
 {% if page %}
-<div class="pagination">
-    <ul>
+<nav>
+    <ul class="pagination">
         {% if page.previous > 0 %}
-        <li class='prev'>
-            <a href="/search?q={{ search_text }}&p={{ page.previous }}">&larr; Previous</a>
+        <li class="page-item">
+            <a class="page-link" href="/search?q={{ search_text }}&p={{ page.previous }}">&larr;</a>
         </li>
         {% else %}
-        <li class="prev disabled">
-            <a href="javascript:">&larr; Previous</a>
+        <li class="page-item disabled">
+            <a class="page-link" href="javascript:">&larr;</a>
         </li>
         {% endif %}
 
         {% if page.next > 0 %}
-        <li class="next">
-            <a href="/search?q={{ search_text }}&p={{ page.next }}">Next &rarr;</a>
+        <li class="page-item">
+            <a class="page-link" href="/search?q={{ search_text }}&p={{ page.next }}">&rarr;</a>
         </li>
         {% else %}
-        <li class="nexxt disabled">
-            <a href="javascript:">Next &rarr;</a>
+        <li class="page-item disabled">
+            <a class="page-link" href="javascript:">&rarr;</a>
         </li>
         {% endif %}
     </ul>
-</div>
+</nav>
 {% endif %}
