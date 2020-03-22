@@ -2,6 +2,8 @@
 
 Provides a fast, easy to install and use search engine for text but, mostly for source code. [OpenGrok](https://github.com/OpenGrok/OpenGrok) requires too much time to install (though it may be worth it for some). Sherlock will give you a much easier setup, a text indexer, and a web app interface for searching.
 
+[Soli Deo Gloria](https://perfectGod.com)
+
 ## Basic Setup
 
 Instructions:

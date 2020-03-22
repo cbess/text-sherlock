@@ -43,7 +43,7 @@ except ImportError:
 # A value indicating whether the app runs in debug mode.
 # type: boolean
 # default: True (set to False for production or in untrusted environments)
-DEBUG = config.get('debug', True)
+DEBUG = bool(config.get('debug', True))
 
 # An absolute path to the directory that will store all indexes
 # for the search engine. Must have trailing slash.
@@ -54,7 +54,7 @@ INDEXES_PATH = config.get('indexes_path', '%(sherlock_dir)s/data/indexes/' % {'s
 # True if the target path will be indexed recursively (includes sub directories).
 # type: boolean
 # default: True
-INDEX_RECURSIVE = config.get('index_recursive', True)
+INDEX_RECURSIVE = bool(config.get('index_recursive', True))
 
 # An absolute path to the directory path that will store the logs.
 # Set to an empty string to disable logging.
@@ -83,7 +83,7 @@ INCLUDE_FILE_SUFFIX = config.get('include_file_suffix')
 # context per hit. This needs to be one (1) or greater.
 # type: integer
 # default: 1
-NUM_CONTEXT_LINES = config.get('num_context_lines', 1)
+NUM_CONTEXT_LINES = int(config.get('num_context_lines', 1))
 
 # The absolute path to index when the indexing is performed.
 # This is the index that has the original text to be indexed. This is also used
@@ -109,7 +109,7 @@ SERVER_TYPE = config.get('server_type')
 # The local port to expose the web server.
 # type: integer
 # default: 7777
-SERVER_PORT = config.get('server_port', 7777)
+SERVER_PORT = int(config.get('server_port', 7777))
 
 # The local address to access the web server (the host name to listen on).
 # Use '0.0.0.0' to make it available externally.
@@ -120,12 +120,12 @@ SERVER_ADDRESS = config.get('server_address', '127.0.0.1')
 # Default number of results per page.
 # type: integer
 # default: 10
-RESULTS_PER_PAGE = config.get('results_per_page', 10)
+RESULTS_PER_PAGE = int(config.get('results_per_page', 10))
 
 # Default number of sub results shown in each search result.
 # type: integer
 # default: 3
-MAX_SUB_RESULTS = config.get('max_sub_results', 3)
+MAX_SUB_RESULTS = int(config.get('max_sub_results', 3))
 
 # Default file indexer and searcher. Available indexers: whoosh and xapian
 # They can be set to different values only if the two backends are compatible
@@ -161,10 +161,7 @@ SITE_TITLE = config.get('site_title', 'Text Sherlock')
 
 # The site banner background color.
 # This banner is shown at the top of each page.
-# Possible values: black, blue, skyblue, silver, orange, white
-# More colors can be added to 'bg-gradients.css'
-# The banner text styles must be changed in the stylesheet:
-#   main.css (#top-banner #banner-text)
+# Possible values: dark, light
 # type: string
-# default: black
-SITE_BANNER_COLOR = config.get('site_banner_color', 'black')
+# default: dark
+SITE_BANNER_COLOR = config.get('site_banner_color', 'dark')

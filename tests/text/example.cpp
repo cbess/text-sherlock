@@ -297,4 +297,4 @@ namespace astyle
     preBlockStatements.push_back(&AS_STRUCT);
     preBlockStatements.push_back(&AS_UNION);
     preBlockStatements.push_back(&AS_INTERFACE);
- 
+  }

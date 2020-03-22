@@ -31,7 +31,7 @@ def get_server_type():
 
 
 def run():
-    """Runs the flask server
+    """Runs the flask app server
     """
     server_type = core_settings.SERVER_TYPE
     if server_type == 'cherrypy':

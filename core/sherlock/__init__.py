@@ -6,7 +6,7 @@ Copyright: 2011
 refs:
 http://docs.python.org/3/library/logging.html
 """
-__version__ = '0.8.0'
+__version__ = '0.8.1'
 
 import logging
 logger = logging.getLogger('core.sherlock')

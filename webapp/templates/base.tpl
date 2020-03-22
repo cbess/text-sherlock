@@ -1,10 +1,9 @@
-<html class='{{ html_css_class }}'>
+<html class="{{ html_css_class }}">
 
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
         <title>{% block title %}{{ title }}{% endblock %} - {{ site_title }}</title>
         <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/static/css/background-gradients.css">
         <link rel="stylesheet" href="/static/css/main.css" type="text/css" charset="utf-8">
 
         {% block header %}
@@ -12,31 +11,30 @@
     </head>
 
     <body>
-        <div id='top-banner' class="bg-gradient-{{ site_banner_color }}">
-            <!-- Start custom banner HTML here -->
-            <span id='banner-text'>{{ site_banner_text }}</span>
-            <!-- End custom banner HTML here -->
+        <nav class="navbar navbar-{{ site_banner_color }} bg-{{ site_banner_color }}">
+            <a class="navbar-brand" href="/">
+                <!-- Start custom banner HTML here -->
+                {{ site_banner_text }}
+                <!-- End custom banner HTML here -->
+            </a>
 
             {% if doc %}
-            <form action="/search" method="GET">
+            <form action="/search" class="header-search form-inline" method="GET">
                 <div>
-                    <input type="text"
-                           class="field"
+                    <input type="search"
+                           class="form-control mr-sm-2"
+                           aria-label="Search"
                            name="q"
                            autocomplete="off"
                            autocorrect="off"
                            value="{{ search_text }}"
                            placeholder="Search text"
                            id="text" />
-                    <input type="submit"
-                           value="Search"
-                           class="btn"
-                           id="submit" />
-                    <a href='/'>clear</a>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </div>
             </form>
             {% endif %}
-        </div>
+        </nav>
 
         <div id="content">
         {% block content %}
