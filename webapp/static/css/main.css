@@ -3,7 +3,8 @@
  */
 #content {
     max-width: 1020px;
-    margin: 10 auto;
+    margin: 0 auto;
+    padding-top: 10px;
 }
 #content .search {
     width: 500px;
@@ -68,6 +69,8 @@ td.linenos pre {
     color: #fff;
     border-right: none;
     padding: 0 10px;
+    position: relative;
+    top: -10px;
 }
 td.linenos pre a {
     color: white;

@@ -1,6 +1,6 @@
-# Text Sherlock (or Sherlock or TS)
+# Text Sherlock (or Sherlock)
 
-Provides a fast, easy to install and use search engine for text but, mostly for source code. [OpenGrok](https://github.com/OpenGrok/OpenGrok) requires too much time to install (though it may be worth it for some). Sherlock will give you a much easier setup, a text indexer, and a web app interface for searching.
+Provides a fast, easy to install and simple to use search engine for text, but optimized for source code. An alternative, [OpenGrok](https://github.com/OpenGrok/OpenGrok), requires too much time to install (though it may be worth it for some), but is more feature rich. Text Sherlock will give you a much easier setup, a text indexer, and a web app interface for searching with _very little_ effort.
 
 [Soli Deo Gloria](https://perfectGod.com)
 
@@ -8,8 +8,8 @@ Provides a fast, easy to install and use search engine for text but, mostly for 
 
 Instructions:
 
-1. Download [sherlock](https://github.com/cbess/text-sherlock) source from [GitHub](https://github.com/cbess/text-sherlock).
-1. Extract/place the sherlock source code in the desired (install) directory. This will be where sherlock lives.
+1. Download [Sherlock](https://github.com/cbess/text-sherlock) source from [GitHub](https://github.com/cbess/text-sherlock).
+1. Extract/place the Sherlock source code in the desired (install) directory. This will be where Sherlock lives.
 1. Run `sh setup/virtualenv-setup.sh` to setup an isolated environment and download core packages.
 1. Configure settings. The defaults in [`settings.py`](settings.py) provide documentation for each setting.
 	- Copy [`example.local_settings.yml`](example.local_settings.yml) to `local_settings.yml`.
@@ -17,7 +17,7 @@ Instructions:
 1. Run `source sherlock_env/bin/activate` to enter the virtual environment.
 1. Run `python main.py --index update` or `--index rebuild` to index the path specified in the settings. Watch indexing output.
 1. Run `python main.py --runserver` to start the web server.
-1. Go to `http://localhost:7777` to access the web interface. Uses the [twitter bootstrap](http://getbootstrap.com/) for its UI.
+1. Go to `http://localhost:7777` to access the web interface. Uses the [Bootstrap](https://getbootstrap.com/) toolkit for it's UI.
 
 You may need to install some packages before a *Ubuntu* installation will run without error.
 
@@ -36,12 +36,12 @@ Includes:
 - Main controller script
 	- Run `main.py -h` for more information.
 - End-to-end interface
-	- Indexing and searching text (source code). Built-in support for [whoosh](https://whoosh.readthedocs.io) (fast searching) or [xapian](http://xapian.org/) (much faster searching).
+	- Indexing and searching text (source code). Built-in support for [whoosh](https://whoosh.readthedocs.io/en/stable/index.html) (fast searching) or [xapian](https://xapian.org/) (much faster searching).
 	    - Easily extend indexing or searching via custom backends.
-	- Front end web app served using [werkzeug](http://werkzeug.pocoo.org/) or [cheroot](https://cheroot.cherrypy.org).
+	- Front end web app served using [werkzeug](https://palletsprojects.com/p/werkzeug/) or [cheroot](https://cheroot.cherrypy.org).
 	    - `werkzeug` is for development to small traffic.
 	    - `cheroot` is the high-performance, pure-Python HTTP server used by [CherryPy](https://www.cherrypy.org).
-	- Settings and configuration using [Python](http://python.org).
+	- Settings and configuration using [Python](https://python.org).
 
 ### Web Interface
 
@@ -52,9 +52,9 @@ Append to document URL.
 - To highlight lines, append to URL: `&hl=3,7,12-14,21`
 - To jump to a line, append to end of URL: `#line-3`
 
-![screenshot](https://github.com/cbess/text-sherlock/raw/master/setup/web-example1.jpg)
+![screenshot](setup/web-example1.png)
 
-![screenshot](https://github.com/cbess/text-sherlock/raw/master/setup/web-example2.jpg)
+![screenshot](setup/web-example2.png)
 
 ## Using other backends
 
@@ -67,7 +67,7 @@ In [`settings.py`](settings.py):
 
 ## Using other web servers
 
-Text Sherlock has built-in support for [werkzeug](http://werkzeug.pocoo.org/) and [cheroot](https://cheroot.cherrypy.org) WSGI compliant servers.
+Text Sherlock has built-in support for [werkzeug](https://palletsprojects.com/p/werkzeug/) and [cheroot](https://cheroot.cherrypy.org) WSGI compliant servers.
 
 In [`settings.py`](settings.py):
 
@@ -80,29 +80,29 @@ In [`settings.py`](settings.py):
 
 **Requires Python 3.5+**
 
-* Whoosh - [whoosh](https://whoosh.readthedocs.io/en/latest/quickstart.html#a-quick-introduction)
-* Flask - [flask](http://flask.pocoo.org)
-* Jinja2 - [jinja2](http://jinja.pocoo.org/docs)
-* Pygments - [pygments](http://pygments.org/docs/quickstart)
-* peewee - [peewee](https://github.com/coleifer/peewee)
-* Twitter Bootstrap v2.x - [twitter bootstrap](http://getbootstrap.com/2.3.2/)
-* PyYAML - [pyyaml](http://pyyaml.org)
+* [Whoosh](https://whoosh.readthedocs.io/en/stable/quickstart.html)
+* [Flask](https://palletsprojects.com/p/flask/)
+* [Jinja2](https://jinja.palletsprojects.com/en/2.11.x/)
+* [Pygments](https://pygments.org/docs/quickstart/)
+* [peewee](https://github.com/coleifer/peewee)
+* [Bootstrap v4.x](https://getbootstrap.com/docs/4.4/getting-started/introduction/)
+* [PyYAML](https://pyyaml.org)
 
 ## Other References
 
-* http://twitter.github.com/bootstrap/examples/container-app.html
-* http://pygments.org/
+* https://pygments.org/
 * http://docs.peewee-orm.com/
 * https://cheroot.cherrypy.org/
-* http://xapian.org/
-* http://pyyaml.org/wiki/PyYAMLDocumentation
+* https://xapian.org/
+* https://pyyaml.org/wiki/PyYAMLDocumentation
+* https://zeptojs.com
 
 ## Project Goals
 
 1. Provide an easy to setup, fast, and adequate text search engine solution.
 1. Be a respectable alternative to [OpenGrok](https://github.com/OpenGrok/OpenGrok).
-1. Influence the authors of [OpenGrok](https://github.com/OpenGrok/OpenGrok) to provide a simpler setup process.
-	- I successfully setup two installations on CentOS and Ubuntu 11.x and each time it took more than two hours. TS setup takes less than 10 minutes (excluding package download time).
+1. Influence the [OpenGrok](https://github.com/OpenGrok/OpenGrok) contributors to provide a simpler setup process.
+	- I successfully setup two installations of OpenGrok on CentOS and Ubuntu 11.x. Each time it took more than **two hours**. Text Sherlock setup takes less than 5 minutes (excluding package download time).
 
 ## Contributors
 
