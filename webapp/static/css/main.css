@@ -1,17 +1,18 @@
 /*
  * Standard Styles ***
  */
-.clear {
-    clear: both;
-}
 #content {
-    width: 850px;
+    max-width: 1020px;
     margin: 10 auto;
 }
 #content .search {
     width: 500px;
-    font-size: 1.3rem;
     height: auto;
+    font-size: 1.3rem;
+    margin-right: 15px;
+}
+form.header-search {
+    margin-bottom: 0;
 }
 .error {
     color: #800000;
@@ -19,15 +20,8 @@
 a {
     text-decoration: none;
 }
-a:link {
-    color: blue;
-}
 .result a:visited {
     color: gray;
-}
-a.clear-btn {
-    position: relative;
-    top: 2px;
 }
 #last-indexed {
     font-size: small;
@@ -45,6 +39,7 @@ a.clear-btn {
     background-color: white;
 }
 .result .card-body {
+    cursor: hand;
     padding: .5rem 1rem;
 }
 /* Document styles */
@@ -54,13 +49,12 @@ a.clear-btn {
 .sourcetable td {
     padding: 0;
 }
-.document #content {
-    margin: auto;
-    width: auto;
-}
-.document #last-mod {
+#document #last-mod {
     font-size: small;
     color: #808080;
+}
+#document .card .card-body {
+    padding: 0;
 }
 /* displays the source code */
 div.source pre {

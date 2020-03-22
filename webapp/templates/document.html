@@ -5,16 +5,26 @@
 {% endblock %}
 
 {% block content %}
-    &larr; <a href="/search?q={{ search_text }}&p={{ page_number }}">Back to search</a>
-    <h3>{{ doc.result.path }}</h3>
-        
-    {% if http_status == 200 %}
-    <p>
-        <a href="{{ request.url }}&raw=true" class="btn small">raw</a>
-    </p>
-    {% endif %}
-        
-    <pre class="syntax">{{ contents | safe }}</pre>
+    <div id="document">
+        <div class="back mb-2">
+            &larr; <a href="/search?q={{ search_text }}&p={{ page_number }}">Back to search</a>
+        </div>
+            
+        {% if http_status == 200 %}
+        <p>
+            <a class="btn btn-primary" href="{{ request.url }}&raw=true">Raw</a>
+        </p>
+        {% endif %}
+            
+        <div class="card">
+            <h5 class="card-header">
+                {{ doc.result.path }}
+            </h5>
+            <div class="card-body">
+                <pre class="syntax">{{ contents | safe }}</pre>
+            </div>
+        </div>
 
-    <div id="last-mod">File last modified on {{ last_modified|dt_format }}</div>
+        <div id="last-mod">File last modified on {{ last_modified|dt_format }}</div>
+    </div>
 {% endblock %}

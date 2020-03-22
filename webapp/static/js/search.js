@@ -5,6 +5,7 @@
 var TSSearch = {
     // handles search page loading
     onPageLoad: function() {
+      // allow entire result row to be clicked, to go to file
         $('.result').click(function() {
             // show the corresponding document
             var url = $(this).find('.filename a').attr('href');
@@ -12,13 +13,14 @@ var TSSearch = {
         });
 
         // focus the search field
-        $("#text").focus();
+        $('#text').focus();
     }
 };
 
-if (document.readyState === "complete" ||
-    (document.readyState !== "loading" && !document.documentElement.doScroll)) {
+// handle on page load event
+if (document.readyState === 'complete' ||
+    (document.readyState !== 'loading' && !document.documentElement.doScroll)) {
   TSSearch.onPageLoad();
 } else {
-  document.addEventListener("DOMContentLoaded", TSSearch.onPageLoad);
+  document.addEventListener('DOMContentLoaded', TSSearch.onPageLoad);
 }

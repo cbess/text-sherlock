@@ -19,7 +19,7 @@
             </a>
 
             {% if doc %}
-            <form action="/search" class="form-inline" method="GET">
+            <form action="/search" class="header-search form-inline" method="GET">
                 <div>
                     <input type="search"
                            class="form-control mr-sm-2"
