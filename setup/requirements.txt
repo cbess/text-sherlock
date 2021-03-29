@@ -1,7 +1,7 @@
 flask==1.1.1
 whoosh==2.7.4
 jinja2==2.11.3
-pygments==2.5.2
+pygments==2.7.4
 cheroot==8.3.0
 flask-peewee==3.0.3
 peewee==3.13.1
